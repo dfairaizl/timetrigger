@@ -15,6 +15,9 @@ app.use(morgan('dev'));
 
 app.use('/api/v1/execute', executeAPI);
 app.use('/api/v1/trigger', triggerAPI);
+app.use('/echo', (req, res) => {
+  res.status(200).send(req.body.data);
+});
 
 app.get('*', (req, res) => {
   res.send(STATUS_CODES[200]);
