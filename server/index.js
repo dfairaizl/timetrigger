@@ -20,6 +20,11 @@ app.get('*', (req, res) => {
   res.send(STATUS_CODES[200]);
 });
 
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(400).json(err);
+});
+
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {

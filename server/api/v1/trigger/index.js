@@ -1,46 +1,34 @@
-const chrono = require('chrono-node');
-const express = require('express');
-const router = express.Router();
-
 const cloudTasks = require('@google-cloud/tasks');
+const express = require('express');
+const validate = require('express-validation');
+const validation = require('./validation');
 
 const client = new cloudTasks.CloudTasksClient();
-
+const router = express.Router();
 const parent = client.queuePath(
   process.env.PROJECT_ID,
   process.env.LOCATION,
   process.env.APP_ENGINE_QUEUE
 );
 
-function validateBody (body) {
-  const defaultPayload = {
-    scheduledTime: 'now',
-    data: {}
-  };
+router.post('/', validate(validation.trigger), (req, res) => {
+  const taskInfo = req.body;
 
-  return { ...defaultPayload, ...body };
-}
+  const { trigger: triggerAt, run } = taskInfo;
 
-// new trigger
-router.post('/', (req, res) => {
-  const taskInfo = validateBody(req.body);
-  console.log(taskInfo);
-
-  const scheduledTime = chrono.parseDate(taskInfo.scheduledTime);
-
-  console.log('Scheduling task to run at', scheduledTime.toString());
+  console.log('Scheduling task to run at', triggerAt.toString());
 
   const task = {
     appEngineHttpRequest: {
       httpMethod: 'POST',
       relativeUri: '/api/v1/execute',
-      body: Buffer.from(JSON.stringify(taskInfo.data)),
+      body: Buffer.from(JSON.stringify(run)),
       headers: {
         'Content-Type': 'application/json'
       }
     },
     scheduleTime: {
-      seconds: scheduledTime / 1000 // 30 seconds from now
+      seconds: triggerAt / 1000
     }
   };
 
@@ -49,7 +37,7 @@ router.post('/', (req, res) => {
     task
   };
 
-  return client.createTask(request).then(([response]) => {
+  client.createTask(request).then(([response]) => {
     console.log('Scheduled task', response.name);
     res.json({ scheduled: true });
   }).catch((e) => {
