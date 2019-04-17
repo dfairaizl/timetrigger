@@ -1,5 +1,7 @@
+const admin = require('firebase-admin');
 const cloudTasks = require('@google-cloud/tasks');
 const express = require('express');
+const db = require('../../../lib/datastore');
 const validate = require('express-validation');
 const validation = require('./validation');
 
@@ -18,28 +20,37 @@ router.post('/', validate(validation.trigger), (req, res) => {
 
   console.log('Scheduling task to run at', triggerAt.toString());
 
-  const task = {
-    appEngineHttpRequest: {
-      httpMethod: 'POST',
-      relativeUri: '/api/v1/execute',
-      body: Buffer.from(JSON.stringify(run)),
-      headers: {
-        'Content-Type': 'application/json'
+  db.collection('jobs').add({
+    trigger_at: admin.firestore.Timestamp.fromDate(triggerAt),
+    user_account: 'dan',
+    status: 'scheduled',
+    run
+  }).then((ref) => {
+    console.log('Created new job', ref.id);
+
+    const task = {
+      appEngineHttpRequest: {
+        httpMethod: 'POST',
+        relativeUri: '/api/v1/execute',
+        body: Buffer.from(JSON.stringify({ jobID: ref.id })),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      },
+      scheduleTime: {
+        seconds: triggerAt / 1000
       }
-    },
-    scheduleTime: {
-      seconds: triggerAt / 1000
-    }
-  };
+    };
 
-  const request = {
-    parent,
-    task
-  };
+    const request = {
+      parent,
+      task
+    };
 
-  client.createTask(request).then(([response]) => {
-    console.log('Scheduled task', response.name);
-    res.json({ scheduled: true });
+    client.createTask(request).then(([response]) => {
+      console.log('Scheduled task', response.name);
+      res.json({ scheduled: true });
+    });
   }).catch((e) => {
     console.log(e);
     res.status(422).json({ scheduled: false });

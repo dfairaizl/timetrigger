@@ -23,7 +23,9 @@ app.use('/echo', (req, res) => {
   res.status(200).send(req.body.data);
 });
 
-app.use(bundler.middleware());
+if (process.env.NODE_ENV === 'development') {
+  app.use(bundler.middleware());
+}
 
 app.use((err, req, res, next) => {
   console.error(err);
