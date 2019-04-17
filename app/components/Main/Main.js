@@ -27,9 +27,16 @@ const Main = () => {
           </Cell>
         </Row>
         <Row>
-          <Cell columns={4}>Tennis</Cell>
-          <Cell columns={4}>Cricket</Cell>
-          <Cell columns={4}>StarCraft</Cell>
+          <Cell className='main-cell' columns={12}>Row 1</Cell>
+        </Row>
+        <Row>
+          <Cell className='main-cell' columns={12}>Row 2</Cell>
+        </Row>
+        <Row>
+          <Cell className='main-cell' columns={12}>Row 3</Cell>
+        </Row>
+        <Row>
+          <Cell className='main-cell' columns={12}>Row 4</Cell>
         </Row>
       </Grid>
       <TriggerDialog />

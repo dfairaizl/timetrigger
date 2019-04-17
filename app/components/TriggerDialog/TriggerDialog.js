@@ -1,25 +1,67 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import Dialog, {
   DialogTitle,
   DialogContent,
   DialogFooter,
   DialogButton
 } from '@material/react-dialog';
+import {
+  Subtitle1
+} from '@material/react-typography';
+import TextField, { Input } from '@material/react-text-field';
 
 import { getContextState } from '../../context/ui-context';
 import './TriggerDialog.scss';
 
 const TriggerDialog = (props) => {
   const [{ triggerDialogOpen }, dispatch] = getContextState();
+  const [currentState, updater] = useReducer((state, action) => {
+    switch (action.type) {
+      case 'UPDATE_TIME':
+        return { ...state, time: action.value };
+      case 'UPDATE_URL':
+        return { ...state, url: action.value };
+      case 'UPDATE_PAYLOAD':
+        return { ...state, payload: action.value };
+      default:
+        return state;
+    }
+  }, { time: new Date() });
 
   return (
     <Dialog
       open={triggerDialogOpen}
-      onClose={() => dispatch({ type: 'ToggleDialog', toggle: !triggerDialogOpen })}
+      onClose={(value) => {
+        if (value) {
+          debugger;
+          // submit to the server
+        }
+
+        dispatch({ type: 'ToggleDialog', toggle: !triggerDialogOpen });
+      }}
     >
       <DialogTitle>New Trigger</DialogTitle>
       <DialogContent>
-        <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h1>
+        <Subtitle1>Create a new trigger by entering the information below.</Subtitle1>
+        <TextField
+          label='Time'
+          className='form-input'
+        >
+          <Input value={currentState.time} onChange={(e) => updater({ type: 'UPDATE_TIME', value: e.currentTarget.value })} />
+        </TextField>
+        <TextField
+          label='Webhook URL'
+          className='form-input'
+        >
+          <Input value={currentState.url} onChange={(e) => updater({ type: 'UPDATE_URL', value: e.currentTarget.value })} />
+        </TextField>
+        <TextField
+          label='JSON Payload'
+          textarea
+          className='form-input'
+        >
+          <Input value={currentState.payload} onChange={(e) => updater({ type: 'UPDATE_PAYLOAD', value: e.currentTarget.value })} />
+        </TextField>
       </DialogContent>
       <DialogFooter>
         <DialogButton action='dismiss'>Dismiss</DialogButton>

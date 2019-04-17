@@ -17,7 +17,7 @@ const Nav = () => (
         <TopAppBarIcon navIcon tabIndex={0}>
           <MaterialIcon hasRipple icon='menu' onClick={() => console.log('click')} />
         </TopAppBarIcon>
-        <TopAppBarTitle>Miami, FL</TopAppBarTitle>
+        <TopAppBarTitle>Timetrigger</TopAppBarTitle>
       </TopAppBarSection>
       <TopAppBarSection align='end' role='toolbar'>
         <TopAppBarIcon actionItem tabIndex={0}>

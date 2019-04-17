@@ -2,8 +2,15 @@
 
 .main {
   padding: 40px;
+  max-width: 1200px;
 
   .row {
     margin-bottom: 40px;
+  }
+
+  .main-cell {
+    padding: 20px;
+    background-color: #EEE;
+    border-bottom: 1px solid #CCC;
   }
 }

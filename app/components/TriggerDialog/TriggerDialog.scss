@@ -1,1 +1,12 @@
 @import '@material/react-dialog/index.scss';
+@import '@material/react-text-field/index.scss';
+
+.form-input {
+  background-color: #fff !important;
+  margin-top: 20px;
+  width: 98%;
+
+  &:hover {
+    background-color: none !important;
+  }
+}
