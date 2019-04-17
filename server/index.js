@@ -1,14 +1,18 @@
 require('dotenv').config();
 
-const { STATUS_CODES } = require('http');
-const morgan = require('morgan');
-const express = require('express');
+const { resolve } = require('path');
 const bodyParser = require('body-parser');
+const Bundler = require('parcel-bundler');
+const express = require('express');
+const morgan = require('morgan');
 
 const executeAPI = require('./api/v1/execute');
 const triggerAPI = require('./api/v1/trigger');
 
 const app = express();
+
+const entry = resolve(__dirname, '..', 'app', 'index.html');
+const bundler = new Bundler(entry, {});
 
 app.use(bodyParser.json());
 app.use(morgan('dev'));
@@ -19,9 +23,7 @@ app.use('/echo', (req, res) => {
   res.status(200).send(req.body.data);
 });
 
-app.get('*', (req, res) => {
-  res.send(STATUS_CODES[200]);
-});
+app.use(bundler.middleware());
 
 app.use((err, req, res, next) => {
   console.error(err);
