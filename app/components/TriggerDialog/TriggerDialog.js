@@ -28,13 +28,37 @@ const TriggerDialog = (props) => {
     }
   }, { time: new Date() });
 
+  const submitJob = () => {
+    const body = {
+      trigger: currentState.time,
+      run: [{
+        type: 'api_callback',
+        uri: currentState.url,
+        payload: currentState.payload
+      }]
+    };
+
+    global.fetch('http://localhost:8080/api/v1/trigger', {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      if (res.ok) {
+        console.log('success');
+      }
+    }).catch((e) => {
+      console.error(e);
+    });
+  };
+
   return (
     <Dialog
       open={triggerDialogOpen}
       onClose={(value) => {
         if (value) {
-          debugger;
-          // submit to the server
+          submitJob();
         }
 
         dispatch({ type: 'ToggleDialog', toggle: !triggerDialogOpen });
