@@ -8,4 +8,4 @@ export const UIProvider = ({reducer, initialState, children}) => (
   </UIContext.Provider>
 );
 
-export const getContextState = () => useContext(UIContext);
+export const useUIContext = () => useContext(UIContext);

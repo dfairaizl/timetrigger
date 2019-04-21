@@ -10,11 +10,11 @@ import {
 } from '@material/react-typography';
 import TextField, { Input } from '@material/react-text-field';
 
-import { getContextState } from '../../context/ui-context';
+import { useUIContext } from '../../context/ui-context';
 import './TriggerDialog.scss';
 
 const TriggerDialog = (props) => {
-  const [{ triggerDialogOpen }, dispatch] = getContextState();
+  const [{ triggerDialogOpen }, dispatch] = useUIContext();
   const [currentState, updater] = useReducer((state, action) => {
     switch (action.type) {
       case 'UPDATE_TIME':
@@ -56,8 +56,9 @@ const TriggerDialog = (props) => {
   return (
     <Dialog
       open={triggerDialogOpen}
+      className='TriggerDialog'
       onClose={(value) => {
-        if (value) {
+        if (value === 'accept') {
           submitJob();
         }
 
