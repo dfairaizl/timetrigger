@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Nav from './components/Nav/Nav';
-import Main from './components/Main/Main';
+// import Nav from './components/Nav/Nav';
+// import Main from './components/Main/Main';
+import SignUp from './components/SignUp/SignUp';
 import { UIProvider } from './context/ui-context';
 
 import './index.scss';
@@ -25,8 +26,7 @@ const App = () => {
 
   return (
     <UIProvider initialState={initialState} reducer={reducer}>
-      <Nav />
-      <Main />
+      <SignUp />
     </UIProvider>
   );
 };

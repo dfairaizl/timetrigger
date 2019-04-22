@@ -11,7 +11,7 @@ import TopAppBar, {
 import MaterialIcon from '@material/react-material-icon';
 
 const Nav = () => (
-  <TopAppBar className="nav">
+  <TopAppBar className='nav'>
     <TopAppBarRow>
       <TopAppBarSection align='start'>
         <TopAppBarIcon navIcon tabIndex={0}>

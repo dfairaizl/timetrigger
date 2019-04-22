@@ -26,7 +26,7 @@ const TriggerDialog = (props) => {
       default:
         return state;
     }
-  }, { time: new Date() });
+  }, { time: 'now' });
 
   const submitJob = () => {
     const body = {

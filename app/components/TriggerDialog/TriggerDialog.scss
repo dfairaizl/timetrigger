@@ -1,9 +1,8 @@
-@import '@material/react-dialog/index.scss';
-@import '@material/react-text-field/index.scss';
+.mdc-dialog {
+  z-index: 100 !important;
+}
 
 .TriggerDialog {
-  z-index: 100;
-
   .form-input {
     background-color: #fff !important;
     margin-top: 20px;
