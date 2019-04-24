@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import MenuSurface, { Corner } from '@material/react-menu-surface';
+import List, { ListItem, ListItemText } from '@material/react-list';
 import { useAuthContext } from '../../context/auth-context';
+import { signOut } from '../../services/auth';
 import './Nav.scss';
 
 import TopAppBar, {
@@ -11,8 +14,18 @@ import TopAppBar, {
 import MaterialIcon from '@material/react-material-icon';
 
 const Nav = () => {
+  const [anchorElement, setAnchorElement] = useState(null);
+  const [menuOpen, updateMenu] = useState(false);
+
   const { user } = useAuthContext();
-  debugger;
+
+  const handleMenuAction = (index) => {
+    if (index === 0) {
+      console.log('settings');
+    } else if (index === 1) {
+      signOut();
+    }
+  };
 
   return (
     <TopAppBar className='nav'>
@@ -23,9 +36,34 @@ const Nav = () => {
           </TopAppBarIcon>
           <TopAppBarTitle>Timetrigger</TopAppBarTitle>
         </TopAppBarSection>
-        <TopAppBarSection align='end' role='toolbar'>
-          <div>{user.email}</div>
+        <TopAppBarSection align='end'>
+          <span>{user.email}</span>
+          <TopAppBarIcon navIcon tabIndex={0}>
+            <MaterialIcon hasRipple icon='account_circle' onClick={() => updateMenu(!menuOpen)} />
+          </TopAppBarIcon>
+          <div className='mdc-menu-surface--anchor' ref={(el) => setAnchorElement(el)}>
+            <MenuSurface
+              open={menuOpen}
+              anchorCorner={Corner.TOP_LEFT}
+              anchorMargin={{ top: 25 }}
+              onClose={() => updateMenu(false)}
+              anchorElement={anchorElement}
+            >
+              <List
+                singleSelection
+                handleSelect={handleMenuAction}
+              >
+                <ListItem>
+                  <ListItemText primaryText='Settings' />
+                </ListItem>
+                <ListItem>
+                  <ListItemText primaryText='Sign Out' />
+                </ListItem>
+              </List>
+            </MenuSurface>
+          </div>
         </TopAppBarSection>
+
       </TopAppBarRow>
     </TopAppBar>
   );
