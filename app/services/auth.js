@@ -6,6 +6,10 @@ export function registerAccount (email, password) {
   return auth.createUserWithEmailAndPassword(email, password);
 }
 
+export function signIn (email, password) {
+  return auth.signInWithEmailAndPassword(email, password);
+}
+
 export function signOut () {
   return auth.signOut();
 }

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 import Nav from './components/Nav/Nav';
 import Main from './components/Main/Main';
+import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
 import { AuthProvider, useAuthContext } from './context/auth-context';
 import { UIProvider } from './context/ui-context';
@@ -37,6 +38,31 @@ const MainApp = (props) => {
 const SignUpRoute = () => {
   return <SignUp />;
 };
+
+const SignInRoute = () => {
+  return <SignIn />;
+};
+
+function NonAuthenticatedRoute ({ component: Component, ...rest }) {
+  const { isAuthenticated } = useAuthContext();
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        !isAuthenticated ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/',
+              state: { from: props.location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
 
 function MainRoute ({ component: Component, ...rest }) {
   const { isAuthenticated } = useAuthContext();
@@ -76,7 +102,8 @@ const App = () => {
     <AuthProvider>
       <Router>
         <MainRoute exact path='/' component={MainApp} />
-        <Route path='/sign-up' component={SignUpRoute} />
+        <NonAuthenticatedRoute path='/sign-up' component={SignUpRoute} />
+        <NonAuthenticatedRoute path='/sign-in' component={SignInRoute} />
       </Router>
     </AuthProvider>
   );

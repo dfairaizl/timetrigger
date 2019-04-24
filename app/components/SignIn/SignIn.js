@@ -1,5 +1,4 @@
 import React, { useReducer, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Card from '@material/react-card';
 import Button from '@material/react-button';
 import {
@@ -8,9 +7,9 @@ import {
   Headline4
 } from '@material/react-typography';
 import TextField, { Input } from '@material/react-text-field';
-import { registerAccount } from '../../services/auth';
+import { signIn } from '../../services/auth';
 
-import './SignUp.scss';
+import './SignIn.scss';
 import GoogleSVG from '../../assets/images/btn_google_light_normal_ios.svg';
 
 const ErrorMessage = (props) => {
@@ -44,38 +43,38 @@ export default (props) => {
   };
 
   return (
-    <div className='SignUp'>
-      <Card className='SignUp--card'>
-        <div className='SignUp--form'>
-          <Headline4>Sign Up</Headline4>
+    <div className='SignIn'>
+      <Card className='SignIn--card'>
+        <div className='SignIn--form'>
+          <Headline4>Sign In</Headline4>
           { errors() }
           <TextField
             label='E-Mail'
             outlined
-            className='SignUp--input'
+            className='SignIn--input'
           >
             <Input value={currentState.email} onChange={(e) => updater({ type: 'UPDATE_EMAIL', value: e.currentTarget.value })} />
           </TextField>
           <TextField
             label='Password'
             outlined
-            className='SignUp--input'
+            className='SignIn--input'
           >
             <Input type='password' value={currentState.password} onChange={(e) => updater({ type: 'UPDATE_PASSWORD', value: e.currentTarget.value })} />
           </TextField>
-          <Button className='SignUp--button' outlined onClick={(e) => {
+          <Button className='SignIn--button' outlined onClick={(e) => {
             e.preventDefault();
-            registerAccount(currentState.email, currentState.password)
+            signIn(currentState.email, currentState.password)
               .catch((e) => {
                 setError(e.message);
               });
           }}>
-            Sign Up
+            Sign In
           </Button>
-          <Body2 className='SignUp--link'>Already have an account? <Link to='/sign-in'>Sign In</Link></Body2>
-          <div className='SignUp--divider'><span /><div>or</div></div>
-          <Button className='SignUp--button' raised>
-            <div className='SignUp--button__social'>
+          <Body2 className='SignIn--link'><a href='#'>Forgot Password?</a></Body2>
+          <div className='SignIn--divider'><span /><div>or</div></div>
+          <Button className='SignIn--button' raised>
+            <div className='SignIn--button__social'>
               <GoogleSVG />
               <div>Sign In With Google</div>
             </div>
