@@ -1,47 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
-
-import Nav from './components/Nav/Nav';
-import Main from './components/Main/Main';
+import { AuthProvider, useAuthContext } from './context/auth-context';
+import App from './components/App/App';
 import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
-import { AuthProvider, useAuthContext } from './context/auth-context';
-import { UIProvider } from './context/ui-context';
 
 import './index.scss';
-
-const MainApp = (props) => {
-  const initialState = { triggerDialogOpen: false };
-
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case 'ToggleDialog':
-        return {
-          ...state,
-          triggerDialogOpen: action.toggle
-        };
-
-      default:
-        return state;
-    }
-  };
-
-  return (
-    <UIProvider initialState={initialState} reducer={reducer}>
-      <Nav />
-      <Main />
-    </UIProvider>
-  );
-};
-
-const SignUpRoute = () => {
-  return <SignUp />;
-};
-
-const SignInRoute = () => {
-  return <SignIn />;
-};
 
 function NonAuthenticatedRoute ({ component: Component, ...rest }) {
   const { isAuthenticated } = useAuthContext();
@@ -64,7 +29,7 @@ function NonAuthenticatedRoute ({ component: Component, ...rest }) {
   );
 }
 
-function MainRoute ({ component: Component, ...rest }) {
+function AuthenticatedRoute ({ component: Component, ...rest }) {
   const { isAuthenticated } = useAuthContext();
   return (
     <Route
@@ -85,28 +50,16 @@ function MainRoute ({ component: Component, ...rest }) {
   );
 }
 
-const App = () => {
-  // const reducer = (state, action) => {
-  //   const newState = { ...state };
-  //
-  //   switch (action.type) {
-  //     case 'LOGIN':
-  //       newState.user = action.user;
-  //       return newState;
-  //     default:
-  //       return newState;
-  //   }
-  // };
-
+const Root = () => {
   return (
     <AuthProvider>
       <Router>
-        <MainRoute exact path='/' component={MainApp} />
-        <NonAuthenticatedRoute path='/sign-up' component={SignUpRoute} />
-        <NonAuthenticatedRoute path='/sign-in' component={SignInRoute} />
+        <AuthenticatedRoute exact path='/' component={App} />
+        <NonAuthenticatedRoute path='/sign-up' component={SignUp} />
+        <NonAuthenticatedRoute path='/sign-in' component={SignIn} />
       </Router>
     </AuthProvider>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Root />, document.getElementById('root'));

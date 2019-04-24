@@ -12,7 +12,6 @@ export const AuthProvider = ({reducer, initialState, children}) => {
   const [authState, setAuthState] = useState({});
   useEffect(() => {
     authStatus((user) => {
-      debugger;
       setAuthState({ hasAuthStatus: true, isAuthenticated: !!user, user });
     });
   }, []);
