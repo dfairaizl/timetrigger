@@ -2,6 +2,8 @@ const admin = require('firebase-admin');
 const cloudTasks = require('@google-cloud/tasks');
 const express = require('express');
 const db = require('../../../lib/datastore');
+const apiKeyValidate = require('../../../middleware/api-key');
+const jwtValidate = require('../../../middleware/jwt');
 const validate = require('express-validation');
 const validation = require('./validation');
 
@@ -13,7 +15,7 @@ const parent = client.queuePath(
   process.env.APP_ENGINE_QUEUE
 );
 
-router.post('/', validate(validation.trigger), (req, res) => {
+router.post('/', apiKeyValidate, jwtValidate, validate(validation.trigger), (req, res) => {
   const taskInfo = req.body;
 
   const { trigger: triggerAt, run } = taskInfo;
@@ -22,7 +24,7 @@ router.post('/', validate(validation.trigger), (req, res) => {
 
   db.collection('jobs').add({
     trigger_at: admin.firestore.Timestamp.fromDate(triggerAt),
-    user_account: 'dan',
+    user_account: res.locals.user.uid,
     status: 'scheduled',
     run
   }).then((ref) => {

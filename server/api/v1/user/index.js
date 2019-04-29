@@ -4,7 +4,7 @@ const nanoid = require('nanoid');
 const uuidv5 = require('uuid/v5');
 
 const db = require('../../../lib/datastore');
-const jwtValidate = require('./jwt');
+const jwtValidate = require('../../../middleware/jwt');
 
 const router = express.Router();
 

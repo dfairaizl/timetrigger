@@ -11,6 +11,7 @@ import {
 import TextField, { Input } from '@material/react-text-field';
 
 import { useUIContext } from '../../context/ui-context';
+import { getIDToken } from '../../services/auth';
 import './TriggerDialog.scss';
 
 const TriggerDialog = (props) => {
@@ -38,12 +39,15 @@ const TriggerDialog = (props) => {
       }]
     };
 
-    global.fetch('http://localhost:8080/api/v1/trigger', {
-      method: 'POST',
-      body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    getIDToken().then((token) => {
+      return global.fetch('http://localhost:8080/api/v1/trigger', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
     }).then((res) => {
       if (res.ok) {
         console.log('success');
