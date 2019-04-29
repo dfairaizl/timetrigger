@@ -10,7 +10,6 @@ function getRequestSecret (req) {
 }
 
 function validateRequest (secret, hash) {
-  console.log('checking', secret, hash);
   return bcrypt.compare(secret, hash);
 }
 

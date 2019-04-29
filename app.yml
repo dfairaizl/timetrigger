@@ -7,3 +7,4 @@ env_variables:
   LOCATION: us-central1
   NODE_ENV: production
   PROJECT_ID: timetrigger-5a192
+  UUID_NAMESPACE: d224553b-52d9-45bd-bc5c-470c99b1449e

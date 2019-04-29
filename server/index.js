@@ -1,19 +1,15 @@
 require('dotenv').config();
 
-const { resolve } = require('path');
 const bodyParser = require('body-parser');
-const Bundler = require('parcel-bundler');
 const express = require('express');
 const morgan = require('morgan');
 
+const parcelMiddleware = require('./middleware/parcel');
 const executeAPI = require('./api/v1/execute');
 const triggerAPI = require('./api/v1/trigger');
 const userAPI = require('./api/v1/user');
 
 const app = express();
-
-const entry = resolve(__dirname, '..', 'app', 'index.html');
-const bundler = new Bundler(entry, {});
 
 app.use(bodyParser.json());
 app.use(morgan('dev'));
@@ -21,12 +17,11 @@ app.use(morgan('dev'));
 app.use('/api/v1/execute', executeAPI);
 app.use('/api/v1/trigger', triggerAPI);
 app.use('/api/v1/user', userAPI);
-app.use('/echo', (req, res) => {
-  res.status(200).send(req.body.data);
-});
 
 if (process.env.NODE_ENV === 'development') {
-  app.use(bundler.middleware());
+  parcelMiddleware(app);
+} else if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('dist'));
 }
 
 app.use((err, req, res, next) => {

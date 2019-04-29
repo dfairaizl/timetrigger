@@ -44,6 +44,7 @@
   },
   "description": "",
   "devDependencies": {
+    "parcel-plugin-bundle-visualiser": "^1.2.0",
     "sass": "^1.18.0"
   },
   "license": "ISC",
@@ -55,6 +56,7 @@
     ]
   },
   "scripts": {
+    "build": "NODE_ENV=production parcel build app/index.html",
     "create-queue": "node -r dotenv/config scripts/create-queue.js",
     "start": "node server/index.js"
   },

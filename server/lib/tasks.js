@@ -1,6 +1,6 @@
 const { Resolver } = require('dns').promises;
 const fetch = require('node-fetch');
-const {URL} = require('url');
+const { URL } = require('url');
 
 const resolver = new Resolver();
 

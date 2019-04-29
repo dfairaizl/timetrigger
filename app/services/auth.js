@@ -1,6 +1,7 @@
-import firebase from '../backend';
+import 'firebase/auth';
+import app from '../backend';
 
-const auth = firebase.auth();
+const auth = app.auth();
 
 export function registerAccount (email, password) {
   return auth.createUserWithEmailAndPassword(email, password);

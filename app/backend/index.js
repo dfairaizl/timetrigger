@@ -1,7 +1,4 @@
-import firebase from 'firebase';
-
-// Required for side-effects
-import 'firebase/firestore';
+import firebase from 'firebase/app';
 
 const config = {
   apiKey: 'AIzaSyBvdk2NRKDO5ieQbBKuFzdDczDKZU92tm8',
@@ -12,6 +9,6 @@ const config = {
   messagingSenderId: '987939680502'
 };
 
-firebase.initializeApp(config);
+const app = firebase.initializeApp(config);
 
-export default firebase;
+export default app;
