@@ -8,6 +8,7 @@ const morgan = require('morgan');
 
 const executeAPI = require('./api/v1/execute');
 const triggerAPI = require('./api/v1/trigger');
+const userAPI = require('./api/v1/user');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(morgan('dev'));
 
 app.use('/api/v1/execute', executeAPI);
 app.use('/api/v1/trigger', triggerAPI);
+app.use('/api/v1/user', userAPI);
 app.use('/echo', (req, res) => {
   res.status(200).send(req.body.data);
 });

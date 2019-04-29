@@ -14,6 +14,10 @@ export function signOut () {
   return auth.signOut();
 }
 
+export function getIDToken () {
+  return auth.currentUser.getIdToken(true);
+}
+
 export function authStatus (callback) {
   auth.onAuthStateChanged((user) => {
     if (user) {

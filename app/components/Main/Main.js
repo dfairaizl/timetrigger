@@ -8,13 +8,14 @@ import MaterialTable from 'material-table';
 
 import { useUIContext } from '../../context/ui-context';
 import TriggerDialog from '../TriggerDialog/TriggerDialog';
+import KeysDialog from '../KeysDialog/KeysDialog';
 import db from '../../services/db';
 
 import './Main.scss';
 
 const Main = () => {
   const ref = db.collection('jobs');
-  const [{ triggerDialogOpen }, dispatch] = useUIContext();
+  const [{ keysDialogOpen, triggerDialogOpen }, dispatch] = useUIContext();
 
   const [currentState, updater] = useReducer((state, action) => {
     const newState = [...state];
@@ -58,12 +59,18 @@ const Main = () => {
     <TopAppBarFixedAdjust>
       <Grid className='main'>
         <Row className='row'>
-          <Cell columns={12}>
+          <Cell columns={12} className='top-cell'>
             <Button
-              onClick={(ref) => dispatch({ type: 'ToggleDialog', toggle: !triggerDialogOpen })}
+              onClick={(ref) => dispatch({ type: 'ToggleTriggerDialog', toggle: !triggerDialogOpen })}
               outlined
             >
               New Trigger
+            </Button>
+            <Button
+              onClick={(ref) => dispatch({ type: 'ToggleKeysDialog', toggle: !keysDialogOpen })}
+              outlined
+            >
+              API Keys
             </Button>
           </Cell>
         </Row>
@@ -83,6 +90,7 @@ const Main = () => {
 
       </Grid>
       <TriggerDialog />
+      <KeysDialog />
     </TopAppBarFixedAdjust>
   );
 };

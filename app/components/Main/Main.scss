@@ -11,4 +11,9 @@
     background-color: #EEE;
     border-bottom: 1px solid #CCC;
   }
+
+  .top-cell {
+    display: flex;
+    justify-content: space-between;
+  }
 }

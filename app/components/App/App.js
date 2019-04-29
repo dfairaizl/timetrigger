@@ -4,14 +4,19 @@ import Nav from '../Nav/Nav';
 import Main from '../Main/Main';
 
 export default (props) => {
-  const initialState = { triggerDialogOpen: false };
+  const initialState = { triggerDialogOpen: false, keysDialogOpen: false };
 
   const reducer = (state, action) => {
     switch (action.type) {
-      case 'ToggleDialog':
+      case 'ToggleTriggerDialog':
         return {
           ...state,
           triggerDialogOpen: action.toggle
+        };
+      case 'ToggleKeysDialog':
+        return {
+          ...state,
+          keysDialogOpen: action.toggle
         };
 
       default:
