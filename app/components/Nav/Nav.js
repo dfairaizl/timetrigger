@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import MenuSurface, { Corner } from '@material/react-menu-surface';
 import List, { ListItem, ListItemText } from '@material/react-list';
 import { useAuthContext } from '../../context/auth-context';
@@ -13,7 +14,7 @@ import TopAppBar, {
 } from '@material/react-top-app-bar';
 import MaterialIcon from '@material/react-material-icon';
 
-const Nav = () => {
+const Nav = ({ history }) => {
   const [anchorElement, setAnchorElement] = useState(null);
   const [menuOpen, updateMenu] = useState(false);
 
@@ -21,7 +22,7 @@ const Nav = () => {
 
   const handleMenuAction = (index) => {
     if (index === 0) {
-      console.log('settings');
+      history.push('/targets');
     } else if (index === 1) {
       signOut();
     }
@@ -54,7 +55,7 @@ const Nav = () => {
                 handleSelect={handleMenuAction}
               >
                 <ListItem>
-                  <ListItemText primaryText='Settings' />
+                  <ListItemText primaryText='Trigger Targets' />
                 </ListItem>
                 <ListItem>
                   <ListItemText primaryText='Sign Out' />
@@ -69,4 +70,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default withRouter(Nav);

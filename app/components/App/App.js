@@ -1,10 +1,13 @@
 import React from 'react';
 import { UIProvider } from '../../context/ui-context';
 import Nav from '../Nav/Nav';
-import Main from '../Main/Main';
 
 export default (props) => {
-  const initialState = { triggerDialogOpen: false, keysDialogOpen: false };
+  const initialState = {
+    keysDialogOpen: false,
+    targetDialogOpen: false,
+    triggerDialogOpen: false
+  };
 
   const reducer = (state, action) => {
     switch (action.type) {
@@ -18,6 +21,11 @@ export default (props) => {
           ...state,
           keysDialogOpen: action.toggle
         };
+      case 'ToggleTargetDialog':
+        return {
+          ...state,
+          targetDialogOpen: action.toggle
+        };
 
       default:
         return state;
@@ -27,7 +35,7 @@ export default (props) => {
   return (
     <UIProvider initialState={initialState} reducer={reducer}>
       <Nav />
-      <Main />
+      {props.children}
     </UIProvider>
   );
 };

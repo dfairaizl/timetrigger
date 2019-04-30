@@ -1,0 +1,6 @@
+@import "@material/button/mixins";
+@import "@material/shape/mixins";
+
+.button-alternate {
+  @include mdc-button-container-fill-color(lightblue);
+}

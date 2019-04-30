@@ -1,0 +1,15 @@
+.Targets {
+  &--grid-row {
+    margin-bottom: 40px !important;
+  }
+
+  &--grid {
+    padding: 40px;
+    max-width: 1200px;
+
+    &__top-cell {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}

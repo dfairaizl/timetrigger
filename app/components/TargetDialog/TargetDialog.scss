@@ -1,0 +1,28 @@
+.mdc-dialog {
+  z-index: 100 !important;
+}
+
+.TargetDialog {
+  .form-input {
+    // background-color: #fff !important;
+    margin-top: 20px;
+    width: 98%;
+
+    // &:hover {
+    //   background-color: none !important;
+    // }
+  }
+
+  .select-input {
+    margin-top: 20px;
+    width: 98%;
+
+    &:hover {
+      background-color: none !important;
+    }
+  }
+
+  &--footer {
+    justify-content: space-between !important;
+  }
+}
