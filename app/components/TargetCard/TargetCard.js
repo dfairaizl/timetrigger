@@ -48,7 +48,7 @@ const TargetCard = (props) => {
   };
 
   const deleteTarget = () => {
-    deleteCard();
+    deleteCard(target);
     handleClose();
   };
 

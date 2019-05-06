@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 import TargetCard from '../components/TargetCard/TargetCard';
 
 import TargetDialog from '../components/TargetDialog/TargetDialog';
+import db from '../services/db';
 
 import {
   toggleNewTargetDialog,
@@ -22,7 +23,13 @@ const styles = theme => ({
   }
 });
 
-function Targets ({ classes, targets, ui, newTarget, editTarget }) {
+function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
+  const { user } = auth;
+  const deleteTarget = (target) => {
+    const ref = db.doc(`users/${user.uid}/targets/${target.id}`);
+    ref.delete().catch((e) => console.error(e));
+  };
+
   return (
     <div>
       <Grid container className={classes.root} spacing={16}>
@@ -43,7 +50,7 @@ function Targets ({ classes, targets, ui, newTarget, editTarget }) {
               <TargetCard
                 target={t}
                 editCard={(target) => { editTarget(!ui.targetDialogOpen, target); }}
-                deleteCard={(target) => { toggleEditTargetDialog(!ui.targetDialogOpen, target); }}
+                deleteCard={(target) => { deleteTarget(target); }}
               />
             </Grid>
           );
@@ -59,7 +66,7 @@ Targets.propTypes = {
 };
 
 export default connect((state) => {
-  return { targets: state.targets, ui: state.ui };
+  return { auth: state.auth, targets: state.targets, ui: state.ui };
 }, (dispatch) => {
   return {
     newTarget (toggle) {
