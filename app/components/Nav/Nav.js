@@ -1,73 +1,105 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import MenuSurface, { Corner } from '@material/react-menu-surface';
-import List, { ListItem, ListItemText } from '@material/react-list';
-import { useAuthContext } from '../../context/auth-context';
-import { signOut } from '../../services/auth';
-import './Nav.scss';
+import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import TopAppBar, {
-  TopAppBarIcon,
-  TopAppBarRow,
-  TopAppBarSection,
-  TopAppBarTitle
-} from '@material/react-top-app-bar';
-import MaterialIcon from '@material/react-material-icon';
+import { withStyles } from '@material-ui/core/styles';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import AppBar from '@material-ui/core/AppBar';
+import Divider from '@material-ui/core/Divider';
+import DeviceHubIcon from '@material-ui/icons/DeviceHub';
+import IconButton from '@material-ui/core/IconButton';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import PersonIcon from '@material-ui/icons/Person';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import grey from '@material-ui/core/colors/grey';
 
-const Nav = ({ history }) => {
+const styles = theme => ({
+  appBar: {
+    position: 'relative'
+  },
+  logo: {
+    color: grey[50],
+    textDecoration: 'none'
+  },
+  title: {
+    flexGrow: '1'
+  }
+});
+
+const Nav = ({ classes, history, auth }) => {
+  const { user = {} } = auth;
+
   const [anchorElement, setAnchorElement] = useState(null);
   const [menuOpen, updateMenu] = useState(false);
 
-  const { user } = useAuthContext();
+  const handleOpen = (event) => {
+    setAnchorElement(event.currentTarget);
+    updateMenu(true);
+  };
 
-  const handleMenuAction = (index) => {
-    if (index === 0) {
-      history.push('/targets');
-    } else if (index === 1) {
-      signOut();
-    }
+  const handleClose = (event) => {
+    setAnchorElement(null);
+    updateMenu(false);
   };
 
   return (
-    <TopAppBar className='nav'>
-      <TopAppBarRow>
-        <TopAppBarSection align='start'>
-          <TopAppBarIcon navIcon tabIndex={0}>
-            <MaterialIcon hasRipple icon='menu' onClick={() => console.log('click')} />
-          </TopAppBarIcon>
-          <TopAppBarTitle>Timetrigger</TopAppBarTitle>
-        </TopAppBarSection>
-        <TopAppBarSection align='end'>
-          <span>{user.email}</span>
-          <TopAppBarIcon navIcon tabIndex={0}>
-            <MaterialIcon hasRipple icon='account_circle' onClick={() => updateMenu(!menuOpen)} />
-          </TopAppBarIcon>
-          <div className='mdc-menu-surface--anchor' ref={(el) => setAnchorElement(el)}>
-            <MenuSurface
-              open={menuOpen}
-              anchorCorner={Corner.TOP_LEFT}
-              anchorMargin={{ top: 25 }}
-              onClose={() => updateMenu(false)}
-              anchorElement={anchorElement}
-            >
-              <List
-                singleSelection
-                handleSelect={handleMenuAction}
-              >
-                <ListItem>
-                  <ListItemText primaryText='Trigger Targets' />
-                </ListItem>
-                <ListItem>
-                  <ListItemText primaryText='Sign Out' />
-                </ListItem>
-              </List>
-            </MenuSurface>
-          </div>
-        </TopAppBarSection>
-
-      </TopAppBarRow>
-    </TopAppBar>
+    <AppBar position='static' className={classes.appBar}>
+      <Toolbar>
+        <Typography variant='h6' color='inherit' noWrap className={classes.title}>
+          <Link to='/' className={classes.logo}>Time Trigger</Link>
+        </Typography>
+        <div>
+          <IconButton
+            color='inherit'
+            onClick={handleOpen}
+          >
+            <AccountCircle />
+          </IconButton>
+          <Menu
+            id='menu-appbar'
+            anchorEl={anchorElement}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+            open={menuOpen}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon className={classes.icon}>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText classes={{ primary: classes.primary }} inset primary='Account 'secondary={user.email} />
+            </MenuItem>
+            <Divider />
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon className={classes.icon}>
+                <DeviceHubIcon />
+              </ListItemIcon>
+              <ListItemText classes={{ primary: classes.primary }} inset primary='API Targets' onClick={() => history.push('/targets')} />
+            </MenuItem>
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon className={classes.icon}>
+                <PowerSettingsNewIcon />
+              </ListItemIcon>
+              <ListItemText classes={{ primary: classes.primary }} inset primary='Sign Out' />
+            </MenuItem>
+          </Menu>
+        </div>
+      </Toolbar>
+    </AppBar>
   );
 };
 
-export default withRouter(Nav);
+export default connect((state) => {
+  return { auth: state.auth };
+})(withStyles(styles)(withRouter(Nav)));

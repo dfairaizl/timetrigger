@@ -22,6 +22,20 @@ function generateSecret () {
   });
 }
 
+router.get('/api-key', jwtValidate, (req, res) => {
+  const user = res.locals.user;
+  const doc = db.collection('users').doc(user.uid);
+
+  doc.get().then((snapshot) => {
+    res.json({
+      apiKey: snapshot.data().credentials.api_key
+    });
+  }).catch((e) => {
+    console.error(e);
+    res.sendStatus(500);
+  });
+});
+
 router.post('/api-key', jwtValidate, (req, res) => {
   const user = res.locals.user;
   const doc = db.collection('users').doc(user.uid);

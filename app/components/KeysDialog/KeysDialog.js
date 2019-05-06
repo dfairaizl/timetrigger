@@ -1,101 +1,148 @@
 import React, { useEffect, useState } from 'react';
-import Dialog, {
-  DialogTitle,
-  DialogContent,
-  DialogFooter,
-  DialogButton
-} from '@material/react-dialog';
-import Button from '@material/react-button';
-import {
-  Subtitle1
-} from '@material/react-typography';
-import TextField, { HelperText, Input } from '@material/react-text-field';
-import MaterialIcon from '@material/react-material-icon';
+import { connect } from 'react-redux';
 import copy from 'clipboard-copy';
 
-import db from '../../services/db';
-import { getIDToken } from '../../services/auth';
-import { useAuthContext } from '../../context/auth-context';
-import { useUIContext } from '../../context/ui-context';
-import './KeysDialog.scss';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import FileCopy from '@material-ui/icons/FileCopy';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import InputLabel from '@material-ui/core/InputLabel';
 
-const KeysDialog = (props) => {
-  const { user } = useAuthContext();
-  const [{ keysDialogOpen }, dispatch] = useUIContext();
+import { fetchAPIKey, generateCredentails } from '../../services/credentials';
+import { toggleKeysDialog } from '../../state/actions';
 
+const styles = theme => ({
+  buttonProgress: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12
+  },
+  formControl: {
+    marginBottom: theme.spacing.unit,
+    marginTop: theme.spacing.unit
+  },
+  text: {
+    marginBottom: theme.spacing.unit * 2
+  },
+  wrapper: {
+    margin: theme.spacing.unit,
+    position: 'relative'
+  }
+});
+
+const KeysDialog = ({ classes, auth, keysDialogOpen, toggleDialog }) => {
   const [apiKey, updateAPIKey] = useState('');
   const [secretKey, updateSecretKey] = useState('');
-
-  const ref = db.doc(`users/${user.uid}`);
+  const [loading, updateLoading] = useState(false);
 
   useEffect(() => {
-    ref.onSnapshot((doc) => {
-      if (doc.exists) {
-        const creds = doc.data().credentials || {};
-        updateAPIKey(creds.api_key);
-      }
+    fetchAPIKey().then((credentials) => {
+      updateAPIKey(credentials.apiKey);
     });
   }, []);
 
-  const fetchAPIToken = () => {
-    getIDToken().then((token) => {
-      return window.fetch('http://localhost:8080/api/v1/user/api-key', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-    }).then((data) => {
+  const handleClose = () => {
+    toggleDialog(!keysDialogOpen);
+  };
+
+  const generateKeyPair = () => {
+    updateLoading(true);
+    generateCredentails().then((data) => {
       updateAPIKey(data.key);
       updateSecretKey(data.secret);
-    }).catch((error) => console.error(error));
+      updateLoading(false);
+    }).catch((error) => {
+      console.error(error);
+      updateLoading(false);
+    });
   };
 
   return (
     <Dialog
       open={keysDialogOpen}
-      className='KeysDialog'
-      onClose={(value) => {
-        updateSecretKey('');
-        dispatch({ type: 'ToggleDialog', toggle: !keysDialogOpen });
-      }}
+      onClose={handleClose}
     >
-      <DialogTitle>API Keys</DialogTitle>
+      <DialogTitle id='form-dialog-title'>API Keys</DialogTitle>
       <DialogContent>
-        <Subtitle1>Generate or regenerate your API key pair.</Subtitle1>
-        <TextField
-          className='form-input'
-          label='API Key'
-          onTrailingIconSelect={() => copy(apiKey)}
-          trailingIcon={<MaterialIcon role='button' icon='file_copy' />}
-        >
-          <Input value={apiKey} />
-        </TextField>
-        <TextField
-          className='form-input'
-          label='Secret'
-          helperText={<HelperText persistent>This value is only shown once upon key generation!</HelperText>}
-          onTrailingIconSelect={() => copy(secretKey)}
-          trailingIcon={<MaterialIcon role='button' icon='file_copy' />}
-        >
-          <Input value={secretKey} />
-        </TextField>
-        <Button className='SignUp--button' outlined onClick={(e) => {
-          e.preventDefault();
-          fetchAPIToken();
-        }}>
-          { apiKey && apiKey.length ? 'Regenerage' : 'Generate' }
-        </Button>
+        <DialogContentText className={classes.text}>
+          Generate or regenerate your API key pair for programmatic access to the TimeTrigger API.
+        </DialogContentText>
+        <form className={classes.root} autoComplete='off'>
+          <FormControl className={classes.formControl} fullWidth>
+            <InputLabel htmlFor='adornment-key'>API Key</InputLabel>
+            <Input
+              id='adornment-key'
+              type='text'
+              value={apiKey}
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconButton
+                    onClick={() => { copy(apiKey); }}
+                  >
+                    <FileCopy />
+                  </IconButton>
+                </InputAdornment>
+              }
+              readOnly
+            />
+          </FormControl>
+          <FormControl className={classes.formControl} fullWidth>
+            <InputLabel htmlFor='adornment-secret'>Secret</InputLabel>
+            <Input
+              id='adornment-secret'
+              type='text'
+              value={secretKey}
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconButton
+                    onClick={() => { copy(secretKey); }}
+                  >
+                    <FileCopy />
+                  </IconButton>
+                </InputAdornment>
+              }
+              readOnly
+            />
+            <FormHelperText>Your secret key is only shown when this key pair is generated for the first time.</FormHelperText>
+          </FormControl>
+        </form>
       </DialogContent>
-      <DialogFooter className='KeysDialog--footer'>
-        <DialogButton action='done' isDefault>Done</DialogButton>
-      </DialogFooter>
+      <DialogActions>
+        <Button onClick={handleClose} color='primary'>
+          Done
+        </Button>
+        <div className={classes.wrapper}>
+          <Button onClick={generateKeyPair} color='primary' disabled={loading}>
+            { apiKey && apiKey.length ? 'Regenerate' : 'Generate' }
+          </Button>
+          {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+        </div>
+      </DialogActions>
     </Dialog>
   );
 };
 
-export default KeysDialog;
+export default connect((state) => {
+  return {
+    auth: state.auth,
+    keysDialogOpen: state.ui.keysDialogOpen
+  };
+}, (dispatch) => {
+  return {
+    toggleDialog (toggle) {
+      dispatch(toggleKeysDialog(toggle));
+    }
+  };
+})(withStyles(styles)(KeysDialog));

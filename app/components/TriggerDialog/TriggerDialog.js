@@ -1,103 +1,91 @@
-import React, { useReducer } from 'react';
-import Dialog, {
-  DialogTitle,
-  DialogContent,
-  DialogFooter,
-  DialogButton
-} from '@material/react-dialog';
-import {
-  Subtitle1
-} from '@material/react-typography';
-import TextField, { Input } from '@material/react-text-field';
+import React from 'react';
+import { connect } from 'react-redux';
 
-import { useUIContext } from '../../context/ui-context';
-import { getIDToken } from '../../services/auth';
-import './TriggerDialog.scss';
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
 
-const TriggerDialog = (props) => {
-  const [{ triggerDialogOpen }, dispatch] = useUIContext();
-  const [currentState, updater] = useReducer((state, action) => {
-    switch (action.type) {
-      case 'UPDATE_TIME':
-        return { ...state, time: action.value };
-      case 'UPDATE_URL':
-        return { ...state, url: action.value };
-      case 'UPDATE_PAYLOAD':
-        return { ...state, payload: action.value };
-      default:
-        return state;
-    }
-  }, { time: 'now' });
+import { toggleTriggerDialog } from '../../state/actions';
 
-  const submitJob = () => {
-    const body = {
-      trigger: currentState.time,
-      run: [{
-        type: 'api_callback',
-        uri: currentState.url,
-        payload: currentState.payload
-      }]
-    };
+const styles = theme => ({
+  formControl: {
+    marginBottom: theme.spacing.unit,
+    marginTop: theme.spacing.unit
+  }
+});
 
-    getIDToken().then((token) => {
-      return global.fetch('http://localhost:8080/api/v1/trigger', {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-    }).then((res) => {
-      if (res.ok) {
-        console.log('success');
-      }
-    }).catch((e) => {
-      console.error(e);
-    });
-  };
-
+const TriggerDialog = ({ classes, triggerDialogOpen, onTriggerDialogClick }) => {
   return (
     <Dialog
       open={triggerDialogOpen}
-      className='TriggerDialog'
-      onClose={(value) => {
-        if (value === 'accept') {
-          submitJob();
-        }
-
-        dispatch({ type: 'ToggleDialog', toggle: !triggerDialogOpen });
-      }}
+      onClose={() => onTriggerDialogClick(!triggerDialogOpen)}
     >
-      <DialogTitle>New Trigger</DialogTitle>
+      <DialogTitle id='form-dialog-title'>New Trigger</DialogTitle>
       <DialogContent>
-        <Subtitle1>Create a new trigger by entering the information below.</Subtitle1>
-        <TextField
-          label='Time'
-          className='form-input'
-        >
-          <Input value={currentState.time} onChange={(e) => updater({ type: 'UPDATE_TIME', value: e.currentTarget.value })} />
-        </TextField>
-        <TextField
-          label='Webhook URL'
-          className='form-input'
-        >
-          <Input value={currentState.url} onChange={(e) => updater({ type: 'UPDATE_URL', value: e.currentTarget.value })} />
-        </TextField>
-        <TextField
-          label='JSON Payload'
-          textarea
-          className='form-input'
-        >
-          <Input value={currentState.payload} onChange={(e) => updater({ type: 'UPDATE_PAYLOAD', value: e.currentTarget.value })} />
-        </TextField>
+        <DialogContentText>
+          To create a new trigger, enter a time for the trigger to fire, selected a stage, and optionally add a JSON payload.
+        </DialogContentText>
+        <form className={classes.root} autoComplete='off'>
+          <FormControl className={classes.formControl} fullWidth>
+            <TextField
+              autoFocus
+              margin='dense'
+              id='time'
+              label='Trigger Time'
+              fullWidth
+            />
+            <FormHelperText>Human readable dates are best. For example: "24 hours from now".</FormHelperText>
+          </FormControl>
+          <FormControl className={classes.formControl} fullWidth>
+            <InputLabel>Stage</InputLabel>
+            <Select
+              onChange={() => {}}
+              inputProps={{
+                name: 'stage',
+                id: 'stage'
+              }}
+            >
+              <MenuItem value={'stage1'}>Stage Name - http://localhost:8080/echo</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl} fullWidth>
+            <TextField
+              margin='dense'
+              id='trigger-payload'
+              label='JSON Payload'
+              fullWidth
+              multiline
+              rows={10}
+              maxRows={20}
+            />
+          </FormControl>
+        </form>
       </DialogContent>
-      <DialogFooter>
-        <DialogButton action='dismiss'>Dismiss</DialogButton>
-        <DialogButton action='accept' isDefault>Accept</DialogButton>
-      </DialogFooter>
+      <DialogActions>
+        <Button onClick={() => onTriggerDialogClick(!triggerDialogOpen)} color='primary'>
+          Cancel
+        </Button>
+      </DialogActions>
     </Dialog>
   );
 };
 
-export default TriggerDialog;
+export default connect((state) => {
+  return { triggerDialogOpen: state.ui.triggerDialogOpen };
+}, (dispatch) => {
+  return {
+    onTriggerDialogClick (toggle) {
+      dispatch(toggleTriggerDialog(toggle));
+    }
+  };
+})(withStyles(styles)(TriggerDialog));
