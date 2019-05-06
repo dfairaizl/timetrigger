@@ -30,6 +30,14 @@ function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
     ref.delete().catch((e) => console.error(e));
   };
 
+  const toggleTarget = (target) => {
+    debugger;
+    const ref = db.doc(`users/${user.uid}/targets/${target.id}`);
+    ref.set({ active: !target.active }, { merge: true }).catch((e) => {
+      console.error(e);
+    });
+  };
+
   return (
     <div>
       <Grid container className={classes.root} spacing={16}>
@@ -51,6 +59,7 @@ function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
                 target={t}
                 editCard={(target) => { editTarget(!ui.targetDialogOpen, target); }}
                 deleteCard={(target) => { deleteTarget(target); }}
+                toggleTarget={(target) => { toggleTarget(target); }}
               />
             </Grid>
           );

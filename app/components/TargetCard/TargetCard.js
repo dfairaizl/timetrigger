@@ -13,6 +13,8 @@ import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
+import dateformat from 'dateformat';
+
 const styles = theme => ({
   card: {
     maxWidth: 400
@@ -27,7 +29,7 @@ const styles = theme => ({
 });
 
 const TargetCard = (props) => {
-  const { target, classes, editCard, deleteCard } = props;
+  const { target, classes, editCard, deleteCard, toggleTarget } = props;
 
   const [anchorElement, setAnchorElement] = useState(null);
   const [menuOpen, updateMenu] = useState(false);
@@ -52,6 +54,8 @@ const TargetCard = (props) => {
     handleClose();
   };
 
+  const targetDate = `Created on ${dateformat(target.created_at.toDate().toString(), 'mm/dd/yyyy')}`;
+
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -62,7 +66,7 @@ const TargetCard = (props) => {
         }
         onClick={handleOpen}
         title={target.targetName}
-        subheader='Created 5/1/2019'
+        subheader={targetDate}
       />
       <Menu
         id='menu-appbar'
@@ -95,9 +99,8 @@ const TargetCard = (props) => {
         <FormControlLabel
           control={
             <Switch
-              checked
-              onChange={() => {}}
-              value='checkedB'
+              onChange={() => toggleTarget(target)}
+              checked={target.active}
               color='primary'
             />
           }

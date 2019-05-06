@@ -1,5 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -70,7 +71,11 @@ const TargetDialog = ({ classes, auth, targetDialogOpen, selectedTarget, toggleN
       }).catch((e) => console.error(e));
     } else {
       const ref = db.collection(`users/${user.uid}/targets`);
-      ref.add(currentState).then((doc) => {
+      ref.add({
+        ...currentState,
+        active: true,
+        created_at: firebase.firestore.Timestamp.fromDate(new Date())
+      }).then((doc) => {
         handleClose();
       }).catch((e) => console.error(e));
     }
