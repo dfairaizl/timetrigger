@@ -1,7 +1,8 @@
 export const UPDATE_AUTH_STATUS = 'UPDATE_AUTH_STATUS';
 export const TOGGLE_TRIGGER_DIALOG = 'TOGGLE_TRIGGER_DIALOG';
 export const TOGGLE_KEYS_DIALOG = 'TOGGLE_KEYS_DIALOG';
-export const TOGGLE_TARGET_DIALOG = 'TOGGLE_TARGET_DIALOG';
+export const TOGGLE_NEW_TARGET_DIALOG = 'TOGGLE_NEW_TARGET_DIALOG';
+export const TOGGLE_EDIT_TARGET_DIALOG = 'TOGGLE_EDIT_TARGET_DIALOG';
 
 export const ADD_TIME_TRIGGER_JOB = 'ADD_TIME_TRIGGER_JOB';
 export const UPDATE_TIME_TRIGGER_JOB = 'UPDATE_TIME_TRIGGER_JOB';
@@ -36,10 +37,18 @@ export function toggleKeysDialog (open) {
   };
 }
 
-export function toggleTargetDialog (open) {
+export function toggleNewTargetDialog (open) {
   return {
-    type: TOGGLE_TARGET_DIALOG,
+    type: TOGGLE_NEW_TARGET_DIALOG,
     open
+  };
+}
+
+export function toggleEditTargetDialog (open, target) {
+  return {
+    type: TOGGLE_EDIT_TARGET_DIALOG,
+    open,
+    target
   };
 }
 

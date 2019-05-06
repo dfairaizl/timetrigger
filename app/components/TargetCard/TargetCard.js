@@ -27,7 +27,7 @@ const styles = theme => ({
 });
 
 const TargetCard = (props) => {
-  const { target, classes } = props;
+  const { target, classes, editCard, deleteCard } = props;
 
   const [anchorElement, setAnchorElement] = useState(null);
   const [menuOpen, updateMenu] = useState(false);
@@ -43,11 +43,13 @@ const TargetCard = (props) => {
   };
 
   const editTarget = () => {
-
+    editCard(target);
+    handleClose();
   };
 
   const deleteTarget = () => {
-
+    deleteCard();
+    handleClose();
   };
 
   return (
@@ -59,7 +61,7 @@ const TargetCard = (props) => {
           </IconButton>
         }
         onClick={handleOpen}
-        title={target.name}
+        title={target.targetName}
         subheader='Created 5/1/2019'
       />
       <Menu
@@ -107,7 +109,9 @@ const TargetCard = (props) => {
 };
 
 TargetCard.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  editCard: PropTypes.func.isRequired,
+  deleteCard: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(TargetCard);

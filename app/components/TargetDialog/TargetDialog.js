@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -15,7 +15,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 
-import { toggleTargetDialog } from '../../state/actions';
+import { toggleNewTargetDialog, toggleEditTargetDialog } from '../../state/actions';
 import db from '../../services/db';
 
 const styles = theme => ({
@@ -25,8 +25,9 @@ const styles = theme => ({
   }
 });
 
-const TargetDialog = ({ classes, auth, targetDialogOpen, toggleDialog }) => {
+const TargetDialog = ({ classes, auth, targetDialogOpen, selectedTarget, toggleNewDialog, toggleEditDialog }) => {
   const { user } = auth;
+  const mode = selectedTarget ? 'edit' : 'new';
 
   const [currentState, updater] = useReducer((state, action) => {
     switch (action.type) {
@@ -41,15 +42,38 @@ const TargetDialog = ({ classes, auth, targetDialogOpen, toggleDialog }) => {
     }
   }, { targetName: '', endpoint: '', verificationMethod: 'static_file' });
 
+  useEffect(() => {
+    if (mode === 'edit') {
+      updater({ type: 'UPDATE_NAME', value: selectedTarget.targetName });
+      updater({ type: 'UPDATE_ENDPOINT', value: selectedTarget.endpoint });
+      updater({ type: 'UPDATE_VERIFICATION_METHOD', value: selectedTarget.verificationMethod });
+    } else {
+      updater({ type: 'UPDATE_NAME', value: '' });
+      updater({ type: 'UPDATE_ENDPOINT', value: '' });
+      updater({ type: 'UPDATE_VERIFICATION_METHOD', value: '' });
+    }
+  }, [mode]);
+
   const handleClose = () => {
-    toggleDialog(!targetDialogOpen);
+    if (mode === 'edit') {
+      toggleEditDialog(!targetDialogOpen, null);
+    } else {
+      toggleNewDialog(!targetDialogOpen);
+    }
   };
 
   const saveTarget = () => {
-    const ref = db.collection(`users/${user.uid}/targets`);
-    ref.add(currentState).then((doc) => {
-      handleClose();
-    }).catch((e) => console.error(e));
+    if (mode === 'edit') {
+      const ref = db.doc(`users/${user.uid}/targets/${selectedTarget.id}`);
+      ref.set(currentState, { merge: true }).then((doc) => {
+        handleClose();
+      }).catch((e) => console.error(e));
+    } else {
+      const ref = db.collection(`users/${user.uid}/targets`);
+      ref.add(currentState).then((doc) => {
+        handleClose();
+      }).catch((e) => console.error(e));
+    }
   };
 
   return (
@@ -57,7 +81,7 @@ const TargetDialog = ({ classes, auth, targetDialogOpen, toggleDialog }) => {
       open={targetDialogOpen}
       onClose={handleClose}
     >
-      <DialogTitle id='form-dialog-title'>New Target</DialogTitle>
+      <DialogTitle id='form-dialog-title'>{mode === 'new' ? 'New Target' : 'Edit Target'}</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Create a new target to execute time triggers against.
@@ -116,12 +140,16 @@ const TargetDialog = ({ classes, auth, targetDialogOpen, toggleDialog }) => {
 export default connect((state) => {
   return {
     auth: state.auth,
-    targetDialogOpen: state.ui.targetDialogOpen
+    targetDialogOpen: state.ui.targetDialogOpen,
+    selectedTarget: state.ui.selectedTarget
   };
 }, (dispatch) => {
   return {
-    toggleDialog (toggle) {
-      dispatch(toggleTargetDialog(toggle));
+    toggleNewDialog (toggle) {
+      dispatch(toggleNewTargetDialog(toggle));
+    },
+    toggleEditDialog (toggle) {
+      dispatch(toggleEditTargetDialog(toggle, null));
     }
   };
 })(withStyles(styles)(TargetDialog));

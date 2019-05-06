@@ -10,7 +10,10 @@ import TargetCard from '../components/TargetCard/TargetCard';
 
 import TargetDialog from '../components/TargetDialog/TargetDialog';
 
-import { toggleTargetDialog } from '../state/actions';
+import {
+  toggleNewTargetDialog,
+  toggleEditTargetDialog
+} from '../state/actions';
 
 const styles = theme => ({
   button: {
@@ -19,7 +22,7 @@ const styles = theme => ({
   }
 });
 
-function Targets ({ classes, targets, ui, toggleDialog }) {
+function Targets ({ classes, targets, ui, newTarget, editTarget }) {
   return (
     <div>
       <Grid container className={classes.root} spacing={16}>
@@ -28,7 +31,7 @@ function Targets ({ classes, targets, ui, toggleDialog }) {
             variant='outlined'
             color='primary'
             className={classes.button}
-            onClick={() => toggleDialog(!ui.targetDialogOpen)}>
+            onClick={() => newTarget(!ui.targetDialogOpen)}>
             New Stage
           </Button>
         </Grid>
@@ -37,7 +40,11 @@ function Targets ({ classes, targets, ui, toggleDialog }) {
         {targets.map((t) => {
           return (
             <Grid item xs={4} key={t.id}>
-              <TargetCard target={t} />
+              <TargetCard
+                target={t}
+                editCard={(target) => { editTarget(!ui.targetDialogOpen, target); }}
+                deleteCard={(target) => { toggleEditTargetDialog(!ui.targetDialogOpen, target); }}
+              />
             </Grid>
           );
         })}
@@ -55,8 +62,11 @@ export default connect((state) => {
   return { targets: state.targets, ui: state.ui };
 }, (dispatch) => {
   return {
-    toggleDialog (toggle) {
-      dispatch(toggleTargetDialog(toggle));
+    newTarget (toggle) {
+      dispatch(toggleNewTargetDialog(toggle));
+    },
+    editTarget (toggle, target) {
+      dispatch(toggleEditTargetDialog(toggle, target));
     }
   };
 })(withStyles(styles)(Targets));

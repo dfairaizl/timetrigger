@@ -49,12 +49,21 @@ export default function authReducer (state = initialState, action) {
           keysDialogOpen: action.open
         }
       };
-    case 'TOGGLE_TARGET_DIALOG':
+    case 'TOGGLE_NEW_TARGET_DIALOG':
       return {
         ...newState,
         ui: {
           ...newState.ui,
           targetDialogOpen: action.open
+        }
+      };
+    case 'TOGGLE_EDIT_TARGET_DIALOG':
+      return {
+        ...newState,
+        ui: {
+          ...newState.ui,
+          targetDialogOpen: action.open,
+          selectedTarget: action.target
         }
       };
     case 'ADD_TIME_TRIGGER_JOB':
