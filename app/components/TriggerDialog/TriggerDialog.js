@@ -24,7 +24,7 @@ const styles = theme => ({
   }
 });
 
-const TriggerDialog = ({ classes, triggerDialogOpen, onTriggerDialogClick }) => {
+const TriggerDialog = ({ classes, activeTargets, triggerDialogOpen, onTriggerDialogClick }) => {
   return (
     <Dialog
       open={triggerDialogOpen}
@@ -47,15 +47,15 @@ const TriggerDialog = ({ classes, triggerDialogOpen, onTriggerDialogClick }) => 
             <FormHelperText>Human readable dates are best. For example: "24 hours from now".</FormHelperText>
           </FormControl>
           <FormControl className={classes.formControl} fullWidth>
-            <InputLabel>Stage</InputLabel>
+            <InputLabel>Target</InputLabel>
             <Select
               onChange={() => {}}
-              inputProps={{
-                name: 'stage',
-                id: 'stage'
-              }}
+              inputProps={activeTargets.map((t) => ({
+                name: t.targetName,
+                id: t.id
+              }))}
             >
-              <MenuItem value={'stage1'}>Stage Name - http://localhost:8080/echo</MenuItem>
+              {activeTargets.map((t) => <MenuItem value={t.id}>{`${t.targetName} - ${t.endpoint}`}</MenuItem>)}
             </Select>
           </FormControl>
           <FormControl className={classes.formControl} fullWidth>
@@ -81,7 +81,10 @@ const TriggerDialog = ({ classes, triggerDialogOpen, onTriggerDialogClick }) => 
 };
 
 export default connect((state) => {
-  return { triggerDialogOpen: state.ui.triggerDialogOpen };
+  return {
+    triggerDialogOpen: state.ui.triggerDialogOpen,
+    activeTargets: state.targets.filter((t) => !t.active)
+  };
 }, (dispatch) => {
   return {
     onTriggerDialogClick (toggle) {

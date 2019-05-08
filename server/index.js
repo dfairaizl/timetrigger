@@ -6,6 +6,7 @@ const morgan = require('morgan');
 
 const parcelMiddleware = require('./middleware/parcel');
 const executeAPI = require('./api/v1/execute');
+const targetAPI = require('./api/v1/target');
 const triggerAPI = require('./api/v1/trigger');
 const userAPI = require('./api/v1/user');
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use(morgan('dev'));
 
 app.use('/api/v1/execute', executeAPI);
+app.use('/api/v1/target', targetAPI);
 app.use('/api/v1/trigger', triggerAPI);
 app.use('/api/v1/user', userAPI);
 

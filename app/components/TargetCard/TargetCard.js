@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -21,7 +22,7 @@ const styles = theme => ({
   },
   actions: {
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'space-between'
   },
   label: {
     marginRight: '10px'
@@ -29,7 +30,7 @@ const styles = theme => ({
 });
 
 const TargetCard = (props) => {
-  const { target, classes, editCard, deleteCard, toggleTarget } = props;
+  const { target, classes, editCard, deleteCard, verifyTarget, toggleTarget } = props;
 
   const [anchorElement, setAnchorElement] = useState(null);
   const [menuOpen, updateMenu] = useState(false);
@@ -94,8 +95,13 @@ const TargetCard = (props) => {
           <Typography variant='subtitle1' className={classes.label} paragraph inline><strong>Verification Method:</strong></Typography>
           <Typography variant='subtitle1' paragraph inline>{target.verificationMethod}</Typography>
         </div>
+        <div>
+          <Typography variant='subtitle1' className={classes.label} paragraph inline><strong>Verified:</strong></Typography>
+          <Typography variant='subtitle1' paragraph inline>{String(target.verified)}</Typography>
+        </div>
       </CardContent>
       <CardActions className={classes.actions}>
+        <Button onClick={() => verifyTarget(target)}>Verify Now</Button>
         <FormControlLabel
           control={
             <Switch

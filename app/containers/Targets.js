@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+import fetch from 'cross-fetch';
+
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
@@ -9,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import TargetCard from '../components/TargetCard/TargetCard';
 
 import TargetDialog from '../components/TargetDialog/TargetDialog';
+import { getIDToken } from '../services/auth';
 import db from '../services/db';
 
 import {
@@ -30,8 +33,23 @@ function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
     ref.delete().catch((e) => console.error(e));
   };
 
+  const verifyTarget = (target) => {
+    getIDToken().then((token) => {
+      return fetch(`http://localhost:8080/api/v1/target/verify?target=${target.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((res) => {
+        if (res.ok) {
+          console.log('Target verified');
+        }
+      }).catch((e) => {
+        console.error(e);
+      });
+    });
+  };
+
   const toggleTarget = (target) => {
-    debugger;
     const ref = db.doc(`users/${user.uid}/targets/${target.id}`);
     ref.set({ active: !target.active }, { merge: true }).catch((e) => {
       console.error(e);
@@ -59,6 +77,7 @@ function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
                 target={t}
                 editCard={(target) => { editTarget(!ui.targetDialogOpen, target); }}
                 deleteCard={(target) => { deleteTarget(target); }}
+                verifyTarget={(target) => { verifyTarget(target); }}
                 toggleTarget={(target) => { toggleTarget(target); }}
               />
             </Grid>

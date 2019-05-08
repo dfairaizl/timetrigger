@@ -23,6 +23,7 @@
     "firebase-admin": "^7.3.0",
     "joi": "^14.3.1",
     "material-table": "^1.32.0",
+    "material-ui-banner": "^1.2.1",
     "morgan": "^1.9.1",
     "nanoid": "^2.0.1",
     "node-fetch": "^2.3.0",
