@@ -13,9 +13,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import PersonIcon from '@material-ui/icons/Person';
+import CloudDone from '@material-ui/icons/CloudDone';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Logo from '../../assets/images/Logo.svg';
 
 const styles = theme => ({
@@ -76,6 +76,12 @@ const Nav = ({ classes, history, auth }) => {
               <ListItemText classes={{ primary: classes.primary }} inset primary='Account 'secondary={user.email} />
             </MenuItem>
             <Divider />
+            <MenuItem onClick={handleClose}>
+              <ListItemIcon className={classes.icon}>
+                <CloudDone />
+              </ListItemIcon>
+              <ListItemText classes={{ primary: classes.primary }} inset primary='Triggers' onClick={() => history.push('/')} />
+            </MenuItem>
             <MenuItem onClick={handleClose}>
               <ListItemIcon className={classes.icon}>
                 <DeviceHubIcon />
