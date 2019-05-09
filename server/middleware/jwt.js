@@ -6,7 +6,6 @@ function getBearerToken (token = '') {
 
 module.exports = function (req, res, next) {
   if (res.locals.user) {
-    console.log(res.locals.user);
     return next(); // auth was done via api key
   }
 
@@ -15,7 +14,6 @@ module.exports = function (req, res, next) {
   admin.auth().verifyIdToken(idToken)
     .then((token) => {
       res.locals.user = token;
-      console.log(res.locals.user);
       next();
     }).catch((error) => {
       console.error(error);

@@ -10,26 +10,24 @@ function getHost (target) {
 }
 
 function verifyTxt (records, verification) {
-  return records.find((r) => r.trim() === verification);
+  return records.find((r) => r[0].trim() === verification);
 }
 
 function verifyDNSTXT (target) {
-  const hostname = getHost(target);
+  const url = new URL(target.endpoint);
+  const hostname = url.hostname;
   const expectedVerification = `timetrigger-verify=${target.verificationCode}`;
 
-  console.log('DNS Verify for', hostname);
   return resolver.resolveTxt(hostname)
     .then((records) => {
-      return verifyTxt(records, expectedVerification);
+      return !!verifyTxt(records, expectedVerification);
     }).catch((e) => {
-      console.log('No TXT records found');
       return false;
     });
 }
 
 function verifyStaticFile (target) {
   const hostname = getHost(target);
-  console.log('hostname', hostname);
   return fetch(`${hostname}/timetrigger-verify.txt`, {
     headers: {
       'content-type': 'plain/text'

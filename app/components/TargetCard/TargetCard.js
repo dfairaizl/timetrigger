@@ -26,6 +26,14 @@ const styles = theme => ({
   },
   label: {
     marginRight: '10px'
+  },
+  textGroup: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
+  },
+  switch: {
+    marginLeft: 'auto'
   }
 });
 
@@ -53,6 +61,14 @@ const TargetCard = (props) => {
   const deleteTarget = () => {
     deleteCard(target);
     handleClose();
+  };
+
+  const renderVerifyButton = () => {
+    if (!target.verified) {
+      return (<Button onClick={() => verifyTarget(target)}>Verify Now</Button>);
+    }
+
+    return null;
   };
 
   const targetDate = `Created on ${dateformat(target.created_at.toDate().toString(), 'mm/dd/yyyy')}`;
@@ -87,22 +103,23 @@ const TargetCard = (props) => {
         <MenuItem onClick={deleteTarget}>Delete</MenuItem>
       </Menu>
       <CardContent>
-        <div>
+        <div className={classes.textGroup}>
           <Typography variant='subtitle1' className={classes.label} paragraph inline><strong>Endpoint:</strong></Typography>
           <Typography variant='subtitle1' paragraph inline>{target.endpoint}</Typography>
         </div>
-        <div>
+        <div className={classes.textGroup}>
           <Typography variant='subtitle1' className={classes.label} paragraph inline><strong>Verification Method:</strong></Typography>
           <Typography variant='subtitle1' paragraph inline>{target.verificationMethod}</Typography>
         </div>
-        <div>
+        <div className={classes.textGroup}>
           <Typography variant='subtitle1' className={classes.label} paragraph inline><strong>Verified:</strong></Typography>
           <Typography variant='subtitle1' paragraph inline>{String(target.verified)}</Typography>
         </div>
       </CardContent>
       <CardActions className={classes.actions}>
-        <Button onClick={() => verifyTarget(target)}>Verify Now</Button>
+        {renderVerifyButton()}
         <FormControlLabel
+          className={classes.switch}
           control={
             <Switch
               onChange={() => toggleTarget(target)}
