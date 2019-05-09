@@ -31,11 +31,27 @@ const theme = createMuiTheme({
     useNextVariants: true
   },
   palette: {
+    background: {
+      paper: '#FDFDFD',
+      default: '#FDFDFD'
+    },
     primary: {
-      main: '#EF476F'
+      light: '#ff4774',
+      main: '#FF1952',
+      dark: '#b21139',
+      contrastText: '#FDFDFD'
+    },
+    light: {
+      main: '#FDFDFD'
     },
     secondary: {
-      main: '#2D2D2D'
+      dark: '#201C37',
+      main: '#2E294F',
+      light: '#575372'
+    },
+    text: {
+      primary: '#2E2E2E',
+      secondary: '#454545'
     }
   }
 });

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -16,17 +16,14 @@ import PersonIcon from '@material-ui/icons/Person';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import grey from '@material-ui/core/colors/grey';
+import Logo from '../../assets/images/Logo.svg';
 
 const styles = theme => ({
   appBar: {
+    borderBottom: '1px solid #E6E6E6',
     position: 'relative'
   },
   logo: {
-    color: grey[50],
-    textDecoration: 'none'
-  },
-  title: {
     flexGrow: '1'
   }
 });
@@ -48,11 +45,9 @@ const Nav = ({ classes, history, auth }) => {
   };
 
   return (
-    <AppBar position='static' className={classes.appBar}>
+    <AppBar position='static' color='light' className={classes.appBar} elevation={0}>
       <Toolbar>
-        <Typography variant='h6' color='inherit' noWrap className={classes.title}>
-          <Link to='/' className={classes.logo}>Time Trigger</Link>
-        </Typography>
+        <Logo className={classes.logo} />
         <div>
           <IconButton
             color='inherit'
