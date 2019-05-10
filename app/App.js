@@ -15,7 +15,10 @@ const styles = theme => ({
   },
   container: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: theme.spacing.unit * 2,
+    width: '100%'
   },
   icon: {
     marginRight: theme.spacing.unit * 2
@@ -25,9 +28,9 @@ const styles = theme => ({
     padding: '20px 80px'
   },
   mark: {
-    marginBottom: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit,
-    marginTop: theme.spacing.unit * 2
+    // marginBottom: theme.spacing.unit * 2,
+    // marginRight: theme.spacing.unit,
+    // marginTop: theme.spacing.unit * 2
   },
   layout: {
     display: 'flex',
@@ -51,10 +54,15 @@ const App = (props) => {
         <AppBar position='static' color='secondary' className={classes.footer}>
           <Toolbar>
             <div className={classes.container}>
+              <div>
+                <Typography variant='body1' color='inherit' noWrap>
+                  Made with ❤️ in New York City
+                </Typography>
+                <Typography variant='caption' color='inherit' noWrap>
+                  Copyright © 2019 Time Trigger
+                </Typography>
+              </div>
               <Mark className={classes.mark} />
-              <Typography variant='caption' color='inherit' noWrap>
-                Copyright © 2019 Time Trigger
-              </Typography>
             </div>
           </Toolbar>
         </AppBar>
