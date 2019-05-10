@@ -43,7 +43,7 @@ router.post('/', d, apiKeyValidate, jwtValidate, validate(validation.trigger), (
       appEngineHttpRequest: {
         httpMethod: 'POST',
         relativeUri: '/api/v1/execute',
-        body: Buffer.from(JSON.stringify({ jobID: ref.id })),
+        body: Buffer.from(JSON.stringify({ jobID: ref.path })),
         headers: {
           'Content-Type': 'application/json'
         }

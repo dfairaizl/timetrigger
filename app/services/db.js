@@ -1,6 +1,5 @@
-import 'firebase/firestore';
-import app from '../backend';
+import firebase from 'firebase/app';
 
-const db = app.firestore();
-
-export default db;
+export default () => {
+  return firebase.firestore();
+}

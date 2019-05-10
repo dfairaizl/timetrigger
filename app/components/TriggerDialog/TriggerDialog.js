@@ -67,7 +67,6 @@ const TriggerDialog = (props) => {
     };
 
     createTrigger(triggerData).then((data) => {
-      debugger;
       onTriggerDialogClick(!triggerDialogOpen);
     });
   };

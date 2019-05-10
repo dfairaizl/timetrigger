@@ -27,8 +27,8 @@ export function observeAuthStatus () {
 
 export function observeTriggers (user) {
   return (dispatch) => {
-    const uid = auth.currentUser.uid;
-    const ref = db.collection(`users/${uid}/jobs`);
+    const uid = auth().currentUser.uid;
+    const ref = db().collection(`users/${uid}/jobs`);
 
     ref.onSnapshot((querySnapshot) => {
       querySnapshot.docChanges().forEach(change => {
@@ -50,8 +50,8 @@ export function observeTriggers (user) {
 
 export function observeAccount (users) {
   return (dispatch) => {
-    const uid = auth.currentUser.uid;
-    const ref = db.doc(`users/${uid}`);
+    const uid = auth().currentUser.uid;
+    const ref = db().doc(`users/${uid}`);
 
     ref.onSnapshot((snapshot) => {
       const account = snapshot.data();
@@ -62,8 +62,8 @@ export function observeAccount (users) {
 
 export function observeTargets (users) {
   return (dispatch) => {
-    const uid = auth.currentUser.uid;
-    const ref = db.collection(`users/${uid}/targets`);
+    const uid = auth().currentUser.uid;
+    const ref = db().collection(`users/${uid}/targets`);
 
     ref.onSnapshot((querySnapshot) => {
       querySnapshot.docChanges().forEach(change => {

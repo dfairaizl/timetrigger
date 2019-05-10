@@ -29,7 +29,7 @@ const styles = theme => ({
 function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
   const { user } = auth;
   const deleteTarget = (target) => {
-    const ref = db.doc(`users/${user.uid}/targets/${target.id}`);
+    const ref = db().doc(`users/${user.uid}/targets/${target.id}`);
     ref.delete().catch((e) => console.error(e));
   };
 
@@ -50,7 +50,7 @@ function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
   };
 
   const toggleTarget = (target) => {
-    const ref = db.doc(`users/${user.uid}/targets/${target.id}`);
+    const ref = db().doc(`users/${user.uid}/targets/${target.id}`);
     ref.set({ active: !target.active }, { merge: true }).catch((e) => {
       console.error(e);
     });

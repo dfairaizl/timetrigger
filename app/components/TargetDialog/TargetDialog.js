@@ -103,12 +103,12 @@ const TargetDialog = ({ classes, auth, targetDialogOpen, selectedTarget, toggleN
 
   const saveTarget = () => {
     if (mode === 'edit') {
-      const ref = db.doc(`users/${user.uid}/targets/${selectedTarget.id}`);
+      const ref = db().doc(`users/${user.uid}/targets/${selectedTarget.id}`);
       ref.set(currentState, { merge: true }).then((doc) => {
         handleClose();
       }).catch((e) => console.error(e));
     } else {
-      const ref = db.collection(`users/${user.uid}/targets`);
+      const ref = db().collection(`users/${user.uid}/targets`);
       ref.add({
         ...currentState,
         active: false,
