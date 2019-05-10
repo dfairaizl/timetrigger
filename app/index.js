@@ -41,9 +41,6 @@ const theme = createMuiTheme({
       dark: '#b21139',
       contrastText: '#FDFDFD'
     },
-    light: {
-      main: '#FDFDFD'
-    },
     secondary: {
       dark: '#201C37',
       main: '#2E294F',
@@ -52,6 +49,14 @@ const theme = createMuiTheme({
     text: {
       primary: '#2E2E2E',
       secondary: '#454545'
+    }
+  },
+  overrides: {
+    MuiAppBar: {
+      colorPrimary: {
+        backgroundColor: '#FDFDFD',
+        color: '#2E2E2E'
+      }
     }
   }
 });

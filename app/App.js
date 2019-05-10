@@ -48,7 +48,7 @@ const App = (props) => {
       <div className={classes.layout}>
         <Nav />
         <main className={classes.main}>{props.children}</main>
-        <AppBar position='static' className={classes.footer}>
+        <AppBar position='static' color='secondary' className={classes.footer}>
           <Toolbar>
             <div className={classes.container}>
               <Mark className={classes.mark} />

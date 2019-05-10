@@ -1,5 +1,6 @@
 const admin = require('firebase-admin');
 const cloudTasks = require('@google-cloud/tasks');
+const chrono = require('chrono-node');
 const express = require('express');
 const db = require('../../../lib/datastore');
 const apiKeyValidate = require('../../../middleware/api-key');
@@ -15,14 +16,22 @@ const parent = client.queuePath(
   process.env.APP_ENGINE_QUEUE
 );
 
-router.post('/', apiKeyValidate, jwtValidate, validate(validation.trigger), (req, res) => {
-  const taskInfo = req.body;
+const d = (req, res, next) => {
+  console.log(req.body);
+  next();
+};
 
-  const { trigger: triggerAt, run } = taskInfo;
+router.post('/', d, apiKeyValidate, jwtValidate, validate(validation.trigger), (req, res) => {
+  const taskInfo = req.body;
+  const user = res.locals.user;
+  const jobCollection = db.collection(`users/${user.uid}/jobs`);
+
+  const { trigger, run } = taskInfo;
+  const triggerAt = chrono.parseDate(trigger);
 
   console.log('Scheduling task to run at', triggerAt.toString());
 
-  db.collection('jobs').add({
+  jobCollection.add({
     trigger_at: admin.firestore.Timestamp.fromDate(triggerAt),
     user_account: res.locals.user.uid,
     status: 'scheduled',

@@ -45,7 +45,7 @@ const Nav = ({ classes, history, auth }) => {
   };
 
   return (
-    <AppBar position='static' color='light' className={classes.appBar} elevation={0}>
+    <AppBar position='static' className={classes.appBar} elevation={0}>
       <Toolbar>
         <Logo className={classes.logo} />
         <div>

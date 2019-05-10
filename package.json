@@ -22,13 +22,14 @@
     "firebase": "^5.9.4",
     "firebase-admin": "^7.3.0",
     "joi": "^14.3.1",
+    "jsoneditor": "^5.32.5",
     "material-table": "^1.32.0",
-    "material-ui-banner": "^1.2.1",
     "morgan": "^1.9.1",
     "nanoid": "^2.0.1",
     "node-fetch": "^2.3.0",
     "parcel": "^1.12.3",
     "parcel-bundler": "^1.12.3",
+    "parcel-plugin-bundle-visualiser": "^1.2.0",
     "proptypes": "^1.1.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -40,18 +41,9 @@
     "uuid": "^3.3.2"
   },
   "description": "",
-  "devDependencies": {
-    "parcel-plugin-bundle-visualiser": "^1.2.0",
-    "sass": "^1.18.0"
-  },
   "license": "ISC",
   "main": "src/index.js",
   "name": "timetrigger",
-  "sass": {
-    "includePaths": [
-      "./node_modules"
-    ]
-  },
   "scripts": {
     "build": "NODE_ENV=production parcel build app/index.html",
     "create-queue": "node -r dotenv/config scripts/create-queue.js",

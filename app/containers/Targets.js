@@ -65,7 +65,7 @@ function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
             color='primary'
             className={classes.button}
             onClick={() => newTarget(!ui.targetDialogOpen)}>
-            New Stage
+            New Target
           </Button>
         </Grid>
       </Grid>

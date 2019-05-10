@@ -27,7 +27,8 @@ export function observeAuthStatus () {
 
 export function observeTriggers (user) {
   return (dispatch) => {
-    const ref = db.collection('jobs');
+    const uid = auth.currentUser.uid;
+    const ref = db.collection(`users/${uid}/jobs`);
 
     ref.onSnapshot((querySnapshot) => {
       querySnapshot.docChanges().forEach(change => {
