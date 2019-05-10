@@ -14,7 +14,7 @@ export default function Editor ({ className, onChange, jsonPayload = {} }) {
         mainMenuBar: false,
         mode: 'code',
         navigationBar: false,
-        onChangeJSON: onChange,
+        onChangeText: onChange,
         search: false,
         statusBar: false
       });

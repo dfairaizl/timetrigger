@@ -105,7 +105,6 @@ const TriggerDialog = (props) => {
               }}
             >
               {activeTargets.map((t, i) => {
-                console.log(t);
                 return <MenuItem key={i} value={t.id}>{`${t.targetName} - ${t.endpoint}`}</MenuItem>;
               })}
             </Select>

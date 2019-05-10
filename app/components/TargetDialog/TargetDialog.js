@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import { connect } from 'react-redux';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 
 import fetch from 'cross-fetch';
 
@@ -119,8 +119,6 @@ const TargetDialog = ({ classes, auth, targetDialogOpen, selectedTarget, toggleN
       }).catch((e) => console.error(e));
     }
   };
-
-  console.log(currentState);
 
   return (
     <Dialog
