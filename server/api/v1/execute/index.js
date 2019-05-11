@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.post('/', (req, res) => {
   const jobID = req.body.jobID;
-  const docRef = db.collection('jobs').doc(jobID);
+  const userID = req.body.userID;
+
+  const docRef = db.doc(`users/${userID}/jobs/${jobID}`);
 
   docRef.get()
     .then((doc) => {
@@ -15,17 +17,21 @@ router.post('/', (req, res) => {
       const jobData = doc.data();
       docRef.update({ status: 'processing' });
 
-      return taskRunner(jobData.run);
+      return taskRunner(userID, jobData);
     }).then(() => {
       console.log(`Job ${jobID} - Complete`);
-      docRef.update({ status: 'complete' });
-      res.sendStatus(200);
+
+      return docRef.update({ status: 'complete' }).then(() => {
+        res.sendStatus(200);
+      });
     })
     .catch((error) => {
+      console.error(`Job ${jobID} - Failed`);
       console.error(error);
-      console.log(`Job ${jobID} - Failed`);
-      docRef.update({ status: 'failed' });
-      res.sendStatus(500);
+
+      docRef.update({ status: 'failed' }).then(() => {
+        res.sendStatus(500);
+      });
     });
 });
 

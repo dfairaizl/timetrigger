@@ -33,7 +33,6 @@ router.post('/', d, apiKeyValidate, jwtValidate, validate(validation.trigger), (
 
   jobCollection.add({
     trigger_at: admin.firestore.Timestamp.fromDate(triggerAt),
-    user_account: res.locals.user.uid,
     status: 'scheduled',
     run
   }).then((ref) => {
@@ -43,7 +42,10 @@ router.post('/', d, apiKeyValidate, jwtValidate, validate(validation.trigger), (
       appEngineHttpRequest: {
         httpMethod: 'POST',
         relativeUri: '/api/v1/execute',
-        body: Buffer.from(JSON.stringify({ jobID: ref.path })),
+        body: Buffer.from(JSON.stringify({
+          userID: user.uid,
+          jobID: ref.id
+        })),
         headers: {
           'Content-Type': 'application/json'
         }
