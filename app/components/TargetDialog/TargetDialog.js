@@ -75,7 +75,7 @@ const TargetDialog = ({ classes, auth, targetDialogOpen, selectedTarget, toggleN
 
     } else {
       getIDToken().then((token) => {
-        return fetch('http://localhost:8080/api/v1/target/code', {
+        return fetch(`${process.env.API_HOST}/api/v1/target/code`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`

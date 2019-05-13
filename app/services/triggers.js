@@ -3,7 +3,7 @@ import { getIDToken } from './auth';
 
 export function createTrigger (data) {
   return getIDToken().then((token) => {
-    return fetch('http://localhost:8080/api/v1/trigger', {
+    return fetch(`${process.env.API_HOST}/api/v1/trigger`, {
       body: JSON.stringify(data),
       headers: {
         Authorization: `Bearer ${token}`,

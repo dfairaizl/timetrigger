@@ -35,7 +35,7 @@ function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
 
   const verifyTarget = (target) => {
     getIDToken().then((token) => {
-      return fetch(`http://localhost:8080/api/v1/target/verify?target=${target.id}`, {
+      return fetch(`${process.env.API_HOST}/api/v1/target/verify?target=${target.id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

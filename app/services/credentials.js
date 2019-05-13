@@ -1,9 +1,11 @@
 import fetch from 'cross-fetch';
 import { getIDToken } from './auth';
 
+const KEYS_API = `${process.env.API_HOST}/api/v1/user/api-key`;
+
 export function fetchAPIKey (user) {
   return getIDToken().then((token) => {
-    return fetch('http://localhost:8080/api/v1/user/api-key', {
+    return fetch(KEYS_API, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -19,7 +21,7 @@ export function fetchAPIKey (user) {
 
 export function generateCredentails (user) {
   return getIDToken().then((token) => {
-    return fetch('http://localhost:8080/api/v1/user/api-key', {
+    return fetch(KEYS_API, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`
