@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import { Provider, connect } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -10,11 +10,11 @@ import reducer from './state';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-import App from './App';
+// import App from './App';
 import Main from './containers/Main';
 import Targets from './containers/Targets';
-// import SignIn from './components/SignIn/SignIn';
-import SignUp from './components/SignUp/SignUp';
+import SignIn from './containers/SignIn';
+import SignUp from './containers/SignUp';
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import * as firebase from 'firebase/app';
@@ -77,63 +77,64 @@ const theme = createMuiTheme({
   }
 });
 
-function NonAuthenticatedRoute ({ component: Component, auth, ...rest }) {
+// function AuthenticatedRoute ({ component: Component, auth, ...rest }) {
+//   console.log(auth.hasAuthStatus);
+//   return (
+//     <Route
+//       {...rest}
+//       render={(props) =>
+//         <App auth={auth}><Component {...props} /></App>
+//       }
+//     />
+//   );
+// }
+
+// const ConnectedRoute = connect((state) => {
+//   return { auth: state.auth };
+// })(AuthenticatedRoute);
+
+const AppRouter = (props) => {
   return (
-    <Route
-      {...rest}
-      render={(props) =>
-        !auth.isAuthenticated ? (
-          <App><Component {...props} /></App>
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/',
-              state: { from: props.location }
-            }}
-          />
-        )
-      }
-    />
+    <Router>
+      <Route exact path='/' component={Main} />
+      <Route exact path='/targets' component={Targets} />
+    </Router>
   );
-}
+};
 
-const ConnectedNonAuthenticatedRoute = connect((state) => {
-  return { auth: state.auth };
-})(NonAuthenticatedRoute);
-
-function AuthenticatedRoute ({ component: Component, auth, ...rest }) {
+const StandardRouter = (props) => {
   return (
-    <Route
-      {...rest}
-      render={(props) =>
-        auth.isAuthenticated ? (
-          <App><Component {...props} /></App>
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/sign-up',
-              state: { from: props.location }
-            }}
-          />
-        )
-      }
-    />
+    <Router>
+      <Route exact path='/' component={SignIn} />
+      <Route exact path='/sign-in' component={SignIn} />
+      <Route exact path='/sign-up' component={SignUp} />
+    </Router>
   );
-}
+};
 
-const ConnectedAuthenticatedRoute = connect((state) => {
+const MainRouter = ({ auth }) => {
+  return auth.user ? <AppRouter /> : <StandardRouter />;
+};
+
+const Loading = (props) => {
+  return (
+    <div>Loading...</div>
+  );
+};
+
+const Container = ({ auth }) => {
+  return auth.hasAuthStatus ? <MainRouter auth={auth} /> : <Loading />;
+};
+
+const ConnectedContainer = connect((state) => {
   return { auth: state.auth };
-})(AuthenticatedRoute);
+})(Container);
 
 const Root = () => {
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
-        <Router>
-          <ConnectedAuthenticatedRoute exact path='/' component={Main} />
-          <ConnectedAuthenticatedRoute path='/targets' component={Targets} />
-          <ConnectedNonAuthenticatedRoute path='/sign-up' component={SignUp} />
-        </Router>
+        <ConnectedContainer />
       </Provider>
     </MuiThemeProvider>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -42,15 +43,29 @@ const styles = theme => ({
   }
 });
 
+const Loading = () => {
+  return (
+    <div>Loading...</div>
+  );
+};
+
 const App = (props) => {
-  const { classes } = props;
+  const { classes, auth } = props;
+
+  const appConnected = auth.hasAuthStatus;
+
+  if (appConnected && !auth.user) {
+    return <Redirect to='sign-up' />;
+  }
 
   return (
     <div >
       <CssBaseline />
       <div className={classes.layout}>
         <Nav />
-        <main className={classes.main}>{props.children}</main>
+        <main className={classes.main}>
+          { appConnected ? props.children : <Loading />}
+        </main>
         <AppBar position='static' color='secondary' className={classes.footer}>
           <Toolbar>
             <div className={classes.container}>

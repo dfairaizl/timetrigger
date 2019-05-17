@@ -1,5 +1,7 @@
 const initialState = {
-  auth: {},
+  auth: {
+    hasAuthStatus: false
+  },
   credentials: {},
   account: {},
   timeJobs: [],
