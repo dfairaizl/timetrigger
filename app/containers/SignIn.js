@@ -12,7 +12,10 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
+import { signIn } from '../services/auth';
+
 import Logo from '../assets/images/Logo.svg';
+import GoogleLogo from '../assets/images/btn_google_light_normal_ios.svg';
 
 const styles = theme => ({
   button: {
@@ -56,6 +59,9 @@ const styles = theme => ({
     justifyContent: 'center',
     padding: '80px'
   },
+  provider: {
+    flex: 1
+  },
   sepBackground: {
     position: 'relative',
     zIndex: 1,
@@ -75,6 +81,10 @@ const styles = theme => ({
       zIndex: -1
     }
   },
+  signInButton: {
+    marginBottom: theme.spacing.unit,
+    marginTop: theme.spacing.unit * 2
+  },
   sepText: {
     display: 'inline',
     backgroundColor: 'white',
@@ -90,7 +100,36 @@ const SignIn = ({ classes }) => {
   const [password, updatePassword] = useState('');
 
   const [emailError, updateEmailError] = useState('');
-  const [passwordError, passwordEmailError] = useState('');
+  const [passwordError, updatePasswordError] = useState('');
+
+  const validateForm = () => {
+    if (!email.length) {
+      updateEmailError('Please enter a valid email address');
+      return false;
+    }
+
+    if (!password.length) {
+      updatePasswordError('Please enter a password');
+      return false;
+    }
+
+    return true;
+  };
+
+  const onSignIn = () => {
+    if (validateForm()) {
+      signIn(email, password).then(() => {
+
+      }).catch((err) => {
+        console.log(err);
+        if (err.code === 'auth/invalid-email') {
+          updateEmailError('Please enter a correctly formatted email address');
+        } else if (err.code === 'auth/user-not-found') {
+          updateEmailError('There is no account registered for this email address');
+        }
+      });
+    }
+  };
 
   return (
     <div>
@@ -102,25 +141,25 @@ const SignIn = ({ classes }) => {
             <CardContent className={classes.content}>
               <Typography variant='h5' align='center' className={classes.text}>Welcome Back</Typography>
               <form className={classes.root} autoComplete='off'>
-                <FormControl className={classes.formControl} fullWidth>
+                <FormControl className={classes.formControl} fullWidth error={emailError.length > 0}>
                   <TextField
                     autoFocus
                     fullWidth
                     id='email'
                     label='E-mail'
                     margin='dense'
-                    onChange={(e) => { updateEmail(e.target.value); }}
+                    onChange={(e) => { updateEmail(e.target.value); updateEmailError(''); }}
                     value={email}
                   />
                   <FormHelperText>{emailError}</FormHelperText>
                 </FormControl>
-                <FormControl className={classes.formControl} fullWidth>
+                <FormControl className={classes.formControl} fullWidth error={passwordError.length > 0}>
                   <TextField
                     fullWidth
                     id='password'
                     label='Password'
                     margin='dense'
-                    onChange={(e) => { updatePassword(e.target.value); }}
+                    onChange={(e) => { updatePassword(e.target.value); updatePasswordError(''); }}
                     value={password}
                     inputProps={{
                       type: 'password'
@@ -129,7 +168,15 @@ const SignIn = ({ classes }) => {
                   <FormHelperText>{passwordError}</FormHelperText>
                 </FormControl>
                 <FormControl className={classes.formControl} fullWidth>
-                  <Button size='large' variant='outlined' className={classes.button} color='secondary'>Sign In</Button>
+                  <Button
+                    size='large'
+                    variant='outlined'
+                    className={classes.signInButton}
+                    color='secondary'
+                    onClick={onSignIn}
+                  >
+                      Sign In
+                  </Button>
                   <Typography component='span' align='center' variant='body2'>
                     <Link className={classes.link} to='/forgot-password'>Forgot Password?</Link>
                   </Typography>
@@ -138,7 +185,7 @@ const SignIn = ({ classes }) => {
               <div className={classes.sepBackground}>
                 <Typography className={classes.sepText} align='center' variant='body2'>OR</Typography>
               </div>
-              <Button size='large' variant='outlined' className={classes.button} color='secondary'>Sign In With Google</Button>
+              <Button size='large' variant='outlined' className={classes.button} color='secondary'><GoogleLogo /><span className={classes.provider}>Sign In With Google</span></Button>
               <Typography align='center' variant='body2'>Don't have an account? <Link className={classes.link} to='/sign-up'>Create One</Link></Typography>
             </CardContent>
           </Card>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import { Provider, connect } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -77,27 +77,16 @@ const theme = createMuiTheme({
   }
 });
 
-// function AuthenticatedRoute ({ component: Component, auth, ...rest }) {
-//   console.log(auth.hasAuthStatus);
-//   return (
-//     <Route
-//       {...rest}
-//       render={(props) =>
-//         <App auth={auth}><Component {...props} /></App>
-//       }
-//     />
-//   );
-// }
-
-// const ConnectedRoute = connect((state) => {
-//   return { auth: state.auth };
-// })(AuthenticatedRoute);
+const MainRedirect = (props) => <Redirect exact to='/' />;
 
 const AppRouter = (props) => {
   return (
     <Router>
-      <Route exact path='/' component={Main} />
-      <Route exact path='/targets' component={Targets} />
+      <Switch>
+        <Route exact path='/' component={Main} />
+        <Route exact path='/targets' component={Targets} />
+        <Route component={MainRedirect} />
+      </Switch>
     </Router>
   );
 };
@@ -105,15 +94,17 @@ const AppRouter = (props) => {
 const StandardRouter = (props) => {
   return (
     <Router>
-      <Route exact path='/' component={SignIn} />
-      <Route exact path='/sign-in' component={SignIn} />
-      <Route exact path='/sign-up' component={SignUp} />
+      <Switch>
+        <Route exact path='/' component={SignIn} />
+        <Route exact path='/sign-in' component={SignIn} />
+        <Route exact path='/sign-up' component={SignUp} />
+      </Switch>
     </Router>
   );
 };
 
 const MainRouter = ({ auth }) => {
-  return auth.user ? <AppRouter /> : <StandardRouter />;
+  return auth.isAuthenticated ? <AppRouter /> : <StandardRouter />;
 };
 
 const Loading = (props) => {
