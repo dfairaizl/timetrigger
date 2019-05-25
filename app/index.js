@@ -10,7 +10,6 @@ import reducer from './state';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-// import App from './App';
 import Main from './containers/Main';
 import Targets from './containers/Targets';
 import SignIn from './containers/SignIn';

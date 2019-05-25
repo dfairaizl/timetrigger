@@ -8,8 +8,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
+import Container from '../Container';
 import TargetCard from '../components/TargetCard/TargetCard';
-
 import TargetDialog from '../components/TargetDialog/TargetDialog';
 import { getIDToken } from '../services/auth';
 import db from '../services/db';
@@ -57,7 +57,7 @@ function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
   };
 
   return (
-    <div>
+    <Container>
       <Grid container className={classes.root} spacing={16}>
         <Grid item xs={12}>
           <Button
@@ -85,7 +85,7 @@ function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
         })}
       </Grid>
       <TargetDialog />
-    </div>
+    </Container>
   );
 }
 
