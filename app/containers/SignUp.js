@@ -12,7 +12,10 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
+import { registerAccount } from '../services/auth';
+
 import Logo from '../assets/images/Logo.svg';
+import GoogleLogo from '../assets/images/btn_google_light_normal_ios.svg';
 
 const styles = theme => ({
   button: {
@@ -56,6 +59,9 @@ const styles = theme => ({
     justifyContent: 'center',
     padding: '80px'
   },
+  provider: {
+    flex: 1
+  },
   sepBackground: {
     position: 'relative',
     zIndex: 1,
@@ -75,6 +81,10 @@ const styles = theme => ({
       zIndex: -1
     }
   },
+  signUpButton: {
+    marginBottom: theme.spacing.unit,
+    marginTop: theme.spacing.unit * 2
+  },
   sepText: {
     display: 'inline',
     backgroundColor: 'white',
@@ -90,7 +100,41 @@ const SignIn = ({ classes }) => {
   const [password, updatePassword] = useState('');
 
   const [emailError, updateEmailError] = useState('');
-  const [passwordError, passwordEmailError] = useState('');
+  const [passwordError, updatePasswordError] = useState('');
+
+  const validateForm = () => {
+    if (!email.length) {
+      updateEmailError('Please enter a valid email address');
+      return false;
+    }
+
+    if (!password.length) {
+      updatePasswordError('Please enter a password');
+      return false;
+    }
+
+    return true;
+  };
+
+  const onSignUp = () => {
+    if (validateForm()) {
+      updateEmailError('');
+      updatePasswordError('');
+
+      registerAccount(email, password).catch((err) => {
+        console.log(err);
+        if (err.code === 'auth/invalid-email') {
+          updateEmailError('Please enter a correctly formatted email address');
+        } else if (err.code === 'auth/user-not-found') {
+          updateEmailError('There is no account registered for this email address');
+        } else if (err.code === 'auth/email-already-in-use') {
+          updateEmailError('An account with this email is already registered');
+        } else if (err.code === 'auth/weak-password') {
+          updatePasswordError('Password must be at least 6 characters');
+        }
+      });
+    }
+  };
 
   return (
     <div>
@@ -102,7 +146,7 @@ const SignIn = ({ classes }) => {
             <CardContent className={classes.content}>
               <Typography variant='h5' align='center' className={classes.text}>Hello There</Typography>
               <form className={classes.root} autoComplete='off'>
-                <FormControl className={classes.formControl} fullWidth>
+                <FormControl className={classes.formControl} fullWidth error={emailError.length > 0}>
                   <TextField
                     autoFocus
                     fullWidth
@@ -114,7 +158,7 @@ const SignIn = ({ classes }) => {
                   />
                   <FormHelperText>{emailError}</FormHelperText>
                 </FormControl>
-                <FormControl className={classes.formControl} fullWidth>
+                <FormControl className={classes.formControl} fullWidth error={passwordError.length > 0}>
                   <TextField
                     fullWidth
                     id='password'
@@ -129,14 +173,22 @@ const SignIn = ({ classes }) => {
                   <FormHelperText>{passwordError}</FormHelperText>
                 </FormControl>
                 <FormControl className={classes.formControl} fullWidth>
-                  <Button size='large' variant='outlined' className={classes.button} color='primary'>Sign Up</Button>
+                  <Button
+                    size='large'
+                    variant='outlined'
+                    className={classes.signUpButton}
+                    color='primary'
+                    onClick={onSignUp}
+                  >
+                      Sign Up
+                  </Button>
                   <Typography component='span' align='center' variant='body2'>Already have an acount? <Link to='/sign-in' className={classes.link}>Sign In</Link></Typography>
                 </FormControl>
               </form>
               <div className={classes.sepBackground}>
                 <Typography className={classes.sepText} align='center' variant='body2'>OR</Typography>
               </div>
-              <Button size='large' variant='outlined' className={classes.button} color='primary'>Sign In With Google</Button>
+              <Button size='large' variant='outlined' className={classes.button} color='secondary'><GoogleLogo /><span className={classes.provider}>Sign In With Google</span></Button>
             </CardContent>
           </Card>
         </main>

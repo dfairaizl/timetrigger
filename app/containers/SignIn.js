@@ -118,9 +118,7 @@ const SignIn = ({ classes }) => {
 
   const onSignIn = () => {
     if (validateForm()) {
-      signIn(email, password).then(() => {
-
-      }).catch((err) => {
+      signIn(email, password).catch((err) => {
         console.log(err);
         if (err.code === 'auth/invalid-email') {
           updateEmailError('Please enter a correctly formatted email address');

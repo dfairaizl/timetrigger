@@ -27,9 +27,14 @@ router.get('/api-key', jwtValidate, (req, res) => {
   const doc = db.collection('users').doc(user.uid);
 
   doc.get().then((snapshot) => {
-    res.json({
-      apiKey: snapshot.data().credentials.api_key
-    });
+    const data = snapshot.data();
+    if (data.credentials) {
+      return res.json({
+        apiKey: snapshot.data().credentials.api_key
+      });
+    }
+
+    return res.json({});
   }).catch((e) => {
     console.error(e);
     res.sendStatus(500);

@@ -14,6 +14,8 @@ import PersonIcon from '@material-ui/icons/Person';
 import CloudDone from '@material-ui/icons/CloudDone';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
+import { signOut } from '../../services/auth';
+
 const styles = {};
 
 const UserMenu = ({ classes, history, user }) => {
@@ -75,7 +77,7 @@ const UserMenu = ({ classes, history, user }) => {
           <ListItemIcon className={classes.icon}>
             <PowerSettingsNewIcon />
           </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary='Sign Out' />
+          <ListItemText classes={{ primary: classes.primary }} inset primary='Sign Out' onClick={() => signOut()} />
         </MenuItem>
       </Menu>
     </div>
