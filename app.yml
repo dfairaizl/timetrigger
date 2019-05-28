@@ -3,7 +3,7 @@ instance_class: f1
 automatic_scaling:
     max_instances: 1
 env_variables:
-  API_HOST: https://timetrigger-5a192.appspot.com
+  API_HOST: https://timetrigger.dev
   APP_ENGINE_QUEUE: timetrigger-queue
   LOCATION: us-central1
   NODE_ENV: production

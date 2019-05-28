@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+const fetch = require('cross-fetch');
 const db = require('./datastore');
 const verifyTarget = require('./target-verification');
 

@@ -1,6 +1,6 @@
 const { Resolver } = require('dns').promises;
 const { URL } = require('url');
-const fetch = require('node-fetch');
+const fetch = require('cross-fetch');
 
 const resolver = new Resolver();
 

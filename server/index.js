@@ -1,30 +1,32 @@
 require('dotenv').config();
 
+const { resolve } = require('path');
+
 const bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
 
 const parcelMiddleware = require('./middleware/parcel');
-const executeAPI = require('./api/v1/execute');
-const targetAPI = require('./api/v1/target');
-const triggerAPI = require('./api/v1/trigger');
-const userAPI = require('./api/v1/user');
+
+const apiRouter = require('./api');
 
 const app = express();
 
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 
-app.use('/api/v1/execute', executeAPI);
-app.use('/api/v1/target', targetAPI);
-app.use('/api/v1/trigger', triggerAPI);
-app.use('/api/v1/user', userAPI);
+// api router
+app.use('/api', apiRouter);
 
 if (process.env.NODE_ENV === 'development') {
   parcelMiddleware(app);
 } else if (process.env.NODE_ENV === 'production') {
   app.use(express.static('dist'));
 }
+
+app.get('*', (req, res) => {
+  res.sendFile(resolve(__dirname, '..', 'dist', 'index.html'));
+});
 
 app.use((err, req, res, next) => {
   console.error(err);
