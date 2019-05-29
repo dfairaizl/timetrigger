@@ -3,20 +3,26 @@ import { withRouter } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Divider from '@material-ui/core/Divider';
+import CloudDone from '@material-ui/icons/CloudDone';
 import DeviceHubIcon from '@material-ui/icons/DeviceHub';
 import IconButton from '@material-ui/core/IconButton';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import PersonIcon from '@material-ui/icons/Person';
-import CloudDone from '@material-ui/icons/CloudDone';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 
 import { signOut } from '../../services/auth';
 
-const styles = {};
+const styles = theme => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.paper
+  }
+});
 
 const UserMenu = ({ classes, history, user }) => {
   const [anchorElement, setAnchorElement] = useState(null);
@@ -54,31 +60,47 @@ const UserMenu = ({ classes, history, user }) => {
         open={menuOpen}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon className={classes.icon}>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary='Account 'secondary={user.email} />
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon className={classes.icon}>
-            <CloudDone />
-          </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary='Triggers' onClick={() => history.push('/')} />
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon className={classes.icon}>
-            <DeviceHubIcon />
-          </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary='API Targets' onClick={() => history.push('/targets')} />
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon className={classes.icon}>
-            <PowerSettingsNewIcon />
-          </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary='Sign Out' onClick={() => signOut()} />
-        </MenuItem>
+        <div className={classes.root}>
+          <List component='nav'>
+            <ListItem button>
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary='Account'
+                secondary={user.email}
+                onClick={() => history.push('/account')}
+              />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <CloudDone />
+              </ListItemIcon>
+              <ListItemText
+                primary='Triggers'
+                onClick={() => history.push('/triggers')}
+              />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <DeviceHubIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary='API Targets'
+                onClick={() => history.push('/targets')}
+              />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <PowerSettingsNewIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary='Sign Out'
+                onClick={() => signOut()}
+              />
+            </ListItem>
+          </List>
+        </div>
       </Menu>
     </div>
   );
