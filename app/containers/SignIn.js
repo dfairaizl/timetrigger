@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
@@ -25,9 +26,13 @@ const styles = theme => ({
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
-    flex: 1,
-    justifyContent: 'flex-start',
-    width: '420px'
+    justifyContent: 'flex-start'
+  },
+  container: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh'
   },
   content: {
     display: 'flex',
@@ -130,10 +135,10 @@ const SignIn = ({ classes }) => {
   };
 
   return (
-    <div>
+    <React.Fragment>
       <CssBaseline />
       <div className={classes.layout}>
-        <main className={classes.main}>
+        <Container className={classes.container} maxWidth='sm'>
           <Card className={classes.card}>
             <Logo className={classes.logo} />
             <CardContent className={classes.content}>
@@ -187,9 +192,9 @@ const SignIn = ({ classes }) => {
               <Typography align='center' variant='body2'>Don't have an account? <Link className={classes.link} to='/sign-up'>Create One</Link></Typography>
             </CardContent>
           </Card>
-        </main>
+        </Container>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
