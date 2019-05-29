@@ -188,7 +188,15 @@ const SignIn = ({ classes }) => {
               <div className={classes.sepBackground}>
                 <Typography className={classes.sepText} align='center' variant='body2'>OR</Typography>
               </div>
-              <Button size='large' variant='outlined' className={classes.button} color='secondary'><GoogleLogo /><span className={classes.provider}>Sign In With Google</span></Button>
+              <Button
+                size='large'
+                variant='outlined'
+                className={classes.button}
+                color='secondary'
+              >
+                <GoogleLogo />
+                <span className={classes.provider}>Sign In With Google</span>
+              </Button>
               <Typography align='center' variant='body2'>Don't have an account? <Link className={classes.link} to='/sign-up'>Create One</Link></Typography>
             </CardContent>
           </Card>
