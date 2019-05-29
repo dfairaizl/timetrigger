@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import firebase from 'firebase/app';
 
@@ -18,6 +19,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 import VerificationCard from '../VerificationCard/VerificationCard';
 
@@ -26,9 +28,6 @@ import { getIDToken } from '../../services/auth';
 import db from '../../services/db';
 
 const styles = theme => ({
-  modal: {
-    minWidth: '600px'
-  },
   formControl: {
     marginBottom: theme.spacing.unit,
     marginTop: theme.spacing.unit
@@ -38,7 +37,17 @@ const styles = theme => ({
   }
 });
 
-const TargetDialog = ({ classes, auth, targetDialogOpen, selectedTarget, toggleNewDialog, toggleEditDialog }) => {
+const TargetDialog = (props) => {
+  const {
+    classes,
+    auth,
+    fullScreen,
+    targetDialogOpen,
+    selectedTarget,
+    toggleNewDialog,
+    toggleEditDialog
+  } = props;
+
   const { user } = auth;
   const mode = selectedTarget ? 'edit' : 'new';
 
@@ -122,11 +131,14 @@ const TargetDialog = ({ classes, auth, targetDialogOpen, selectedTarget, toggleN
 
   return (
     <Dialog
+      fullScreen={fullScreen}
       open={targetDialogOpen}
       onClose={handleClose}
+      maxWidth='sm'
+      fullWidth
     >
       <DialogTitle id='form-dialog-title'>{mode === 'new' ? 'New Target' : 'Edit Target'}</DialogTitle>
-      <DialogContent className={classes.modal}>
+      <DialogContent>
         <DialogContentText>
           Create a new target to execute time triggers against.
         </DialogContentText>
@@ -186,19 +198,23 @@ const TargetDialog = ({ classes, auth, targetDialogOpen, selectedTarget, toggleN
   );
 };
 
-export default connect((state) => {
-  return {
-    auth: state.auth,
-    targetDialogOpen: state.ui.targetDialogOpen,
-    selectedTarget: state.ui.selectedTarget
-  };
-}, (dispatch) => {
-  return {
-    toggleNewDialog (toggle) {
-      dispatch(toggleNewTargetDialog(toggle));
-    },
-    toggleEditDialog (toggle) {
-      dispatch(toggleEditTargetDialog(toggle, null));
-    }
-  };
-})(withStyles(styles)(TargetDialog));
+export default compose(
+  connect((state) => {
+    return {
+      auth: state.auth,
+      targetDialogOpen: state.ui.targetDialogOpen,
+      selectedTarget: state.ui.selectedTarget
+    };
+  }, (dispatch) => {
+    return {
+      toggleNewDialog (toggle) {
+        dispatch(toggleNewTargetDialog(toggle));
+      },
+      toggleEditDialog (toggle) {
+        dispatch(toggleEditTargetDialog(toggle, null));
+      }
+    };
+  }),
+  withStyles(styles),
+  withMobileDialog({ breakpoint: 'xs' })
+)(TargetDialog);

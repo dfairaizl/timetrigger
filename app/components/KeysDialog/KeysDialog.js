@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import copy from 'clipboard-copy';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -17,6 +18,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 import { fetchAPIKey, generateCredentails } from '../../services/credentials';
 import { toggleKeysDialog } from '../../state/actions';
@@ -42,7 +44,7 @@ const styles = theme => ({
   }
 });
 
-const KeysDialog = ({ classes, auth, keysDialogOpen, toggleDialog }) => {
+const KeysDialog = ({ classes, auth, fullScreen, keysDialogOpen, toggleDialog }) => {
   const [apiKey, updateAPIKey] = useState('');
   const [secretKey, updateSecretKey] = useState('');
   const [loading, updateLoading] = useState(false);
@@ -71,8 +73,11 @@ const KeysDialog = ({ classes, auth, keysDialogOpen, toggleDialog }) => {
 
   return (
     <Dialog
+      fullScreen={fullScreen}
       open={keysDialogOpen}
       onClose={handleClose}
+      maxWidth='sm'
+      fullWidth
     >
       <DialogTitle id='form-dialog-title'>API Keys</DialogTitle>
       <DialogContent>
@@ -134,15 +139,19 @@ const KeysDialog = ({ classes, auth, keysDialogOpen, toggleDialog }) => {
   );
 };
 
-export default connect((state) => {
-  return {
-    auth: state.auth,
-    keysDialogOpen: state.ui.keysDialogOpen
-  };
-}, (dispatch) => {
-  return {
-    toggleDialog (toggle) {
-      dispatch(toggleKeysDialog(toggle));
-    }
-  };
-})(withStyles(styles)(KeysDialog));
+export default compose(
+  connect((state) => {
+    return {
+      auth: state.auth,
+      keysDialogOpen: state.ui.keysDialogOpen
+    };
+  }, (dispatch) => {
+    return {
+      toggleDialog (toggle) {
+        dispatch(toggleKeysDialog(toggle));
+      }
+    };
+  }),
+  withStyles(styles),
+  withMobileDialog({ breakpoint: 'xs' })
+)((KeysDialog));

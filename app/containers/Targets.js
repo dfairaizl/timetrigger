@@ -8,7 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
-import Container from '../Container';
+import Layout from '../Layout';
 import TargetCard from '../components/TargetCard/TargetCard';
 import TargetDialog from '../components/TargetDialog/TargetDialog';
 import { getIDToken } from '../services/auth';
@@ -57,8 +57,8 @@ function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
   };
 
   return (
-    <Container>
-      <Grid container className={classes.root} spacing={16}>
+    <Layout>
+      <Grid container className={classes.root} spacing={4}>
         <Grid item xs={12}>
           <Button
             variant='outlined'
@@ -69,10 +69,10 @@ function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
           </Button>
         </Grid>
       </Grid>
-      <Grid container className={classes.root} spacing={16}>
+      <Grid container className={classes.root} spacing={4}>
         {targets.map((t) => {
           return (
-            <Grid item xs={4} key={t.id}>
+            <Grid item xs={12} sm={6} lg={4} key={t.id}>
               <TargetCard
                 target={t}
                 editCard={(target) => { editTarget(!ui.targetDialogOpen, target); }}
@@ -85,7 +85,7 @@ function Targets ({ classes, auth, targets, ui, newTarget, editTarget }) {
         })}
       </Grid>
       <TargetDialog />
-    </Container>
+    </Layout>
   );
 }
 

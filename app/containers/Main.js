@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 
 import MaterialTable from 'material-table';
 
-import Container from '../Container';
+import Layout from '../Layout';
 import TriggerDialog from '../components/TriggerDialog/TriggerDialog';
 import KeysDialog from '../components/KeysDialog/KeysDialog';
 
@@ -34,7 +34,7 @@ function Main (props) {
   } = props;
 
   return (
-    <Container>
+    <Layout>
       <div className={classes.buttonGroup}>
         <Button
           variant='outlined'
@@ -67,7 +67,7 @@ function Main (props) {
       />
       <TriggerDialog />
       <KeysDialog />
-    </Container>
+    </Layout>
   );
 }
 

@@ -1,5 +1,6 @@
 import React, { useReducer } from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -15,6 +16,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 
 import { toggleTriggerDialog } from '../../state/actions';
 import { createTrigger } from '../../services/triggers';
@@ -37,7 +39,7 @@ const styles = theme => ({
 });
 
 const TriggerDialog = (props) => {
-  const { classes, activeTargets, triggerDialogOpen, onTriggerDialogClick } = props;
+  const { classes, activeTargets, fullScreen, triggerDialogOpen, onTriggerDialogClick } = props;
 
   const [currentState, updater] = useReducer((state, action) => {
     switch (action.type) {
@@ -73,8 +75,11 @@ const TriggerDialog = (props) => {
 
   return (
     <Dialog
+      fullScreen={fullScreen}
       open={triggerDialogOpen}
       onClose={() => onTriggerDialogClick(!triggerDialogOpen)}
+      maxWidth='sm'
+      fullWidth
     >
       <DialogTitle id='form-dialog-title'>New Trigger</DialogTitle>
       <DialogContent>
@@ -127,15 +132,19 @@ const TriggerDialog = (props) => {
   );
 };
 
-export default connect((state) => {
-  return {
-    triggerDialogOpen: state.ui.triggerDialogOpen,
-    activeTargets: state.targets.filter((t) => t.active)
-  };
-}, (dispatch) => {
-  return {
-    onTriggerDialogClick (toggle) {
-      dispatch(toggleTriggerDialog(toggle));
-    }
-  };
-})(withStyles(styles)(TriggerDialog));
+export default compose(
+  connect((state) => {
+    return {
+      triggerDialogOpen: state.ui.triggerDialogOpen,
+      activeTargets: state.targets.filter((t) => t.active)
+    };
+  }, (dispatch) => {
+    return {
+      onTriggerDialogClick (toggle) {
+        dispatch(toggleTriggerDialog(toggle));
+      }
+    };
+  }),
+  withStyles(styles),
+  withMobileDialog({ breakpoint: 'xs' })
+)(TriggerDialog);

@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
+import Container from '@material-ui/core/Container';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
@@ -19,35 +20,35 @@ const styles = theme => ({
     padding: theme.spacing.unit * 2,
     width: '100%'
   },
+  flex: {
+    flex: 1
+  },
   footer: {
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
+    marginTop: theme.spacing.unit * 2
   },
   layout: {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh'
-  },
-  main: {
-    flex: '1',
-    padding: '20px 80px'
   }
 });
 
-function Container (props) {
+function Layout (props) {
   const {
     classes,
     children
   } = props;
 
   return (
-    <div>
+    <React.Fragment>
       <CssBaseline />
       <div className={classes.layout}>
         <Nav />
-        <main className={classes.main}>
+        <Container className={classes.flex}>
           {children}
-        </main>
-        <AppBar position='static' color='secondary' className={classes.footer}>
+        </Container>
+        <AppBar component='footer' position='static' color='secondary' className={classes.footer}>
           <Toolbar>
             <div className={classes.container}>
               <div>
@@ -63,12 +64,12 @@ function Container (props) {
           </Toolbar>
         </AppBar>
       </div>
-    </div>
+    </React.Fragment>
   );
 }
 
-Container.propTypes = {
+Layout.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Container);
+export default withStyles(styles)(Layout);
