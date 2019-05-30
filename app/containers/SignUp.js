@@ -87,7 +87,7 @@ const styles = theme => ({
     }
   },
   signUpButton: {
-    marginBottom: theme.spacing(),
+    marginBottom: theme.spacing(2),
     marginTop: theme.spacing(2)
   },
   sepText: {

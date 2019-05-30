@@ -33,8 +33,8 @@ const styles = theme => ({
     marginTop: theme.spacing()
   },
   section: {
-    marginBottom: theme.spacing(),
-    marginTop: theme.spacing()
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(2)
   }
 });
 

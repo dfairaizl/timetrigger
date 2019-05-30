@@ -20,7 +20,7 @@ import GoogleLogo from '../assets/images/btn_google_light_normal_ios.svg';
 
 const styles = theme => ({
   button: {
-    marginBottom: theme.spacing()
+    marginBottom: theme.spacing(2)
   },
   card: {
     alignItems: 'center',
@@ -87,7 +87,7 @@ const styles = theme => ({
     }
   },
   signInButton: {
-    marginBottom: theme.spacing(),
+    marginBottom: theme.spacing(2),
     marginTop: theme.spacing(2)
   },
   sepText: {

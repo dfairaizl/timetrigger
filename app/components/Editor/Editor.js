@@ -20,6 +20,8 @@ export default function Editor ({ className, onChange, jsonPayload = {} }) {
       });
 
       editor.set(jsonPayload);
+
+      editor.aceEditor.setOption('showGutter', false);
     }
   }, []);
 
