@@ -32,14 +32,14 @@ const styles = theme => ({
     marginLeft: -12
   },
   formControl: {
-    marginBottom: theme.spacing.unit,
-    marginTop: theme.spacing.unit
+    marginBottom: theme.spacing(),
+    marginTop: theme.spacing()
   },
   text: {
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing(2)
   },
   wrapper: {
-    margin: theme.spacing.unit,
+    margin: theme.spacing(),
     position: 'relative'
   }
 });

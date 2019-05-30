@@ -20,7 +20,7 @@ import GoogleLogo from '../assets/images/btn_google_light_normal_ios.svg';
 
 const styles = theme => ({
   button: {
-    marginBottom: theme.spacing.unit
+    marginBottom: theme.spacing()
   },
   card: {
     alignItems: 'center',
@@ -40,8 +40,8 @@ const styles = theme => ({
     alignItems: 'stretch',
     justifyContent: 'space-evenly',
     flexDirection: 'column',
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
     width: '100%'
   },
   layout: {
@@ -70,8 +70,8 @@ const styles = theme => ({
   sepBackground: {
     position: 'relative',
     zIndex: 1,
-    marginTop: theme.spacing.unit * 3,
-    marginBottom: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3),
     textAlign: 'center',
     '&:before': {
       borderTop: `1px solid ${theme.palette.text.primary}`,
@@ -87,8 +87,8 @@ const styles = theme => ({
     }
   },
   signUpButton: {
-    marginBottom: theme.spacing.unit,
-    marginTop: theme.spacing.unit * 2
+    marginBottom: theme.spacing(),
+    marginTop: theme.spacing(2)
   },
   sepText: {
     display: 'inline',
@@ -96,7 +96,7 @@ const styles = theme => ({
     padding: '0 15px'
   },
   text: {
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing(2)
   }
 });
 

@@ -19,8 +19,8 @@ const styles = theme => ({
     justifyContent: 'space-between'
   },
   button: {
-    marginBottom: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 2
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(2)
   }
 });
 

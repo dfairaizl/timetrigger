@@ -17,7 +17,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     width: '100%'
   },
   flex: {
@@ -25,7 +25,7 @@ const styles = theme => ({
   },
   footer: {
     backgroundColor: theme.palette.secondary.main,
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing(2)
   },
   layout: {
     display: 'flex',

@@ -29,11 +29,11 @@ import db from '../../services/db';
 
 const styles = theme => ({
   formControl: {
-    marginBottom: theme.spacing.unit,
-    marginTop: theme.spacing.unit
+    marginBottom: theme.spacing(),
+    marginTop: theme.spacing()
   },
   section: {
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing()
   }
 });
 

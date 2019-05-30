@@ -19,7 +19,7 @@ import GoogleLogo from '../assets/images/btn_google_light_normal_ios.svg';
 
 const styles = theme => ({
   button: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
     alignSelf: 'flex-end',
     minWidth: '100px'
   },
@@ -28,26 +28,26 @@ const styles = theme => ({
     flexDirection: 'column'
   },
   formContainer: {
-    marginBottom: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 2,
-    paddingTop: theme.spacing.unit * 2
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(2),
+    paddingTop: theme.spacing(2)
   },
   heading: {
-    marginBottom: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 2
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(2)
   },
   subHeading: {
-    marginBottom: theme.spacing.unit,
-    marginTop: theme.spacing.unit * 6
+    marginBottom: theme.spacing(),
+    marginTop: theme.spacing(6)
   },
   provider: {
     flex: 1,
-    paddingLeft: theme.spacing.unit * 2
+    paddingLeft: theme.spacing(2)
   },
   providerButton: {
     alignSelf: 'center',
     minWidth: '320px',
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
     maxWidth: '420px'
   }
 });
