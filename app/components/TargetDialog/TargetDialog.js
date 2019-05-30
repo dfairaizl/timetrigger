@@ -14,7 +14,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
@@ -33,7 +32,7 @@ const styles = theme => ({
     marginTop: theme.spacing()
   },
   section: {
-    marginTop: theme.spacing()
+    marginTop: theme.spacing(2)
   }
 });
 
@@ -167,7 +166,6 @@ const TargetDialog = (props) => {
           </FormControl>
           <Typography variant='h6' className={classes.section}>Verification Method</Typography>
           <FormControl className={classes.formControl} fullWidth>
-            <InputLabel>Select Method</InputLabel>
             <Select
               onChange={(e) => updater({ type: 'UPDATE_VERIFICATION_METHOD', value: e.target.value })}
               value={currentState.verificationMethod}

@@ -65,7 +65,7 @@ const TargetCard = (props) => {
 
   const renderVerifyButton = () => {
     if (!target.verified) {
-      return (<Button onClick={() => verifyTarget(target)}>Verify Now</Button>);
+      return (<Button variant='outlined' onClick={() => verifyTarget(target)}>Verify Now</Button>);
     }
 
     return null;
@@ -104,16 +104,16 @@ const TargetCard = (props) => {
       </Menu>
       <CardContent>
         <div className={classes.textGroup}>
-          <Typography variant='subtitle1' className={classes.label} paragraph inline><strong>Endpoint:</strong></Typography>
-          <Typography variant='subtitle1' paragraph inline>{target.endpoint}</Typography>
+          <Typography variant='subtitle1' className={classes.label} paragraph display='inline'><strong>Endpoint:</strong></Typography>
+          <Typography variant='subtitle1' paragraph display='inline'>{target.endpoint}</Typography>
         </div>
         <div className={classes.textGroup}>
-          <Typography variant='subtitle1' className={classes.label} paragraph inline><strong>Verification Method:</strong></Typography>
-          <Typography variant='subtitle1' paragraph inline>{target.verificationMethod}</Typography>
+          <Typography variant='subtitle1' className={classes.label} paragraph display='inline'><strong>Verification Method:</strong></Typography>
+          <Typography variant='subtitle1' paragraph display='inline'>{target.verificationMethod}</Typography>
         </div>
         <div className={classes.textGroup}>
-          <Typography variant='subtitle1' className={classes.label} paragraph inline><strong>Verified:</strong></Typography>
-          <Typography variant='subtitle1' paragraph inline>{String(target.verified)}</Typography>
+          <Typography variant='subtitle1' className={classes.label} paragraph display='inline'><strong>Verified:</strong></Typography>
+          <Typography variant='subtitle1' paragraph display='inline'>{String(target.verified)}</Typography>
         </div>
       </CardContent>
       <CardActions className={classes.actions}>
