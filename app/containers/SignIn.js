@@ -129,6 +129,8 @@ const SignIn = ({ classes }) => {
           updateEmailError('Please enter a correctly formatted email address');
         } else if (err.code === 'auth/user-not-found') {
           updateEmailError('There is no account registered for this email address');
+        } else if (err.code === 'auth/wrong-password') {
+          updatePasswordError('Email or password is incorrect. Maybe you signed up with Google?');
         }
       });
     }
