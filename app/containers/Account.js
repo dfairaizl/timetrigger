@@ -147,7 +147,7 @@ function Account ({ classes, auth }) {
           <FormControl className={classes.formControl} fullWidth>
             <TextField
               fullWidth
-              id='password'
+              id='confirm-password'
               label='Re-type Password'
               margin='dense'
               inputProps={{
