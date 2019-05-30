@@ -31,6 +31,13 @@ export function authStatus (callback) {
   });
 }
 
+export function updateEmail (email) {
+  const auth = firebase.auth();
+  const user = auth.currentUser;
+
+  return user.updateEmail(email);
+}
+
 export default () => {
   return firebase.auth();
 };
