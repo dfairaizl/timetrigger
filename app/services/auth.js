@@ -38,6 +38,13 @@ export function updateEmail (email) {
   return user.updateEmail(email);
 }
 
+export function updatePassword (password) {
+  const auth = firebase.auth();
+  const user = auth.currentUser;
+
+  return user.updatePassword(password);
+}
+
 export default () => {
   return firebase.auth();
 };

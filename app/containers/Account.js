@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 
 import Layout from '../Layout';
 
-import { updateEmail } from '../services/auth';
+import { updateEmail, updatePassword } from '../services/auth';
 
 import GoogleLogo from '../assets/images/btn_google_light_normal_ios.svg';
 
@@ -72,6 +72,32 @@ function Account ({ classes, auth }) {
           updateEmailError(e.message);
         }
       });
+    } else {
+      updateEmailError('Please enter an email address');
+    }
+  };
+
+  const [password, updateFormPassword] = useState('');
+  const [passwordConfirm, updatePasswordConfirm] = useState('');
+  const [passwordError, updatePasswordError] = useState('');
+  const [passwordSaveState, updatePasswordSaveState] = useState('Save');
+
+  const updateAccountPassword = () => {
+    if (password.length && passwordConfirm.length && password === passwordConfirm) {
+      updatePassword(password).then(() => {
+        updatePasswordSaveState('Saved');
+        setTimeout(() => updatePasswordSaveState('Save'), 3000);
+      }).catch((e) => {
+        console.error(e);
+
+        if (e.code === 'auth/requires-recent-login') {
+          updatePasswordError('Your session has expired. Please sign out and back in to change password.');
+        } else if (e.code === 'auth/weak-password') {
+          updatePasswordError('Please use a strong password that is at least 6 characters');
+        }
+      });
+    } else {
+      updatePasswordError('Passwords entered do not match');
     }
   };
 
@@ -104,7 +130,7 @@ function Account ({ classes, auth }) {
         </form>
         <Typography variant='h5' className={classes.subHeading}>Change Password</Typography>
         <form className={classes.form} autoComplete='off'>
-          <FormControl className={classes.formControl} fullWidth>
+          <FormControl className={classes.formControl} fullWidth error={passwordError.length > 0}>
             <TextField
               fullWidth
               id='password'
@@ -113,7 +139,10 @@ function Account ({ classes, auth }) {
               inputProps={{
                 type: 'password'
               }}
+              onChange={(e) => { updateFormPassword(e.target.value); }}
+              value={password}
             />
+            <FormHelperText>{passwordError.length ? passwordError : '' }</FormHelperText>
           </FormControl>
           <FormControl className={classes.formControl} fullWidth>
             <TextField
@@ -124,6 +153,8 @@ function Account ({ classes, auth }) {
               inputProps={{
                 type: 'password'
               }}
+              onChange={(e) => { updatePasswordConfirm(e.target.value); }}
+              value={passwordConfirm}
             />
           </FormControl>
           <Button
@@ -131,8 +162,9 @@ function Account ({ classes, auth }) {
             variant='outlined'
             color='primary'
             className={classes.button}
+            onClick={updateAccountPassword}
           >
-            Save
+            {passwordSaveState}
           </Button>
         </form>
         <form className={classes.form}>
