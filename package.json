@@ -48,7 +48,7 @@
   "scripts": {
     "build": "NODE_ENV=production parcel build app/index.html",
     "create-queue": "node -r dotenv/config scripts/create-queue.js",
-    "deploy": "npm run build && gcloud app deploy app.yml",
+    "deploy": "npm run build && gcloud app deploy app.yml --quiet",
     "start": "node server/index.js"
   },
   "version": "1.0.0"
