@@ -44,6 +44,8 @@ export function observeTriggers (user) {
           dispatch(deleteTimeTrigger({ id: change.doc.id, ...change.doc.data() }));
         }
       });
+    }, (error) => {
+      console.error('subscriptions/observeTriggers error:', error);
     });
   };
 }
@@ -56,6 +58,8 @@ export function observeAccount (users) {
     ref.onSnapshot((snapshot) => {
       const account = snapshot.data();
       dispatch(updateAccount(account));
+    }, (error) => {
+      console.error('subscriptions/observeAccount error:', error);
     });
   };
 }
@@ -79,6 +83,8 @@ export function observeTargets (users) {
           dispatch(deleteTarget({ id: change.doc.id, ...change.doc.data() }));
         }
       });
+    }, (error) => {
+      console.error('subscriptions/observeTargets error:', error);
     });
   };
 }
