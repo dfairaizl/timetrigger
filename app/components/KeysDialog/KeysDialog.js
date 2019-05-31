@@ -32,7 +32,7 @@ const styles = theme => ({
     marginLeft: -12
   },
   formControl: {
-    marginBottom: theme.spacing(),
+    marginBottom: theme.spacing(2),
     marginTop: theme.spacing()
   },
   text: {

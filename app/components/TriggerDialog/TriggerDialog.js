@@ -29,12 +29,12 @@ const styles = theme => ({
     height: '200px'
   },
   formControl: {
-    marginBottom: theme.spacing(),
+    marginBottom: theme.spacing(2),
     marginTop: theme.spacing()
   },
   section: {
-    marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2)
+    marginBottom: theme.spacing(),
+    marginTop: theme.spacing()
   }
 });
 
