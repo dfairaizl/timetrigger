@@ -4,8 +4,13 @@ import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import red from '@material-ui/core/colors/red';
+import blue from '@material-ui/core/colors/blue';
+import green from '@material-ui/core/colors/green';
 
 import MaterialTable from 'material-table';
+
+import dateformat from 'dateformat';
 
 import Layout from '../Layout';
 import TriggerDialog from '../components/TriggerDialog/TriggerDialog';
@@ -21,6 +26,15 @@ const styles = theme => ({
   button: {
     marginBottom: theme.spacing(2),
     marginTop: theme.spacing(2)
+  },
+  jobSuccess: {
+    color: green[400]
+  },
+  jobScheduled: {
+    color: blue[400]
+  },
+  jobFailure: {
+    color: red[400]
   }
 });
 
@@ -32,6 +46,36 @@ function Main (props) {
     onTriggerDialogClick,
     onKeysDialogClick
   } = props;
+
+  const formatTriggerDate = (data) => {
+    const triggerDate = dateformat(data.trigger_at.toDate(), 'mm/dd/yyyy hh:ssTT');
+    return (
+      <p>{triggerDate}</p>
+    );
+  };
+
+  const formatType = (data) => {
+    const types = data.run.map((r) => {
+      switch (r.type) {
+        case 'api_callback':
+          return 'API Callback';
+      }
+    });
+
+    return (
+      <p>{types.join(', ')}</p>
+    );
+  };
+
+  const formatStatus = (data) => {
+    if (data.status === 'complete') {
+      return <p className={classes.jobSuccess}>Complete</p>;
+    } else if (data.status === 'failed') {
+      return <p className={classes.jobFailure}>Failed</p>;
+    } else {
+      return <p className={classes.jobScheduled}>Scheduled</p>;
+    }
+  };
 
   return (
     <Layout>
@@ -54,9 +98,9 @@ function Main (props) {
       </div>
       <MaterialTable
         columns={[
-          { title: 'Trigger Time', field: 'trigger_at', defaultSort: 'desc', render: (data) => <p>{data.trigger_at.toDate().toString()}</p> },
-          { title: 'Job Types', field: 'surname', render: (data) => <p>{data.run.map(j => j.type).join(', ')}</p> },
-          { title: 'Status', field: 'status' }
+          { title: 'Trigger Time', defaultSort: 'desc', render: formatTriggerDate },
+          { title: 'Job Type', render: formatType },
+          { title: 'Status', render: formatStatus }
         ]}
         data={currentState}
         title='Time Jobs'
