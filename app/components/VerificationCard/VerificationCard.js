@@ -31,7 +31,7 @@ function getHelperText (method) {
   if (method === 'dns_txt') {
     return 'Very your endpoint by adding the following text as a DNS TXT record to your domain.';
   } else if (method === 'static_file') {
-    return 'Very your endpoint by adding the following text to a file located at the root of your domain.';
+    return 'Very your endpoint by adding the following text to a file called timetrigger.txt located at the root of your domain.';
   }
 }
 

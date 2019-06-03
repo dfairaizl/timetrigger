@@ -48,7 +48,7 @@ function Main (props) {
   } = props;
 
   const formatTriggerDate = (data) => {
-    const triggerDate = dateformat(data.trigger_at.toDate(), 'mm/dd/yyyy hh:ssTT');
+    const triggerDate = dateformat(data.trigger_at.toDate(), 'mm/dd/yyyy hh:MM TT');
     return (
       <p>{triggerDate}</p>
     );
@@ -98,7 +98,7 @@ function Main (props) {
       </div>
       <MaterialTable
         columns={[
-          { title: 'Trigger Time', defaultSort: 'desc', render: formatTriggerDate },
+          { title: 'Trigger Time', field: 'trigger_at', defaultSort: 'desc', render: formatTriggerDate },
           { title: 'Job Type', render: formatType },
           { title: 'Status', render: formatStatus }
         ]}
