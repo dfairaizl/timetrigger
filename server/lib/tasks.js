@@ -15,14 +15,19 @@ function runHTTPtask (userID, task) {
   return fetchTarget(userID, task.target)
     .then(verify)
     .then((target) => {
-      return fetch(target.endpoint, { method: 'POST', data: task.payload })
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error('Target endpoint did not repsond with success');
-          }
+      return fetch(target.endpoint, {
+        body: task.payload,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        method: 'POST'
+      }).then((res) => {
+        if (!res.ok) {
+          throw new Error('Target endpoint did not repsond with success');
+        }
 
-          console.log('Success from remote host webhook');
-        });
+        console.log('Success from remote host webhook');
+      });
     });
 }
 
