@@ -32,16 +32,17 @@ export function observeTriggers (user) {
 
     ref.onSnapshot((querySnapshot) => {
       querySnapshot.docChanges().forEach(change => {
+        console.log('Running change');
         if (change.type === 'added') {
-          dispatch(addTimeTrigger({ id: change.doc.id, ...change.doc.data() }));
+          dispatch(addTimeTrigger({ id: change.doc.id, display: change.type, ...change.doc.data() }));
         }
 
         if (change.type === 'modified') {
-          dispatch(updateTimeTrigger({ id: change.doc.id, ...change.doc.data() }));
+          dispatch(updateTimeTrigger({ id: change.doc.id, display: change.type, ...change.doc.data() }));
         }
 
         if (change.type === 'removed') {
-          dispatch(deleteTimeTrigger({ id: change.doc.id, ...change.doc.data() }));
+          dispatch(deleteTimeTrigger({ id: change.doc.id, display: change.type, ...change.doc.data() }));
         }
       });
     }, (error) => {

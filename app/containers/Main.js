@@ -7,8 +7,16 @@ import Button from '@material-ui/core/Button';
 import red from '@material-ui/core/colors/red';
 import blue from '@material-ui/core/colors/blue';
 import green from '@material-ui/core/colors/green';
+import orange from '@material-ui/core/colors/orange';
 
-import MaterialTable from 'material-table';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
+// import MaterialTable from 'material-table';
 
 import dateformat from 'dateformat';
 
@@ -35,8 +43,119 @@ const styles = theme => ({
   },
   jobFailure: {
     color: red[400]
+  },
+  '@keyframes addFade': {
+    '0%': {
+      backgroundColor: green[100]
+    },
+    '100%': {
+      backgroundColor: 'white'
+    }
+  },
+  '@keyframes updateFade': {
+    '0%': {
+      backgroundColor: orange[100]
+    },
+    '100%': {
+      backgroundColor: 'white'
+    }
+  },
+  '@keyframes deleteFade': {
+    '0%': {
+      backgroundColor: red[100]
+    },
+    '100%': {
+      backgroundColor: 'white'
+    }
+  },
+  'addAnimation': {
+    animation: '$addFade 2s'
+  },
+  'updateAnimation': {
+    animation: '$updateFade 2s'
+  },
+  'deleteAnimation': {
+    animation: '$deleteFade 2s'
   }
 });
+
+class Row extends React.PureComponent {
+  constructor (props) {
+    super(props);
+
+    this.state = { enabledAnimations: false };
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (this.state.enabledAnimations === prevState.enabledAnimations) {
+      this.setState(() => ({ enabledAnimations: true }));
+
+      this.timer = setTimeout(() => {
+        this.setState(() => ({ enabledAnimations: false }), () => {
+          clearTimeout(this.timer);
+        });
+      }, 2000);
+    }
+  }
+
+  render () {
+    const { data, classes } = this.props;
+
+    let animationClass = '';
+    if (this.state.enabledAnimations) {
+      switch (data.display) {
+        case 'added':
+          animationClass = classes.addAnimation;
+          break;
+        case 'modified':
+          animationClass = classes.updateAnimation;
+          break;
+        case 'deleted':
+          animationClass = classes.deleteAnimation;
+          break;
+      }
+    }
+
+    const formatTriggerDate = (data) => {
+      const triggerDate = dateformat(data.trigger_at.toDate(), 'mm/dd/yyyy hh:MM:ss TT');
+      return (
+        <p>{triggerDate}</p>
+      );
+    };
+
+    const formatType = (data) => {
+      switch (data.run.type) {
+        case 'api_callback':
+          return <p>API Callback</p>;
+      }
+
+      return null;
+    };
+
+    const formatStatus = (data) => {
+      if (data.status === 'complete') {
+        return <p className={classes.jobSuccess}>Complete</p>;
+      } else if (data.status === 'failed') {
+        return <p className={classes.jobFailure}>Failed</p>;
+      } else {
+        return <p className={classes.jobScheduled}>Scheduled</p>;
+      }
+    };
+
+    console.log('Using classname', this.state.enabledAnimations, animationClass);
+    return (
+      <TableRow className={animationClass}>
+        <TableCell component='th' scope='data'>
+          {formatTriggerDate(data)}
+        </TableCell>
+        <TableCell align='center'>{formatType(data)}</TableCell>
+        <TableCell align='center'>{formatStatus(data)}</TableCell>
+      </TableRow>
+    );
+  }
+}
+
+const StyledRow = withStyles(styles)(Row);
 
 function Main (props) {
   const {
@@ -46,32 +165,6 @@ function Main (props) {
     onTriggerDialogClick,
     onKeysDialogClick
   } = props;
-
-  const formatTriggerDate = (data) => {
-    const triggerDate = dateformat(data.trigger_at.toDate(), 'mm/dd/yyyy hh:MM TT');
-    return (
-      <p>{triggerDate}</p>
-    );
-  };
-
-  const formatType = (data) => {
-    switch (data.run.type) {
-      case 'api_callback':
-        return <p>API Callback</p>;
-    }
-
-    return null;
-  };
-
-  const formatStatus = (data) => {
-    if (data.status === 'complete') {
-      return <p className={classes.jobSuccess}>Complete</p>;
-    } else if (data.status === 'failed') {
-      return <p className={classes.jobFailure}>Failed</p>;
-    } else {
-      return <p className={classes.jobScheduled}>Scheduled</p>;
-    }
-  };
 
   return (
     <Layout>
@@ -92,19 +185,22 @@ function Main (props) {
           API Keys
         </Button>
       </div>
-      <MaterialTable
-        columns={[
-          { title: 'Trigger Time', field: 'trigger_at', defaultSort: 'desc', render: formatTriggerDate },
-          { title: 'Job Type', render: formatType },
-          { title: 'Status', render: formatStatus }
-        ]}
-        data={currentState}
-        title='Time Jobs'
-        options={{
-          emptyRowsWhenPaging: false,
-          pageSize: 25
-        }}
-      />
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Trigger Time</TableCell>
+              <TableCell align='center'>Job Type</TableCell>
+              <TableCell align='center'>Status</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {currentState.map(row => (
+              <StyledRow key={row.id} data={row} />
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
       <TriggerDialog />
       <KeysDialog />
     </Layout>
