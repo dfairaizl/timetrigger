@@ -55,16 +55,12 @@ function Main (props) {
   };
 
   const formatType = (data) => {
-    const types = data.run.map((r) => {
-      switch (r.type) {
-        case 'api_callback':
-          return 'API Callback';
-      }
-    });
+    switch (data.run.type) {
+      case 'api_callback':
+        return <p>API Callback</p>;
+    }
 
-    return (
-      <p>{types.join(', ')}</p>
-    );
+    return null;
   };
 
   const formatStatus = (data) => {

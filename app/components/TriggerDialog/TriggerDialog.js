@@ -61,11 +61,11 @@ const TriggerDialog = (props) => {
   const onSaveClick = () => {
     const triggerData = {
       trigger: currentState.triggerTime,
-      run: [{
+      run: {
         type: 'api_callback',
         target: currentState.target,
         payload: currentState.payload
-      }]
+      }
     };
 
     createTrigger(triggerData).then((data) => {

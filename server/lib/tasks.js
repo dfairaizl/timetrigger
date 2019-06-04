@@ -33,16 +33,15 @@ function runHTTPtask (userID, task) {
 
 module.exports = function (userID, data) {
   return new Promise((resolve, reject) => {
-    const runningTasks = data.run.map((task) => {
-      console.log('Running task', task.type);
-      switch (task.type) {
-        case 'api_callback':
-          return runHTTPtask(userID, task).then(resolve).catch(reject);
-        default:
-          return reject(new Error(`No runner matching task ${task.type}`));
-      }
-    });
+    const task = data.run;
 
-    return Promise.all(runningTasks);
+    console.log('Running task', task.type);
+
+    switch (task.type) {
+      case 'api_callback':
+        return runHTTPtask(userID, task).then(resolve).catch(reject);
+      default:
+        return reject(new Error(`No runner matching task ${task.type}`));
+    }
   });
 };

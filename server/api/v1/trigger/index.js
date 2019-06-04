@@ -16,12 +16,7 @@ const parent = client.queuePath(
   process.env.APP_ENGINE_QUEUE
 );
 
-const d = (req, res, next) => {
-  console.log(req.body);
-  next();
-};
-
-router.post('/', d, apiKeyValidate, jwtValidate, validate(validation.trigger), (req, res) => {
+router.post('/', apiKeyValidate, jwtValidate, validate(validation.trigger), (req, res) => {
   const taskInfo = req.body;
   const user = res.locals.user;
   const jobCollection = db.collection(`users/${user.uid}/jobs`);
