@@ -18,10 +18,13 @@ router.post('/', (req, res) => {
       docRef.update({ status: 'processing' });
 
       return taskRunner(userID, jobData);
-    }).then(() => {
+    }).then((result) => {
       console.log(`Job ${jobID} - Complete`);
 
-      return docRef.update({ status: 'complete' }).then(() => {
+      return docRef.set({
+        status: result.status ? 'complete' : 'failed',
+        result
+      }, { merge: true }).then(() => {
         res.sendStatus(200);
       });
     })

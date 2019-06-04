@@ -22,11 +22,26 @@ function runHTTPtask (userID, task) {
         },
         method: 'POST'
       }).then((res) => {
-        if (!res.ok) {
-          throw new Error('Target endpoint did not repsond with success');
-        }
+        console.log('Response from remote host webhook');
 
-        console.log('Success from remote host webhook');
+        const contentType = res.headers.get('content-type');
+        if (contentType && contentType.indexOf('application/json') !== -1) {
+          return res.json().then(data => {
+            return {
+              body: data,
+              response: `${res.status} ${res.statusText}`,
+              status: res.ok
+            };
+          });
+        } else {
+          return res.text().then(text => {
+            return {
+              body: text,
+              response: `${res.status} ${res.statusText}`,
+              status: res.ok
+            };
+          });
+        }
       });
     });
 }
