@@ -10,11 +10,11 @@ import reducer from './state';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
-import Account from './containers/Account';
-import Main from './containers/Main';
-import Targets from './containers/Targets';
-import SignIn from './containers/SignIn';
-import SignUp from './containers/SignUp';
+import Account from './screens/Account';
+import Triggers from './screens/Triggers';
+import Targets from './screens/Targets';
+import SignIn from './screens/SignIn';
+import SignUp from './screens/SignUp';
 
 import {
   observeAuthStatus
@@ -61,16 +61,16 @@ const theme = createMuiTheme({
   }
 });
 
-const MainRedirect = (props) => <Redirect exact to='/' />;
+const TriggersRedirect = (props) => <Redirect exact to='/' />;
 
 const AppRouter = (props) => {
   return (
     <Router>
       <Switch>
-        <Route exact path='/' component={Main} />
+        <Route exact path='/' component={Triggers} />
         <Route exact path='/account' component={Account} />
         <Route exact path='/targets' component={Targets} />
-        <Route component={MainRedirect} />
+        <Route component={TriggersRedirect} />
       </Switch>
     </Router>
   );
@@ -83,6 +83,7 @@ const StandardRouter = (props) => {
         <Route exact path='/' component={SignIn} />
         <Route exact path='/sign-in' component={SignIn} />
         <Route exact path='/sign-up' component={SignUp} />
+        <Route component={SignIn} />
       </Switch>
     </Router>
   );

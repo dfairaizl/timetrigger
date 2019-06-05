@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -25,7 +25,7 @@ const Nav = ({ classes, history, auth }) => {
   return (
     <AppBar position='static' className={classes.appBar} elevation={0}>
       <Toolbar>
-        <Logo className={classes.logo} />
+        <Link to='/' className={classes.logo}><Logo /></Link>
         { auth.hasAuthStatus && user ? <Menu user={user} /> : null }
       </Toolbar>
     </AppBar>

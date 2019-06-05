@@ -9,12 +9,13 @@ import blue from '@material-ui/core/colors/blue';
 import green from '@material-ui/core/colors/green';
 import orange from '@material-ui/core/colors/orange';
 
+import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 
 // import MaterialTable from 'material-table';
 
@@ -43,6 +44,10 @@ const styles = theme => ({
   },
   jobFailure: {
     color: red[400]
+  },
+  heading: {
+    marginBottom: theme.spacing(2),
+    marginTop: theme.spacing(2)
   },
   '@keyframes addFade': {
     '0%': {
@@ -157,7 +162,7 @@ class Row extends React.PureComponent {
 
 const StyledRow = withStyles(styles)(Row);
 
-function Main (props) {
+function Triggers (props) {
   const {
     classes,
     currentState,
@@ -168,46 +173,48 @@ function Main (props) {
 
   return (
     <Layout>
-      <div className={classes.buttonGroup}>
-        <Button
-          variant='outlined'
-          color='primary'
-          className={classes.button}
-          onClick={() => onTriggerDialogClick(!ui.triggerDialogOpen)}>
-          New Trigger
-        </Button>
-        <Button
-          variant='outlined'
-          color='secondary'
-          className={classes.button}
-          onClick={() => onKeysDialogClick(!ui.keysDialogOpen)}
-        >
-          API Keys
-        </Button>
-      </div>
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Trigger Time</TableCell>
-              <TableCell align='center'>Job Type</TableCell>
-              <TableCell align='center'>Status</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {currentState.map(row => (
-              <StyledRow key={row.id} data={row} />
-            ))}
-          </TableBody>
-        </Table>
-      </Paper>
-      <TriggerDialog />
-      <KeysDialog />
+      <Container>
+        <div className={classes.buttonGroup}>
+          <Button
+            variant='outlined'
+            color='primary'
+            className={classes.button}
+            onClick={() => onTriggerDialogClick(!ui.triggerDialogOpen)}>
+            New Trigger
+          </Button>
+          <Button
+            variant='outlined'
+            color='secondary'
+            className={classes.button}
+            onClick={() => onKeysDialogClick(!ui.keysDialogOpen)}
+          >
+            API Keys
+          </Button>
+        </div>
+        <Paper className={classes.root}>
+          <Table className={classes.table}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Trigger Time</TableCell>
+                <TableCell align='center'>Job Type</TableCell>
+                <TableCell align='center'>Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {currentState.map(row => (
+                <StyledRow key={row.id} data={row} />
+              ))}
+            </TableBody>
+          </Table>
+        </Paper>
+        <TriggerDialog />
+        <KeysDialog />
+      </Container>
     </Layout>
   );
 }
 
-Main.propTypes = {
+Triggers.propTypes = {
   classes: PropTypes.object.isRequired,
   currentState: PropTypes.array.isRequired
 };
@@ -223,4 +230,4 @@ export default connect((state) => {
       dispatch(toggleKeysDialog(toggle));
     }
   };
-})(withStyles(styles)(Main));
+})(withStyles(styles)(Triggers));
