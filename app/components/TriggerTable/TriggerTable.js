@@ -15,6 +15,7 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import TriggerTableRow from '../TriggerTableRow/TriggerTableRow';
 
@@ -33,6 +34,8 @@ const useStyles = makeStyles(theme => ({
 function TablePaginationActions (props) {
   const classes = useStyles();
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
+
   const { count, page, rowsPerPage, onChangePage } = props;
 
   function handleFirstPageButtonClick (event) {
@@ -51,15 +54,37 @@ function TablePaginationActions (props) {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   }
 
+  const firstPageButton = () => {
+    if (!isMobile) {
+      return (
+        <IconButton
+          onClick={handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label='First Page'
+        >
+          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        </IconButton>
+      );
+    }
+  };
+
+  const lastPageButton = () => {
+    if (!isMobile) {
+      return (
+        <IconButton
+          onClick={handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label='Last Page'
+        >
+          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        </IconButton>
+      );
+    }
+  };
+
   return (
     <div className={classes.root}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label='First Page'
-      >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-      </IconButton>
+      {firstPageButton()}
       <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label='Previous Page'>
         {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
       </IconButton>
@@ -70,13 +95,7 @@ function TablePaginationActions (props) {
       >
         {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
       </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label='Last Page'
-      >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-      </IconButton>
+      {lastPageButton()}
     </div>
   );
 }
@@ -90,6 +109,9 @@ TablePaginationActions.propTypes = {
 
 function TriggerTable (props) {
   const { data } = props;
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('xs'));
 
   const [pageSize, setPageSize] = useState(10);
   const [dataPage, setDataPage] = useState([]);
@@ -110,19 +132,27 @@ function TriggerTable (props) {
     setPageSize(num);
   };
 
+  const renderHeader = () => {
+    return (
+      <React.Fragment>
+        <TableCell>Trigger Time</TableCell>
+        <TableCell align='center'>Job Type</TableCell>
+        <TableCell align='center'>Status</TableCell>
+      </React.Fragment>
+    );
+  };
+
   return (
     <Paper>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Trigger Time</TableCell>
-            <TableCell align='center'>Job Type</TableCell>
-            <TableCell align='center'>Status</TableCell>
+            { isMobile ? null : renderHeader()}
           </TableRow>
         </TableHead>
         <TableBody>
           {dataPage.map(row => (
-            <TriggerTableRow key={row.id} data={row} />
+            <TriggerTableRow key={row.id} data={row} isMobile={isMobile} />
           ))}
         </TableBody>
         <TableFooter>
@@ -130,6 +160,7 @@ function TriggerTable (props) {
             <TablePagination
               rowsPerPageOptions={[10, 25, 50]}
               colSpan={3}
+              labelRowsPerPage={'Display'}
               count={data.length}
               rowsPerPage={pageSize}
               page={page}
