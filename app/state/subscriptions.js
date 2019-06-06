@@ -28,11 +28,10 @@ export function observeAuthStatus () {
 export function observeTriggers (user) {
   return (dispatch) => {
     const uid = auth().currentUser.uid;
-    const ref = db().collection(`users/${uid}/jobs`);
+    const ref = db().collection(`users/${uid}/jobs`).orderBy('trigger_at', 'desc');
 
     ref.onSnapshot((querySnapshot) => {
       querySnapshot.docChanges().forEach(change => {
-        console.log('Running change');
         if (change.type === 'added') {
           dispatch(addTimeTrigger({ id: change.doc.id, display: change.type, ...change.doc.data() }));
         }

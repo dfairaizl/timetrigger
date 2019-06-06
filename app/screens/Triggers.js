@@ -58,7 +58,7 @@ function Triggers (props) {
             API Keys
           </Button>
         </div>
-        <TriggerTable data={currentState} />
+        <TriggerTable data={currentState} sortField='trigger_at' />
         <TriggerDialog />
         <KeysDialog />
       </Container>
