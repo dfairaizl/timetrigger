@@ -7,6 +7,7 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 
 import Mark from './assets/images/Mark.svg';
 
@@ -31,6 +32,11 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh'
+  },
+  love: {
+    color: theme.palette.primary.main,
+    width: '20px',
+    transform: 'translateY(5px)'
   }
 });
 
@@ -53,7 +59,7 @@ function Layout (props) {
             <div className={classes.container}>
               <div>
                 <Typography variant='body1' color='inherit' noWrap>
-                  Made with ❤️ in New York City
+                  Made with <FavoriteBorder className={classes.love} /> in New York City
                 </Typography>
                 <Typography variant='caption' color='inherit' noWrap>
                   Copyright © 2019 Time Trigger
