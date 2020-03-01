@@ -1,28 +1,28 @@
-import firebase from 'firebase/app';
+import firebase from "firebase/app";
 
-export function registerAccount (email, password) {
+export function registerAccount(email, password) {
   const auth = firebase.auth();
   return auth.createUserWithEmailAndPassword(email, password);
 }
 
-export function signIn (email, password) {
+export function signIn(email, password) {
   const auth = firebase.auth();
   return auth.signInWithEmailAndPassword(email, password);
 }
 
-export function signOut () {
+export function signOut() {
   const auth = firebase.auth();
   return auth.signOut();
 }
 
-export function getIDToken () {
+export function getIDToken() {
   const auth = firebase.auth();
   return auth.currentUser.getIdToken(true);
 }
 
-export function authStatus (callback) {
+export function authStatus(callback) {
   const auth = firebase.auth();
-  auth.onAuthStateChanged((user) => {
+  auth.onAuthStateChanged(user => {
     if (user) {
       callback(user);
     } else {
@@ -31,14 +31,14 @@ export function authStatus (callback) {
   });
 }
 
-export function updateEmail (email) {
+export function updateEmail(email) {
   const auth = firebase.auth();
   const user = auth.currentUser;
 
   return user.updateEmail(email);
 }
 
-export function updatePassword (password) {
+export function updatePassword(password) {
   const auth = firebase.auth();
   const user = auth.currentUser;
 

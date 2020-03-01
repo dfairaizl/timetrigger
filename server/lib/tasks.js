@@ -1,31 +1,30 @@
-const fetch = require('cross-fetch');
-const db = require('./datastore');
-const verifyTarget = require('./target-verification');
+const fetch = require("cross-fetch");
+const db = require("./datastore");
+const verifyTarget = require("./target-verification");
 
-function verify (target) {
-  return verifyTarget(target.data())
-    .then(() => target.data());
+function verify(target) {
+  return verifyTarget(target.data()).then(() => target.data());
 }
 
-function fetchTarget (userID, targetID) {
+function fetchTarget(userID, targetID) {
   return db.doc(`users/${userID}/targets/${targetID}`).get();
 }
 
-function runHTTPtask (userID, task) {
+function runHTTPtask(userID, task) {
   return fetchTarget(userID, task.target)
     .then(verify)
-    .then((target) => {
+    .then(target => {
       return fetch(target.endpoint, {
         body: task.payload,
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         },
-        method: 'POST'
-      }).then((res) => {
-        console.log('Response from remote host webhook');
+        method: "POST"
+      }).then(res => {
+        console.log("Response from remote host webhook");
 
-        const contentType = res.headers.get('content-type');
-        if (contentType && contentType.indexOf('application/json') !== -1) {
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
           return res.json().then(data => {
             return {
               body: data,
@@ -46,15 +45,17 @@ function runHTTPtask (userID, task) {
     });
 }
 
-module.exports = function (userID, data) {
+module.exports = function(userID, data) {
   return new Promise((resolve, reject) => {
     const task = data.run;
 
-    console.log('Running task', task.type);
+    console.log("Running task", task.type);
 
     switch (task.type) {
-      case 'api_callback':
-        return runHTTPtask(userID, task).then(resolve).catch(reject);
+      case "api_callback":
+        return runHTTPtask(userID, task)
+          .then(resolve)
+          .catch(reject);
       default:
         return reject(new Error(`No runner matching task ${task.type}`));
     }

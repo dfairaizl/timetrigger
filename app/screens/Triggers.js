@@ -1,23 +1,23 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 
-import Container from '@material-ui/core/Container';
+import Container from "@material-ui/core/Container";
 
-import Layout from '../Layout';
-import TriggerDialog from '../components/TriggerDialog/TriggerDialog';
-import KeysDialog from '../components/KeysDialog/KeysDialog';
-import TriggerTable from '../components/TriggerTable/TriggerTable';
+import Layout from "../Layout";
+import TriggerDialog from "../components/TriggerDialog/TriggerDialog";
+import KeysDialog from "../components/KeysDialog/KeysDialog";
+import TriggerTable from "../components/TriggerTable/TriggerTable";
 
-import { toggleTriggerDialog, toggleKeysDialog } from '../state/actions';
+import { toggleTriggerDialog, toggleKeysDialog } from "../state/actions";
 
 const styles = theme => ({
   buttonGroup: {
-    display: 'flex',
-    justifyContent: 'space-between'
+    display: "flex",
+    justifyContent: "space-between"
   },
   button: {
     marginBottom: theme.spacing(2),
@@ -29,7 +29,7 @@ const styles = theme => ({
   }
 });
 
-function Triggers (props) {
+function Triggers(props) {
   const {
     classes,
     currentState,
@@ -43,22 +43,23 @@ function Triggers (props) {
       <Container>
         <div className={classes.buttonGroup}>
           <Button
-            variant='outlined'
-            color='primary'
+            variant="outlined"
+            color="primary"
             className={classes.button}
-            onClick={() => onTriggerDialogClick(!ui.triggerDialogOpen)}>
+            onClick={() => onTriggerDialogClick(!ui.triggerDialogOpen)}
+          >
             New Trigger
           </Button>
           <Button
-            variant='outlined'
-            color='secondary'
+            variant="outlined"
+            color="secondary"
             className={classes.button}
             onClick={() => onKeysDialogClick(!ui.keysDialogOpen)}
           >
             API Keys
           </Button>
         </div>
-        <TriggerTable data={currentState} sortField='trigger_at' />
+        <TriggerTable data={currentState} sortField="trigger_at" />
         <TriggerDialog />
         <KeysDialog />
       </Container>
@@ -71,15 +72,18 @@ Triggers.propTypes = {
   currentState: PropTypes.array.isRequired
 };
 
-export default connect((state) => {
-  return { currentState: state.timeJobs, ui: state.ui };
-}, (dispatch) => {
-  return {
-    onTriggerDialogClick (toggle) {
-      dispatch(toggleTriggerDialog(toggle));
-    },
-    onKeysDialogClick (toggle) {
-      dispatch(toggleKeysDialog(toggle));
-    }
-  };
-})(withStyles(styles)(Triggers));
+export default connect(
+  state => {
+    return { currentState: state.timeJobs, ui: state.ui };
+  },
+  dispatch => {
+    return {
+      onTriggerDialogClick(toggle) {
+        dispatch(toggleTriggerDialog(toggle));
+      },
+      onKeysDialogClick(toggle) {
+        dispatch(toggleKeysDialog(toggle));
+      }
+    };
+  }
+)(withStyles(styles)(Triggers));

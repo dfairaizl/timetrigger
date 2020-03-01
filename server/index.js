@@ -1,31 +1,31 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const { resolve } = require('path');
+const { resolve } = require("path");
 
-const bodyParser = require('body-parser');
-const express = require('express');
-const morgan = require('morgan');
+const bodyParser = require("body-parser");
+const express = require("express");
+const morgan = require("morgan");
 
-const parcelMiddleware = require('./middleware/parcel');
+const parcelMiddleware = require("./middleware/parcel");
 
-const apiRouter = require('./api');
+const apiRouter = require("./api");
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 
 // api router
-app.use('/api', apiRouter);
+app.use("/api", apiRouter);
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   parcelMiddleware(app);
-} else if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('dist'));
+} else if (process.env.NODE_ENV === "production") {
+  app.use(express.static("dist"));
 }
 
-app.get('*', (req, res) => {
-  res.sendFile(resolve(__dirname, '..', 'dist', 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(resolve(__dirname, "..", "dist", "index.html"));
 });
 
 app.use((err, req, res, next) => {

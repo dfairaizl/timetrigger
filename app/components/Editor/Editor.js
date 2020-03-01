@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
-import JSONEditor from 'jsoneditor';
-import 'jsoneditor/dist/jsoneditor.min.css';
-import './Editor.css';
+import JSONEditor from "jsoneditor";
+import "jsoneditor/dist/jsoneditor.min.css";
+import "./Editor.css";
 
-export default function Editor ({ className, onChange, jsonPayload = {} }) {
+export default function Editor({ className, onChange, jsonPayload = {} }) {
   let editor = null;
   const el = useRef(null);
 
@@ -12,7 +12,7 @@ export default function Editor ({ className, onChange, jsonPayload = {} }) {
     if (el.current) {
       editor = new JSONEditor(el.current, {
         mainMenuBar: false,
-        mode: 'code',
+        mode: "code",
         navigationBar: false,
         onChangeText: onChange,
         search: false,
@@ -21,11 +21,9 @@ export default function Editor ({ className, onChange, jsonPayload = {} }) {
 
       editor.set(jsonPayload);
 
-      editor.aceEditor.setOption('showGutter', false);
+      editor.aceEditor.setOption("showGutter", false);
     }
   }, []);
 
-  return (
-    <div className={className} ref={el} />
-  );
+  return <div className={className} ref={el} />;
 }

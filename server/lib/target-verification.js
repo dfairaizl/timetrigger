@@ -1,63 +1,67 @@
-const { Resolver } = require('dns').promises;
-const { URL } = require('url');
-const fetch = require('cross-fetch');
+const { Resolver } = require("dns").promises;
+const { URL } = require("url");
+const fetch = require("cross-fetch");
 
 const resolver = new Resolver();
 
-function getHost (target) {
+function getHost(target) {
   const url = new URL(target.endpoint);
   return `${url.protocol}//${url.hostname}`;
 }
 
-function verifyTxt (records, verification) {
-  return records.find((r) => r[0].trim() === verification);
+function verifyTxt(records, verification) {
+  return records.find(r => r[0].trim() === verification);
 }
 
-function verifyDNSTXT (target) {
+function verifyDNSTXT(target) {
   const url = new URL(target.endpoint);
   const hostname = url.hostname;
   const expectedVerification = `timetrigger-verify=${target.verificationCode}`;
 
-  return resolver.resolveTxt(hostname)
-    .then((records) => {
+  return resolver
+    .resolveTxt(hostname)
+    .then(records => {
       return !!verifyTxt(records, expectedVerification);
-    }).catch((e) => {
+    })
+    .catch(e => {
       return false;
     });
 }
 
-function verifyStaticFile (target) {
+function verifyStaticFile(target) {
   const hostname = getHost(target);
   return fetch(`${hostname}/timetrigger-verify.txt`, {
     headers: {
-      'content-type': 'plain/text'
+      "content-type": "plain/text"
     }
-  }).then((res) => {
-    if (res.ok) {
-      return res.text();
-    }
-  }).then((data) => {
-    if (!data) {
-      throw new Error('No verification file found on host');
-    }
+  })
+    .then(res => {
+      if (res.ok) {
+        return res.text();
+      }
+    })
+    .then(data => {
+      if (!data) {
+        throw new Error("No verification file found on host");
+      }
 
-    const expectedVerification = `timetrigger-verify=${target.verificationCode}`;
+      const expectedVerification = `timetrigger-verify=${target.verificationCode}`;
 
-    if (data.trim() === expectedVerification) {
-      return true;
-    }
+      if (data.trim() === expectedVerification) {
+        return true;
+      }
 
-    return false;
-  });
+      return false;
+    });
 }
 
-module.exports = function verifyTarget (target) {
+module.exports = function verifyTarget(target) {
   switch (target.verificationMethod) {
-    case 'dns_txt':
+    case "dns_txt":
       return verifyDNSTXT(target);
-    case 'static_file':
+    case "static_file":
       return verifyStaticFile(target);
     default:
-      return Promise.reject(new Error('Unknown verification method'));
+      return Promise.reject(new Error("Unknown verification method"));
   }
 };

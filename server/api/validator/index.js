@@ -1,3 +1,3 @@
-const customJoi = require('./chrono');
+const customJoi = require("./chrono");
 
 module.exports = customJoi;

@@ -1,54 +1,61 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import IconButton from '@material-ui/core/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Typography from '@material-ui/core/Typography';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import IconButton from "@material-ui/core/IconButton";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Typography from "@material-ui/core/Typography";
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import dateformat from 'dateformat';
+import dateformat from "dateformat";
 
 const styles = theme => ({
   card: {
     maxWidth: 400
   },
   actions: {
-    display: 'flex',
-    justifyContent: 'space-between'
+    display: "flex",
+    justifyContent: "space-between"
   },
   label: {
-    marginRight: '10px'
+    marginRight: "10px"
   },
   textGroup: {
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap'
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+    whiteSpace: "nowrap"
   },
   switch: {
-    marginLeft: 'auto'
+    marginLeft: "auto"
   }
 });
 
-const TargetCard = (props) => {
-  const { target, classes, editCard, deleteCard, verifyTarget, toggleTarget } = props;
+const TargetCard = props => {
+  const {
+    target,
+    classes,
+    editCard,
+    deleteCard,
+    verifyTarget,
+    toggleTarget
+  } = props;
 
   const [anchorElement, setAnchorElement] = useState(null);
   const [menuOpen, updateMenu] = useState(false);
 
-  const handleOpen = (event) => {
+  const handleOpen = event => {
     setAnchorElement(event.currentTarget);
     updateMenu(true);
   };
 
-  const handleClose = (event) => {
+  const handleClose = event => {
     setAnchorElement(null);
     updateMenu(false);
   };
@@ -65,13 +72,20 @@ const TargetCard = (props) => {
 
   const renderVerifyButton = () => {
     if (!target.verified) {
-      return (<Button variant='outlined' onClick={() => verifyTarget(target)}>Verify Now</Button>);
+      return (
+        <Button variant="outlined" onClick={() => verifyTarget(target)}>
+          Verify Now
+        </Button>
+      );
     }
 
     return null;
   };
 
-  const targetDate = `Created on ${dateformat(target.created_at.toDate().toString(), 'mm/dd/yyyy')}`;
+  const targetDate = `Created on ${dateformat(
+    target.created_at.toDate().toString(),
+    "mm/dd/yyyy"
+  )}`;
 
   return (
     <Card className={classes.card}>
@@ -86,15 +100,15 @@ const TargetCard = (props) => {
         subheader={targetDate}
       />
       <Menu
-        id='menu-appbar'
+        id="menu-appbar"
         anchorEl={anchorElement}
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
+          vertical: "top",
+          horizontal: "right"
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
+          vertical: "top",
+          horizontal: "right"
         }}
         open={menuOpen}
         onClose={handleClose}
@@ -104,16 +118,43 @@ const TargetCard = (props) => {
       </Menu>
       <CardContent>
         <div className={classes.textGroup}>
-          <Typography variant='subtitle1' className={classes.label} paragraph display='inline'><strong>Endpoint:</strong></Typography>
-          <Typography variant='subtitle1' paragraph display='inline'>{target.endpoint}</Typography>
+          <Typography
+            variant="subtitle1"
+            className={classes.label}
+            paragraph
+            display="inline"
+          >
+            <strong>Endpoint:</strong>
+          </Typography>
+          <Typography variant="subtitle1" paragraph display="inline">
+            {target.endpoint}
+          </Typography>
         </div>
         <div className={classes.textGroup}>
-          <Typography variant='subtitle1' className={classes.label} paragraph display='inline'><strong>Verification Method:</strong></Typography>
-          <Typography variant='subtitle1' paragraph display='inline'>{target.verificationMethod}</Typography>
+          <Typography
+            variant="subtitle1"
+            className={classes.label}
+            paragraph
+            display="inline"
+          >
+            <strong>Verification Method:</strong>
+          </Typography>
+          <Typography variant="subtitle1" paragraph display="inline">
+            {target.verificationMethod}
+          </Typography>
         </div>
         <div className={classes.textGroup}>
-          <Typography variant='subtitle1' className={classes.label} paragraph display='inline'><strong>Verified:</strong></Typography>
-          <Typography variant='subtitle1' paragraph display='inline'>{String(target.verified)}</Typography>
+          <Typography
+            variant="subtitle1"
+            className={classes.label}
+            paragraph
+            display="inline"
+          >
+            <strong>Verified:</strong>
+          </Typography>
+          <Typography variant="subtitle1" paragraph display="inline">
+            {String(target.verified)}
+          </Typography>
         </div>
       </CardContent>
       <CardActions className={classes.actions}>
@@ -124,10 +165,10 @@ const TargetCard = (props) => {
             <Switch
               onChange={() => toggleTarget(target)}
               checked={target.active}
-              color='primary'
+              color="primary"
             />
           }
-          label='Active'
+          label="Active"
         />
       </CardActions>
     </Card>
