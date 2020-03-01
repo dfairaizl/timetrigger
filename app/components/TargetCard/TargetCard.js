@@ -82,10 +82,10 @@ const TargetCard = props => {
     return null;
   };
 
-  const targetDate = `Created on ${dateformat(
+  const targetDate = dateformat(
     target.created_at.toDate().toString(),
     "mm/dd/yyyy"
-  )}`;
+  );
 
   return (
     <Card className={classes.card}>
@@ -97,7 +97,7 @@ const TargetCard = props => {
         }
         onClick={handleOpen}
         title={target.targetName}
-        subheader={targetDate}
+        subheader={target.id}
       />
       <Menu
         id="menu-appbar"
@@ -154,6 +154,19 @@ const TargetCard = props => {
           </Typography>
           <Typography variant="subtitle1" paragraph display="inline">
             {String(target.verified)}
+          </Typography>
+        </div>
+        <div className={classes.textGroup}>
+          <Typography
+            variant="subtitle1"
+            className={classes.label}
+            paragraph
+            display="inline"
+          >
+            <strong>Created On:</strong>
+          </Typography>
+          <Typography variant="subtitle1" paragraph display="inline">
+            {targetDate}
           </Typography>
         </div>
       </CardContent>

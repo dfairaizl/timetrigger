@@ -15,6 +15,9 @@ const styles = theme => ({
     borderStyle: "solid",
     boxShadow: "none"
   },
+  highlight: {
+    color: theme.palette.primary.light
+  },
   verifyText: {
     marginBottom: "0px"
   },
@@ -27,11 +30,17 @@ const styles = theme => ({
   }
 });
 
-function getHelperText(method) {
+function getHelperText(method, classes) {
   if (method === "dns_txt") {
-    return "Very your endpoint by adding the following text as a DNS TXT record to your domain.";
+    return "Verify your endpoint by adding the following text as a DNS TXT record to your domain.";
   } else if (method === "static_file") {
-    return "Very your endpoint by adding the following text to a file called timetrigger.txt located at the root of your domain.";
+    return (
+      <span>
+        Verify your endpoint by adding the following text to a file called{" "}
+        <span className={classes.highlight}>timetrigger-verify.txt</span>{" "}
+        located at the root of your domain.
+      </span>
+    );
   }
 }
 
@@ -49,7 +58,7 @@ const VerificationCard = ({ classes, method, verificationCode }) => {
           </Typography>
           <Typography variant="subtitle1" paragraph>
             Target verification is used to prevent abuse.{" "}
-            {getHelperText(method)}
+            {getHelperText(method, classes)}
           </Typography>
           <Typography
             className={classes.verifyText}
