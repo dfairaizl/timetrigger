@@ -15,7 +15,7 @@ function runHTTPtask(userID, task) {
     .then(verify)
     .then(target => {
       return fetch(target.endpoint, {
-        body: task.payload,
+        body: JSON.stringify(task.payload),
         headers: {
           "Content-Type": "application/json"
         },
