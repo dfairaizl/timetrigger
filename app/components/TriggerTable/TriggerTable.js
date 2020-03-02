@@ -119,6 +119,9 @@ TablePaginationActions.propTypes = {
 
 function TriggerTable(props) {
   const { data } = props;
+  const triggerData = data.sort(
+    (t1, t2) => t1.trigger_at.toDate() > t2.trigger_at.toDate()
+  );
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("xs"));
@@ -129,9 +132,9 @@ function TriggerTable(props) {
 
   useEffect(() => {
     const offset = page * pageSize;
-    const dataPage = data.slice(offset, offset + pageSize);
+    const dataPage = triggerData.slice(offset, offset + pageSize);
     setDataPage(dataPage);
-  }, [data, pageSize, page]);
+  }, [triggerData, pageSize, page]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -169,7 +172,7 @@ function TriggerTable(props) {
               rowsPerPageOptions={[10, 25, 50]}
               colSpan={3}
               labelRowsPerPage={"Display"}
-              count={data.length}
+              count={triggerData.length}
               rowsPerPage={pageSize}
               page={page}
               onChangePage={handleChangePage}

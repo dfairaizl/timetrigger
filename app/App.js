@@ -16,6 +16,7 @@ import reducer from "./state";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import Account from "./screens/Account";
+import Docs from "./screens/Docs";
 import Triggers from "./screens/Triggers";
 import Targets from "./screens/Targets";
 import SignIn from "./screens/SignIn";
@@ -72,6 +73,7 @@ const AppRouter = props => {
       <Switch>
         <Route exact path="/" component={Triggers} />
         <Route exact path="/account" component={Account} />
+        <Route exact path="/docs" component={Docs} />
         <Route exact path="/targets" component={Targets} />
         <Route component={TriggersRedirect} />
       </Switch>

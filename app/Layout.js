@@ -63,7 +63,7 @@ function Layout(props) {
                   York City
                 </Typography>
                 <Typography variant="caption" color="inherit" noWrap>
-                  Copyright © 2019 Time Trigger
+                  Copyright © 2020 Time Trigger
                 </Typography>
               </div>
               <Mark className={classes.mark} />

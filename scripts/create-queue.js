@@ -1,8 +1,8 @@
-const cloudTasks = require('@google-cloud/tasks');
+const cloudTasks = require("@google-cloud/tasks");
 
 const client = new cloudTasks.CloudTasksClient();
 
-async function createQueue () {
+async function createQueue() {
   const project = process.env.PROJECT_ID;
   const location = process.env.LOCATION;
   const queue = process.env.APP_ENGINE_QUEUE;
@@ -15,7 +15,7 @@ async function createQueue () {
       name: client.queuePath(project, location, queue),
       appEngineHttpQueue: {
         appEngineRoutingOverride: {
-          service: 'default'
+          service: "default"
         }
       }
     }
