@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -31,6 +32,10 @@ const styles = theme => ({
     color: theme.palette.primary.main,
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8)
+  },
+  bodyLink: {
+    color: theme.palette.primary.contrastText,
+    textDecoration: "underline"
   },
   container: {
     display: "flex"
@@ -112,36 +117,39 @@ const styles = theme => ({
 });
 
 function Homepage({ auth, classes }) {
+  let history = useHistory();
+
   return (
     <>
       <CssBaseline />
       <section className={classes.section}>
         <Container maxWidth="md" className={classes.container}>
           <Logo className={classes.logo} />
-          <Link className={classes.menuLink} to="#about">
+          <HashLink smooth className={classes.menuLink} to="#about">
             <Typography display="inline" variant="subtitle2">
               About
             </Typography>
-          </Link>
-          <Link className={classes.menuLink} to="#features">
+          </HashLink>
+          <HashLink smooth className={classes.menuLink} to="#features">
             <Typography display="inline" variant="subtitle2">
               Features
             </Typography>
-          </Link>
-          <Link className={classes.menuLink} to="#use-cases">
+          </HashLink>
+          <HashLink smooth className={classes.menuLink} to="#use-cases">
             <Typography display="inline" variant="subtitle2">
               Use Cases
             </Typography>
-          </Link>
-          <Link className={classes.menuLink} to="#pricing">
+          </HashLink>
+          <HashLink smooth className={classes.menuLink} to="#pricing">
             <Typography display="inline" variant="subtitle2">
               Pricing
             </Typography>
-          </Link>
+          </HashLink>
           <Button
             className={classes.navButton}
             color="primary"
             variant="outlined"
+            onClick={() => history.push("/sign-up")}
           >
             Sign Up
           </Button>
@@ -161,7 +169,7 @@ function Homepage({ auth, classes }) {
           </Typography>
         </Container>
       </section>
-      <section className={classes.altSection}>
+      <section id="about" className={classes.altSection}>
         <Container maxWidth="md">
           <Typography
             align="center"
@@ -217,7 +225,7 @@ function Homepage({ auth, classes }) {
           </Grid>
         </Grid>
       </section>
-      <section className={classes.featureSection}>
+      <section id="features" className={classes.featureSection}>
         <Container maxWidth="md">
           <Typography
             align="center"
@@ -263,7 +271,7 @@ function Homepage({ auth, classes }) {
           </Grid>
         </Grid>
       </section>
-      <section className={classes.altSection}>
+      <section id="use-cases" className={classes.altSection}>
         <Container maxWidth="md">
           <Typography
             align="center"
@@ -305,7 +313,7 @@ function Homepage({ auth, classes }) {
           </Grid>
         </Grid>
       </section>
-      <section className={classes.section}>
+      <section id="pricing" className={classes.section}>
         <Container maxWidth="md">
           <Typography
             align="center"
@@ -341,7 +349,11 @@ function Homepage({ auth, classes }) {
               >
                 Send 100,000 triggers to your API.
               </Typography>
-              <Button color="primary" variant="outlined">
+              <Button
+                color="primary"
+                variant="outlined"
+                onClick={() => history.push("/sign-up")}
+              >
                 Sign Up
               </Button>
             </Paper>
@@ -372,7 +384,11 @@ function Homepage({ auth, classes }) {
               >
                 Send 1,000,000 triggers to your API.
               </Typography>
-              <Button color="primary" variant="outlined">
+              <Button
+                color="primary"
+                variant="outlined"
+                onClick={() => history.push("/sign-up")}
+              >
                 Sign Up
               </Button>
             </Paper>
@@ -401,7 +417,11 @@ function Homepage({ auth, classes }) {
               >
                 Create a custom plan that fits your needs.
               </Typography>
-              <Button color="primary" variant="outlined">
+              <Button
+                color="primary"
+                variant="outlined"
+                onClick={() => history.push("/sign-up")}
+              >
                 Contact Us
               </Button>
             </Paper>
@@ -414,7 +434,11 @@ function Homepage({ auth, classes }) {
             variant="subtitle1"
           >
             Want to try Time Trigger out? You can use it for free if you
-            schedule less than 100k triggers per month.
+            schedule less than 100k triggers per month. Just{" "}
+            <Link className={classes.bodyLink} to="/sign-up">
+              sign up for an account here
+            </Link>
+            .
           </Typography>
         </Container>
       </section>
