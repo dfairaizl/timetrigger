@@ -15,8 +15,11 @@ import reducer from "./state";
 
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
+import theme from "./theme";
+
 import Account from "./screens/Account";
 import Docs from "./screens/Docs";
+import Homepage from "./screens/Homepage";
 import Triggers from "./screens/Triggers";
 import Targets from "./screens/Targets";
 import SignIn from "./screens/SignIn";
@@ -29,41 +32,6 @@ const store = createStore(
   reducer,
   composeEnhancers(applyMiddleware(thunkMiddleware))
 );
-
-const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true
-  },
-  palette: {
-    background: {
-      paper: "#FDFDFD",
-      default: "#FDFDFD"
-    },
-    primary: {
-      light: "#ff4774",
-      main: "#FF1952",
-      dark: "#b21139",
-      contrastText: "#FDFDFD"
-    },
-    secondary: {
-      dark: "#201C37",
-      main: "#2E294F",
-      light: "#575372"
-    },
-    text: {
-      primary: "#2E2E2E",
-      secondary: "#454545"
-    }
-  },
-  overrides: {
-    MuiAppBar: {
-      colorPrimary: {
-        backgroundColor: "#FDFDFD",
-        color: "#2E2E2E"
-      }
-    }
-  }
-});
 
 const TriggersRedirect = props => <Redirect exact to="/" />;
 
@@ -85,7 +53,7 @@ const StandardRouter = props => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={SignIn} />
+        <Route exact path="/" component={Homepage} />
         <Route exact path="/sign-in" component={SignIn} />
         <Route exact path="/sign-up" component={SignUp} />
         <Route component={SignIn} />
