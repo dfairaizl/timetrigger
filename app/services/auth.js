@@ -23,7 +23,6 @@ export function getIDToken() {
 }
 
 export function authStatus(callback) {
-  debugger;
   const auth = firebase.auth();
   auth.onAuthStateChanged(user => {
     if (user) {
