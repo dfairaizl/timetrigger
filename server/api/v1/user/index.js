@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const express = require("express");
 const nanoid = require("nanoid");
-const uuidv5 = require("uuid/v5");
+const { v5: uuidv5 } = require('uuid');
 
 const db = require("../../../lib/datastore");
 const jwtValidate = require("../../../middleware/jwt");

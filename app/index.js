@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
-import * as firebase from "firebase/app";
+import firebase from "firebase/app";
 
 // Add the Firebase products that you want to use
-import "firebase/auth";
 import "firebase/firestore";
+import "firebase/auth";
 
 firebase.initializeApp({
   apiKey: "AIzaSyBvdk2NRKDO5ieQbBKuFzdDczDKZU92tm8",

@@ -5,7 +5,7 @@ const express = require("express");
 const db = require("../../../lib/datastore");
 const apiKeyValidate = require("../../../middleware/api-key");
 const jwtValidate = require("../../../middleware/jwt");
-const validate = require("express-validation");
+const { validate } = require("express-validation");
 const validation = require("./validation");
 
 const client = new cloudTasks.CloudTasksClient();
@@ -20,7 +20,7 @@ router.post(
   "/",
   apiKeyValidate,
   jwtValidate,
-  validate(validation.trigger),
+  validate(validation),
   (req, res) => {
     const taskInfo = req.body;
     const user = res.locals.user;

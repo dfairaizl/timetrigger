@@ -1,5 +1,7 @@
 import firebase from "firebase/app";
 
+console.log(firebase);
+
 export function registerAccount(email, password) {
   const auth = firebase.auth();
   return auth.createUserWithEmailAndPassword(email, password);
@@ -21,6 +23,7 @@ export function getIDToken() {
 }
 
 export function authStatus(callback) {
+  debugger;
   const auth = firebase.auth();
   auth.onAuthStateChanged(user => {
     if (user) {
