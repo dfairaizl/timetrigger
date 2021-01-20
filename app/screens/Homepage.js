@@ -16,6 +16,7 @@ import Typography from "@material-ui/core/Typography";
 
 import Logo from "../assets/images/LogoLight.svg";
 import Stars from "../assets/images/Stars@2x.png";
+import Mark from "../assets/images/Mark.svg";
 
 const styles = theme => ({
   aboutDetail: {
@@ -86,10 +87,10 @@ const styles = theme => ({
     paddingBottom: theme.spacing(2)
   },
   featureDetail: {
-    backgroundColor: theme.palette.secondary.main,
     color: theme.palette.primary.contrastText
   },
   featureItem: {
+    backgroundColor: theme.palette.secondary.main,
     paddingBottom: theme.spacing(8)
   },
   title: {
@@ -106,7 +107,7 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
-    padding: theme.spacing(4)
+    padding: theme.spacing(3)
   },
   pricingCardTitle: {
     paddingBottom: theme.spacing(2)
@@ -117,6 +118,42 @@ const styles = theme => ({
   freeTier: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4)
+  },
+  list: {
+    margin: theme.spacing(2)
+  },
+  footer: {
+    backgroundColor: "#2d2d2d",
+    padding: theme.spacing(4)
+  },
+  footerContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  footerMenu: {
+    display: "flex",
+    justifyContent: "center",
+    marginBottom: theme.spacing(2)
+  },
+  footerItem: {
+    color: theme.palette.primary.contrastText,
+    marginRight: theme.spacing(2)
+  },
+  footerCopyright: {
+    display: "flex",
+    flexDirection: "column"
+  },
+  footerLink: {
+    color: theme.palette.primary.contrastText,
+    textDecoration: "none",
+  },
+  mark: {
+    // marginBottom: theme.spacing(2)
+  },
+  copyright: {
+    color: theme.palette.primary.contrastText,
+    marginTop: theme.spacing(2)
   }
 });
 
@@ -185,11 +222,12 @@ function Homepage({ auth, classes }) {
             What Is Time Trigger?
           </Typography>
         </Container>
+        <Container>
         <Grid className={classes.gridSection} container justify="center">
-          <Grid item md={1} xs={3}>
-            <Typography variant="h1" align="center">1.</Typography>
+          <Grid item md={1} sm={2} xs={3}>
+            <Typography variant="h2">1.</Typography>
           </Grid>
-          <Grid item md={6} xs={8}>
+          <Grid item md={6} xs={9}>
             <Typography className={classes.aboutTitle} variant="h3">
               Scheduling System
             </Typography>
@@ -201,8 +239,8 @@ function Homepage({ auth, classes }) {
           </Grid>
         </Grid>
         <Grid className={classes.gridSection} container justify="center">
-          <Grid item md={1} xs={3}>
-            <Typography variant="h1" align="center">2.</Typography>
+          <Grid item md={1} sm={2} xs={3}>
+            <Typography variant="h2">2.</Typography>
           </Grid>
           <Grid item md={6} xs={9}>
             <Typography className={classes.aboutTitle} variant="h3">
@@ -215,8 +253,8 @@ function Homepage({ auth, classes }) {
           </Grid>
         </Grid>
         <Grid className={classes.gridSection} container justify="center">
-          <Grid item md={1} xs={3}>
-            <Typography variant="h1" align="center">3.</Typography>
+          <Grid item md={1} sm={2} xs={3}>
+            <Typography variant="h2">3.</Typography>
           </Grid>
           <Grid item md={6} xs={9}>
             <Typography className={classes.aboutTitle} variant="h3">
@@ -229,6 +267,8 @@ function Homepage({ auth, classes }) {
             </Typography>
           </Grid>
         </Grid>
+        </Container>
+
       </section>
       <section id="features" className={classes.featureSection}>
         <Container maxWidth="md">
@@ -242,7 +282,7 @@ function Homepage({ auth, classes }) {
           </Typography>
         </Container>
         <Grid justify="center" container>
-          <Grid item md={6} xs={10} md={6} xs={10} className={classes.featureItem}>
+          <Grid item md={6} xs={10} className={classes.featureItem}>
             <Typography align="center" className={classes.featureTitle} variant="h3">
               Usable By Humans
             </Typography>
@@ -288,33 +328,30 @@ function Homepage({ auth, classes }) {
           </Typography>
         </Container>
         <Grid className={classes.gridSection} container justify="center">
-          <Grid item md={6} xs={10} className={classes.useCaseSection}>
+          <Grid item md={6} sm={8} xs={10} className={classes.useCaseSection}>
             <Typography className={classes.aboutTitle} variant="h3">
               Reminders
             </Typography>
             <Typography gutterBottom paragraph variant="subtitle1">
-              1. Send notifications to your API 24 hours after a users signs up
-              to remind them to verify their email.
-            </Typography>
-            <Typography variant="subtitle1">
-              2. Send triggers to your API with data for sending push
-              notifications to your users.
+              <ol>
+                <li className={classes.list}>Send notifications to your API 24 hours after a users signs up
+                to remind them to verify their email.</li>
+                <li className={classes.list}>Send triggers to your API with data for sending push
+                notifications to your users.</li>
+              </ol>
             </Typography>
           </Grid>
-          <Grid container justify="center">
-            <Grid item md={6} xs={10} className={classes.useCaseDivider}>
-              <hr />
-            </Grid>
-          </Grid>
-          <Grid container justify="center">
-            <Grid item md={6} xs={10}>
-              <Typography variant="subtitle1">
-                Time Triggers powers the online marketplace Materia Market.
-                Materia Market uses Time Trigger to remind sellers to ship out
-                items, remind buyers to approve items after they recieve them,
-                and many more things.
-              </Typography>
-            </Grid>
+        </Grid>
+        <Grid className={classes.gridSection} container justify="center">
+          <Grid item md={6} sm={8} xs={10} className={classes.useCaseSection}>
+            <Typography className={classes.aboutTitle} variant="h3">
+              Payments
+            </Typography>
+            <Typography gutterBottom paragraph variant="subtitle1">
+              <ol>
+                <li className={classes.list}>Use Triggers to notify your API to process monthly recurring charges.</li>
+              </ol>
+            </Typography>
           </Grid>
         </Grid>
       </section>
@@ -329,6 +366,7 @@ function Homepage({ auth, classes }) {
             Pricing
           </Typography>
         </Container>
+        <Container maxWidth="xl">
         <Grid container justify="center" spacing={4}>
           <Grid item xs={10} sm={8} md={3}>
             <Paper className={classes.pricingCard}>
@@ -431,6 +469,7 @@ function Homepage({ auth, classes }) {
             </Paper>
           </Grid>
         </Grid>
+        </Container>
         <Container className={classes.freeTier} maxWidth="md">
           <Typography
             align="center"
@@ -446,6 +485,45 @@ function Homepage({ auth, classes }) {
           </Typography>
         </Container>
       </section>
+      <footer className={classes.footer}>
+        <Container maxWidth="lg" className={classes.footerContainer}>
+          <Grid justify="center" direction="column" container>
+            <Grid item className={classes.footerMenu}>
+              <Typography
+                align="center"
+                className={classes.footerItem}
+                variant="subtitle2"
+              >
+                <a href="mailto:support@timetrigger.dev" className={classes.footerLink}>Contact</a>
+              </Typography>
+              <Typography
+                align="center"
+                className={classes.footerItem}
+                variant="subtitle2"
+              >
+                <Link to="/privacy" className={classes.footerLink}>Privacy</Link>
+              </Typography>
+              <Typography
+                align="center"
+                className={classes.footerItem}
+                variant="subtitle2"
+              >
+                <Link to="/terms" className={classes.footerLink}>Terms</Link>
+              </Typography>
+            </Grid>
+            <Grid className={classes.footerCopyright} alignItems="center" item>
+              <Mark className={classes.mark} />
+              <Typography
+                align="center"
+                className={classes.copyright}
+                variant="caption1"
+              >
+                © 2021 Time Trigger.<br />All rights reserved.
+              </Typography>
+            </Grid>
+          </Grid>
+        </Container>
+      </footer>
     </>
   );
 }

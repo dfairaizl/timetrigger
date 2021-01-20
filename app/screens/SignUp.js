@@ -45,7 +45,7 @@ const styles = theme => ({
     width: "100%"
   },
   layout: {
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.light,
     display: "flex",
     flexDirection: "column",
     minHeight: "100vh"
