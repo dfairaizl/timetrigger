@@ -501,14 +501,14 @@ function Homepage({ auth, classes }) {
                 className={classes.footerItem}
                 variant="subtitle2"
               >
-                <Link to="/privacy" className={classes.footerLink}>Privacy</Link>
+                <Link to="/legal/privacy" className={classes.footerLink}>Privacy</Link>
               </Typography>
               <Typography
                 align="center"
                 className={classes.footerItem}
                 variant="subtitle2"
               >
-                <Link to="/terms" className={classes.footerLink}>Terms</Link>
+                <Link to="/legal/terms" className={classes.footerLink}>Terms</Link>
               </Typography>
             </Grid>
             <Grid className={classes.footerCopyright} alignItems="center" item>

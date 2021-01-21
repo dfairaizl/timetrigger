@@ -19,6 +19,7 @@ import theme from "./theme";
 
 import Account from "./screens/Account";
 import Docs from "./screens/Docs";
+import Legal from "./screens/Legal";
 import Homepage from "./screens/Homepage";
 import Triggers from "./screens/Triggers";
 import Targets from "./screens/Targets";
@@ -42,6 +43,7 @@ const AppRouter = props => {
         <Route exact path="/" component={Triggers} />
         <Route exact path="/account" component={Account} />
         <Route exact path="/docs" component={Docs} />
+        <Route exact ="/legal" component={Legal} />
         <Route exact path="/targets" component={Targets} />
         <Route component={TriggersRedirect} />
       </Switch>
@@ -54,6 +56,7 @@ const StandardRouter = props => {
     <Router>
       <Switch>
         <Route exact path="/" component={Homepage} />
+        <Route path="/legal/:slug" component={Legal} />
         <Route exact path="/sign-in" component={SignIn} />
         <Route exact path="/sign-up" component={SignUp} />
         <Route component={SignIn} />
