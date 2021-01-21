@@ -68,6 +68,14 @@ const TriggerDialog = (props) => {
     }
   );
 
+  const [currentErrors, setErrors] = useReducer((state, errors) => {
+    return errors.reduce((s, error) => {
+      s[error.param] = error.msg;
+
+      return s;
+    }, {});
+  }, {});
+
   const onSaveClick = () => {
     const triggerData = {
       trigger: currentState.triggerTime,
@@ -78,7 +86,12 @@ const TriggerDialog = (props) => {
       },
     };
 
-    createTrigger(triggerData).then(() => {
+    createTrigger(triggerData).then((json) => {
+      if (json.errors) {
+        setErrors(json.errors);
+        return;
+      }
+
       onTriggerDialogClick(!triggerDialogOpen);
     });
   };
@@ -102,6 +115,12 @@ const TriggerDialog = (props) => {
             <TextField
               autoFocus
               fullWidth
+              error={currentErrors.trigger}
+              helperText={
+                currentErrors.trigger
+                  ? currentErrors.trigger
+                  : 'Human readable dates are best. For example: "24 hours from now".'
+              }
               id="time"
               label="Trigger Time"
               margin="dense"
@@ -110,12 +129,12 @@ const TriggerDialog = (props) => {
               }
               value={currentState.triggerTime}
             />
-            <FormHelperText>
-              Human readable dates are best. For example: &quot24 hours from
-              now&quopt.
-            </FormHelperText>
           </FormControl>
-          <FormControl className={classes.formControl} fullWidth>
+          <FormControl
+            className={classes.formControl}
+            error={currentErrors["run.target"]}
+            fullWidth
+          >
             <InputLabel>Target</InputLabel>
             <Select
               onChange={(e) =>
@@ -136,6 +155,9 @@ const TriggerDialog = (props) => {
                 );
               })}
             </Select>
+            <FormHelperText>
+              {currentErrors["run.target"] ? currentErrors["run.target"] : null}
+            </FormHelperText>
           </FormControl>
           <FormControl className={classes.formControl} fullWidth>
             <Typography variant="h6" className={classes.section}>
@@ -148,6 +170,11 @@ const TriggerDialog = (props) => {
               updater({ type: "UPDATE_PAYLOAD", value: json })
             }
           />
+          <FormHelperText error={currentErrors["run.payload"]}>
+            {currentErrors["run.payload"]
+              ? currentErrors["run.payload"]
+              : "JSON payload you want to deliver to your API"}
+          </FormHelperText>
         </form>
       </DialogContent>
       <DialogActions>

@@ -12,9 +12,7 @@ export function createTrigger(data) {
       method: "POST",
     })
       .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
+        return res.json();
       })
       .catch((e) => {
         console.error(e);
