@@ -10,7 +10,7 @@ function getHost(target) {
 }
 
 function verifyTxt(records, verification) {
-  return records.find(r => r[0].trim() === verification);
+  return records.find((r) => r[0].trim() === verification);
 }
 
 function verifyDNSTXT(target) {
@@ -20,10 +20,10 @@ function verifyDNSTXT(target) {
 
   return resolver
     .resolveTxt(hostname)
-    .then(records => {
+    .then((records) => {
       return !!verifyTxt(records, expectedVerification);
     })
-    .catch(e => {
+    .catch(() => {
       return false;
     });
 }
@@ -32,15 +32,15 @@ function verifyStaticFile(target) {
   const hostname = getHost(target);
   return fetch(`${hostname}/timetrigger-verify.txt`, {
     headers: {
-      "content-type": "plain/text"
-    }
+      "content-type": "plain/text",
+    },
   })
-    .then(res => {
+    .then((res) => {
       if (res.ok) {
         return res.text();
       }
     })
-    .then(data => {
+    .then((data) => {
       if (!data) {
         throw new Error("No verification file found on host");
       }

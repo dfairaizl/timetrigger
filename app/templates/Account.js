@@ -17,39 +17,39 @@ import { updateEmail, updatePassword } from "../services/auth";
 
 import GoogleLogo from "../assets/images/btn_google_light_normal_ios.svg";
 
-const styles = theme => ({
+const styles = (theme) => ({
   button: {
     marginTop: theme.spacing(2),
     alignSelf: "flex-end",
-    minWidth: "100px"
+    minWidth: "100px",
   },
   form: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   formContainer: {
     marginBottom: theme.spacing(2),
     marginTop: theme.spacing(2),
-    paddingTop: theme.spacing(2)
+    paddingTop: theme.spacing(2),
   },
   heading: {
     marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   subHeading: {
     marginBottom: theme.spacing(),
-    marginTop: theme.spacing(6)
+    marginTop: theme.spacing(6),
   },
   provider: {
     flex: 1,
-    paddingLeft: theme.spacing(2)
+    paddingLeft: theme.spacing(2),
   },
   providerButton: {
     alignSelf: "center",
     minWidth: "320px",
     marginTop: theme.spacing(2),
-    maxWidth: "420px"
-  }
+    maxWidth: "420px",
+  },
 });
 
 function Account({ classes, auth }) {
@@ -68,7 +68,7 @@ function Account({ classes, auth }) {
           updateEmailSaveState("Saved!");
           setTimeout(() => updateEmailSaveState("Save"), 3000);
         })
-        .catch(e => {
+        .catch((e) => {
           console.error(e);
           if (e.code === "auth/invalid-email") {
             updateEmailError(e.message);
@@ -95,7 +95,7 @@ function Account({ classes, auth }) {
           updatePasswordSaveState("Saved");
           setTimeout(() => updatePasswordSaveState("Save"), 3000);
         })
-        .catch(e => {
+        .catch((e) => {
           console.error(e);
 
           if (e.code === "auth/requires-recent-login") {
@@ -133,7 +133,7 @@ function Account({ classes, auth }) {
               fullWidth
               id="email"
               margin="dense"
-              onChange={e => {
+              onChange={(e) => {
                 updateFormEmail(e.target.value);
               }}
               value={email}
@@ -169,9 +169,9 @@ function Account({ classes, auth }) {
               label="Password"
               margin="dense"
               inputProps={{
-                type: "password"
+                type: "password",
               }}
-              onChange={e => {
+              onChange={(e) => {
                 updateFormPassword(e.target.value);
               }}
               value={password}
@@ -187,9 +187,9 @@ function Account({ classes, auth }) {
               label="Re-type Password"
               margin="dense"
               inputProps={{
-                type: "password"
+                type: "password",
               }}
-              onChange={e => {
+              onChange={(e) => {
                 updatePasswordConfirm(e.target.value);
               }}
               value={passwordConfirm}
@@ -225,9 +225,12 @@ function Account({ classes, auth }) {
 }
 
 Account.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  auth: PropTypes.shape({
+    user: PropTypes.object,
+  }),
 };
 
-export default connect(state => {
+export default connect((state) => {
   return { auth: state.auth };
 })(withStyles(styles)(Account));

@@ -13,31 +13,31 @@ import Mark from "./assets/images/Mark.svg";
 
 import Nav from "./components/Nav/Nav";
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
     padding: theme.spacing(2),
-    width: "100%"
+    width: "100%",
   },
   flex: {
-    flex: 1
+    flex: 1,
   },
   footer: {
     backgroundColor: theme.palette.secondary.main,
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   layout: {
     display: "flex",
     flexDirection: "column",
-    minHeight: "100vh"
+    minHeight: "100vh",
   },
   love: {
     color: theme.palette.primary.main,
     width: "20px",
-    transform: "translateY(5px)"
-  }
+    transform: "translateY(5px)",
+  },
 });
 
 function Layout(props) {
@@ -76,7 +76,8 @@ function Layout(props) {
 }
 
 Layout.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  children: PropTypes.element.isRequired,
 };
 
 export default withStyles(styles)(Layout);

@@ -12,7 +12,7 @@ router.post("/", (req, res) => {
 
   docRef
     .get()
-    .then(doc => {
+    .then((doc) => {
       console.log(`Job ${jobID} - Processing`);
 
       const jobData = doc.data();
@@ -20,14 +20,14 @@ router.post("/", (req, res) => {
 
       return taskRunner(userID, jobData);
     })
-    .then(result => {
+    .then((result) => {
       console.log(`Job ${jobID} - Complete`);
 
       return docRef
         .set(
           {
             status: result.status ? "complete" : "failed",
-            result
+            result,
           },
           { merge: true }
         )
@@ -35,7 +35,7 @@ router.post("/", (req, res) => {
           res.sendStatus(200);
         });
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(`Job ${jobID} - Failed`);
       console.error(error);
 

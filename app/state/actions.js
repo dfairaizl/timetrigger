@@ -19,28 +19,28 @@ export const DELETE_TARGET = "DELETE_TARGET";
 export function updateAuthStatus(status) {
   return {
     type: UPDATE_AUTH_STATUS,
-    user: status
+    user: status,
   };
 }
 
 export function toggleTriggerDialog(open) {
   return {
     type: TOGGLE_TRIGGER_DIALOG,
-    open
+    open,
   };
 }
 
 export function toggleKeysDialog(open) {
   return {
     type: TOGGLE_KEYS_DIALOG,
-    open
+    open,
   };
 }
 
 export function toggleNewTargetDialog(open) {
   return {
     type: TOGGLE_NEW_TARGET_DIALOG,
-    open
+    open,
   };
 }
 
@@ -48,62 +48,62 @@ export function toggleEditTargetDialog(open, target) {
   return {
     type: TOGGLE_EDIT_TARGET_DIALOG,
     open,
-    target
+    target,
   };
 }
 
 export function addTimeTrigger(trigger) {
   return {
     type: ADD_TIME_TRIGGER_JOB,
-    trigger
+    trigger,
   };
 }
 
 export function updateTimeTrigger(trigger) {
   return {
     type: UPDATE_TIME_TRIGGER_JOB,
-    trigger
+    trigger,
   };
 }
 
 export function deleteTimeTrigger(trigger) {
   return {
     type: DELETE_TIME_TRIGGER_JOB,
-    trigger
+    trigger,
   };
 }
 
 export function updateAccount(account) {
   return {
     type: UPDATE_ACCOUNT,
-    account
+    account,
   };
 }
 
 export function updateAPICredentials(credentials) {
   return {
     UPDATE_API_CREDENTIALS,
-    credentials
+    credentials,
   };
 }
 
 export function addTarget(target) {
   return {
     type: ADD_TARGET,
-    target
+    target,
   };
 }
 
 export function updateTarget(target) {
   return {
     type: UPDATE_TARGET,
-    target
+    target,
   };
 }
 
 export function deleteTarget(target) {
   return {
     type: DELETE_TARGET,
-    target
+    target,
   };
 }

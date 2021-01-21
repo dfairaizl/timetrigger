@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from "react";
+import PropTypes from "prop-types";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import firebase from "firebase/app";
@@ -24,22 +25,22 @@ import VerificationCard from "../VerificationCard/VerificationCard";
 
 import {
   toggleNewTargetDialog,
-  toggleEditTargetDialog
+  toggleEditTargetDialog,
 } from "../../state/actions";
 import { getIDToken } from "../../services/auth";
 import db from "../../services/db";
 
-const styles = theme => ({
+const styles = (theme) => ({
   formControl: {
     marginBottom: theme.spacing(),
-    marginTop: theme.spacing()
+    marginTop: theme.spacing(),
   },
   section: {
-    marginTop: theme.spacing(2)
-  }
+    marginTop: theme.spacing(2),
+  },
 });
 
-const TargetDialog = props => {
+const TargetDialog = (props) => {
   const {
     classes,
     auth,
@@ -47,7 +48,7 @@ const TargetDialog = props => {
     targetDialogOpen,
     selectedTarget,
     toggleNewDialog,
-    toggleEditDialog
+    toggleEditDialog,
   } = props;
 
   const { user } = auth;
@@ -72,7 +73,7 @@ const TargetDialog = props => {
       targetName: "",
       endpoint: "",
       verificationMethod: "static_file",
-      verificationCode: ""
+      verificationCode: "",
     }
   );
 
@@ -82,11 +83,11 @@ const TargetDialog = props => {
       updater({ type: "UPDATE_ENDPOINT", value: selectedTarget.endpoint });
       updater({
         type: "UPDATE_VERIFICATION_CODE",
-        value: selectedTarget.verificationCode
+        value: selectedTarget.verificationCode,
       });
       updater({
         type: "UPDATE_VERIFICATION_METHOD",
-        value: selectedTarget.verificationMethod
+        value: selectedTarget.verificationMethod,
       });
     } else {
       updater({ type: "UPDATE_NAME", value: "" });
@@ -96,27 +97,26 @@ const TargetDialog = props => {
   }, [mode]);
 
   useEffect(() => {
-    if (mode === "edit") {
-    } else {
-      getIDToken().then(token => {
+    if (mode !== "edit") {
+      getIDToken().then((token) => {
         return fetch(`${process.env.API_HOST}/api/v1/target/code`, {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         })
-          .then(res => {
+          .then((res) => {
             if (res.ok) {
               return res.json();
             }
           })
-          .then(data => {
+          .then((data) => {
             updater({
               type: "UPDATE_VERIFICATION_CODE",
-              value: data.verfication_code
+              value: data.verfication_code,
             });
           })
-          .catch(e => {
+          .catch((e) => {
             console.error(e);
           });
       });
@@ -136,10 +136,10 @@ const TargetDialog = props => {
       const ref = db().doc(`users/${user.uid}/targets/${selectedTarget.id}`);
       ref
         .set(currentState, { merge: true })
-        .then(doc => {
+        .then(() => {
           handleClose();
         })
-        .catch(e => console.error(e));
+        .catch((e) => console.error(e));
     } else {
       const ref = db().collection(`users/${user.uid}/targets`);
       ref
@@ -147,12 +147,12 @@ const TargetDialog = props => {
           ...currentState,
           active: false,
           verified: false,
-          created_at: firebase.firestore.Timestamp.fromDate(new Date())
+          created_at: firebase.firestore.Timestamp.fromDate(new Date()),
         })
-        .then(doc => {
+        .then(() => {
           handleClose();
         })
-        .catch(e => console.error(e));
+        .catch((e) => console.error(e));
     }
   };
 
@@ -179,7 +179,7 @@ const TargetDialog = props => {
               id="time"
               label="Target Name"
               margin="dense"
-              onChange={e =>
+              onChange={(e) =>
                 updater({ type: "UPDATE_NAME", value: e.target.value })
               }
               value={currentState.targetName}
@@ -191,7 +191,7 @@ const TargetDialog = props => {
               id="time"
               label="API Endpoint"
               margin="dense"
-              onChange={e =>
+              onChange={(e) =>
                 updater({ type: "UPDATE_ENDPOINT", value: e.target.value })
               }
               value={currentState.endpoint}
@@ -205,16 +205,16 @@ const TargetDialog = props => {
           </Typography>
           <FormControl className={classes.formControl} fullWidth>
             <Select
-              onChange={e =>
+              onChange={(e) =>
                 updater({
                   type: "UPDATE_VERIFICATION_METHOD",
-                  value: e.target.value
+                  value: e.target.value,
                 })
               }
               value={currentState.verificationMethod}
               inputProps={{
                 name: "target verification method",
-                id: "target-verification"
+                id: "target-verification",
               }}
             >
               <MenuItem value={"static_file"}>Static File</MenuItem>
@@ -239,23 +239,35 @@ const TargetDialog = props => {
   );
 };
 
+TargetDialog.propTypes = {
+  classes: PropTypes.object,
+  auth: PropTypes.shape({
+    user: PropTypes.object,
+  }),
+  fullScreen: PropTypes.bool,
+  targetDialogOpen: PropTypes.bool,
+  selectedTarget: PropTypes.object,
+  toggleNewDialog: PropTypes.func,
+  toggleEditDialog: PropTypes.func,
+};
+
 export default compose(
   connect(
-    state => {
+    (state) => {
       return {
         auth: state.auth,
         targetDialogOpen: state.ui.targetDialogOpen,
-        selectedTarget: state.ui.selectedTarget
+        selectedTarget: state.ui.selectedTarget,
       };
     },
-    dispatch => {
+    (dispatch) => {
       return {
         toggleNewDialog(toggle) {
           dispatch(toggleNewTargetDialog(toggle));
         },
         toggleEditDialog(toggle) {
           dispatch(toggleEditTargetDialog(toggle, null));
-        }
+        },
       };
     }
   ),

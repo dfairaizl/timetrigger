@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -16,24 +17,24 @@ import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 
 import { signOut } from "../../services/auth";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: "100%",
     maxWidth: 360,
-    backgroundColor: theme.palette.background.paper
-  }
+    backgroundColor: theme.palette.background.paper,
+  },
 });
 
 const UserMenu = ({ classes, history, user }) => {
   const [anchorElement, setAnchorElement] = useState(null);
   const [menuOpen, updateMenu] = useState(false);
 
-  const handleOpen = event => {
+  const handleOpen = (event) => {
     setAnchorElement(event.currentTarget);
     updateMenu(true);
   };
 
-  const handleClose = event => {
+  const handleClose = () => {
     setAnchorElement(null);
     updateMenu(false);
   };
@@ -48,11 +49,11 @@ const UserMenu = ({ classes, history, user }) => {
         anchorEl={anchorElement}
         anchorOrigin={{
           vertical: "top",
-          horizontal: "right"
+          horizontal: "right",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "right"
+          horizontal: "right",
         }}
         open={menuOpen}
         onClose={handleClose}
@@ -98,6 +99,14 @@ const UserMenu = ({ classes, history, user }) => {
       </Menu>
     </div>
   );
+};
+
+UserMenu.propTypes = {
+  classes: PropTypes.object,
+  history: PropTypes.func,
+  user: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+  }),
 };
 
 export default withStyles(styles)(withRouter(UserMenu));

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import copy from "clipboard-copy";
@@ -23,40 +24,34 @@ import withMobileDialog from "@material-ui/core/withMobileDialog";
 import { fetchAPIKey, generateCredentails } from "../../services/credentials";
 import { toggleKeysDialog } from "../../state/actions";
 
-const styles = theme => ({
+const styles = (theme) => ({
   buttonProgress: {
     position: "absolute",
     top: "50%",
     left: "50%",
     marginTop: -12,
-    marginLeft: -12
+    marginLeft: -12,
   },
   formControl: {
     marginBottom: theme.spacing(2),
-    marginTop: theme.spacing()
+    marginTop: theme.spacing(),
   },
   text: {
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   },
   wrapper: {
     margin: theme.spacing(),
-    position: "relative"
-  }
+    position: "relative",
+  },
 });
 
-const KeysDialog = ({
-  classes,
-  auth,
-  fullScreen,
-  keysDialogOpen,
-  toggleDialog
-}) => {
+const KeysDialog = ({ classes, fullScreen, keysDialogOpen, toggleDialog }) => {
   const [apiKey, updateAPIKey] = useState("");
   const [secretKey, updateSecretKey] = useState("");
   const [loading, updateLoading] = useState(false);
 
   useEffect(() => {
-    fetchAPIKey().then(credentials => {
+    fetchAPIKey().then((credentials) => {
       updateAPIKey(credentials.apiKey);
     });
   }, []);
@@ -68,12 +63,12 @@ const KeysDialog = ({
   const generateKeyPair = () => {
     updateLoading(true);
     generateCredentails()
-      .then(data => {
+      .then((data) => {
         updateAPIKey(data.key);
         updateSecretKey(data.secret);
         updateLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
         updateLoading(false);
       });
@@ -157,19 +152,25 @@ const KeysDialog = ({
   );
 };
 
+KeysDialog.propTypes = {
+  classes: PropTypes.object,
+  fullScreen: PropTypes.bool,
+  keysDialogOpen: PropTypes.bool,
+  toggleDialog: PropTypes.func,
+};
+
 export default compose(
   connect(
-    state => {
+    (state) => {
       return {
-        auth: state.auth,
-        keysDialogOpen: state.ui.keysDialogOpen
+        keysDialogOpen: state.ui.keysDialogOpen,
       };
     },
-    dispatch => {
+    (dispatch) => {
       return {
         toggleDialog(toggle) {
           dispatch(toggleKeysDialog(toggle));
-        }
+        },
       };
     }
   ),

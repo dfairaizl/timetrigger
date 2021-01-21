@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 
 import Layout from "../Layout";
 
-const styles = theme => ({
+const styles = (theme) => ({
   code: {
     backgroundColor: theme.palette.secondary.light,
     borderColor: theme.palette.secondary.main,
@@ -22,39 +22,39 @@ const styles = theme => ({
     borderWidth: "1px",
     padding: theme.spacing(2),
     color: theme.palette.primary.contrastText,
-    overflow: "auto"
+    overflow: "auto",
   },
   content: {
     borderLeft: "1px solid rgba(0, 0, 0, 0.12)",
-    paddingLeft: theme.spacing(2)
+    paddingLeft: theme.spacing(2),
   },
   formatted: {
     fontSize: "1rem",
-    margin: "0px"
+    margin: "0px",
   },
   heading: {
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
   },
   section: {
     marginBottom: theme.spacing(8),
     "&:last-child": {
       // paddingBottom: theme.spacing(4),
-      marginBottom: theme.spacing(1)
-    }
+      marginBottom: theme.spacing(1),
+    },
   },
   subHeading: {
     marginBottom: theme.spacing(4),
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing(1),
   },
   paragraph: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   docuMenu: {
-    marginTop: theme.spacing(4)
-  }
+    marginTop: theme.spacing(4),
+  },
 });
 
-function Docs({ auth, classes }) {
+function Docs({ classes }) {
   return (
     <Layout>
       <Container className={classes.root}>
@@ -265,7 +265,7 @@ function Docs({ auth, classes }) {
                   ;; ANSWER SECTION: api.dev. 299 IN TXT
                   <br />
                   api.dev. 299 IN TXT
-                  "timetrigger-verify=OWd3RU5msaba562mzBadUZzSTFJR0tl"
+                  &quot;timetrigger-verify=OWd3RU5msaba562mzBadUZzSTFJR0tl&quot;
                 </pre>
               </Typography>
             </section>
@@ -286,16 +286,17 @@ function Docs({ auth, classes }) {
                 the API. We provide a simple REST endpoint which you can use to
                 schedule triggers. You can use the Time Trigger UI to manually
                 create Targets and schedule Triggers but in a real world case
-                you'd want to create Triggers programatically.
+                you&apos;d want to create Triggers programatically.
               </Typography>
               <Typography variant="h6" className={classes.paragraph}>
                 Trigger API
               </Typography>
               <Typography variant="body1" className={classes.paragraph}>
                 To call the API you need to get an API token and secret which
-                are available on the Triggers screen by clicking the "API Keys"
-                button. You can regenerate a new secret at any time but you can
-                only get the current key once so keep it somewhere safe.
+                are available on the Triggers screen by clicking the &qout;API
+                Keys&qout; button. You can regenerate a new secret at any time
+                but you can only get the current key once so keep it somewhere
+                safe.
               </Typography>
               <Typography variant="body1" className={classes.paragraph}>
                 To create a Trigger take the following example:
@@ -356,7 +357,7 @@ function Docs({ auth, classes }) {
               <Divider />
               <Typography variant="body1" className={classes.paragraph}>
                 Currently Time Trigger only has a single endpoint but other will
-                be added in the future as the service's needs grow.
+                be added in the future as the service&apos; needs grow.
               </Typography>
               <Typography variant="h6" className={classes.paragraph}>
                 POST /api/v1/trigger
@@ -390,6 +391,10 @@ function Docs({ auth, classes }) {
   );
 }
 
-export default connect(state => {
+Docs.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default connect((state) => {
   return { auth: state.auth };
 })(withStyles(styles)(Docs));

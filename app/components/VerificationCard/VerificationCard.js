@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -7,27 +8,27 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 
-const styles = theme => ({
+const styles = (theme) => ({
   card: {
     marginTop: theme.spacing(2),
     borderColor: theme.palette.primary.main,
     borderWidth: "1px",
     borderStyle: "solid",
-    boxShadow: "none"
+    boxShadow: "none",
   },
   highlight: {
-    color: theme.palette.primary.light
+    color: theme.palette.primary.light,
   },
   verifyText: {
-    marginBottom: "0px"
+    marginBottom: "0px",
   },
   actions: {
     display: "flex",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
   label: {
-    marginRight: "10px"
-  }
+    marginRight: "10px",
+  },
 });
 
 function getHelperText(method, classes) {
@@ -75,6 +76,12 @@ const VerificationCard = ({ classes, method, verificationCode }) => {
       </CardActions>
     </Card>
   );
+};
+
+VerificationCard.propTypes = {
+  classes: PropTypes.object,
+  method: PropTypes.string,
+  verificationCode: PropTypes.string,
 };
 
 export default withStyles(styles)(VerificationCard);

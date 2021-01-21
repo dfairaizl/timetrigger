@@ -35,9 +35,9 @@ router.post(
       .add({
         trigger_at: admin.firestore.Timestamp.fromDate(triggerAt),
         status: "scheduled",
-        run
+        run,
       })
-      .then(ref => {
+      .then((ref) => {
         console.log("Created new job", ref.id);
 
         const task = {
@@ -47,21 +47,21 @@ router.post(
             body: Buffer.from(
               JSON.stringify({
                 userID: user.uid,
-                jobID: ref.id
+                jobID: ref.id,
               })
             ),
             headers: {
-              "Content-Type": "application/json"
-            }
+              "Content-Type": "application/json",
+            },
           },
           scheduleTime: {
-            seconds: triggerAt / 1000
-          }
+            seconds: triggerAt / 1000,
+          },
         };
 
         const request = {
           parent,
-          task
+          task,
         };
 
         client.createTask(request).then(([response]) => {
@@ -69,7 +69,7 @@ router.post(
           res.json({ scheduled: true });
         });
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
         res.status(422).json({ scheduled: false });
       });

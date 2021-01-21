@@ -1,11 +1,11 @@
 const chrono = require("chrono-node");
 const Joi = require("joi");
 
-const customJoi = Joi.extend(joi => ({
+const customJoi = Joi.extend((joi) => ({
   base: joi.string(),
   name: "string",
   language: {
-    chrono: "needs to be a valid date-like expression"
+    chrono: "needs to be a valid date-like expression",
   },
   rules: [
     {
@@ -23,9 +23,9 @@ const customJoi = Joi.extend(joi => ({
         }
 
         return parsed;
-      }
-    }
-  ]
+      },
+    },
+  ],
 }));
 
 module.exports = customJoi;

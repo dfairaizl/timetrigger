@@ -19,14 +19,14 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 import TriggerTableRow from "../TriggerTableRow/TriggerTableRow";
 
-const styles = theme => ({});
+const styles = () => ({});
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     flexShrink: 0,
     color: theme.palette.text.secondary,
-    marginLeft: theme.spacing(2.5)
-  }
+    marginLeft: theme.spacing(2.5),
+  },
 }));
 
 function TablePaginationActions(props) {
@@ -114,7 +114,7 @@ TablePaginationActions.propTypes = {
   count: PropTypes.number.isRequired,
   onChangePage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired
+  rowsPerPage: PropTypes.number.isRequired,
 };
 
 function TriggerTable(props) {
@@ -140,7 +140,7 @@ function TriggerTable(props) {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = (event) => {
     const num = parseInt(event.target.value, 10);
     setPageSize(num);
   };
@@ -162,7 +162,7 @@ function TriggerTable(props) {
           <TableRow>{isMobile ? null : renderHeader()}</TableRow>
         </TableHead>
         <TableBody>
-          {dataPage.map(row => (
+          {dataPage.map((row) => (
             <TriggerTableRow key={row.id} data={row} isMobile={isMobile} />
           ))}
         </TableBody>
@@ -187,7 +187,7 @@ function TriggerTable(props) {
 }
 
 TriggerTable.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(TriggerTable);

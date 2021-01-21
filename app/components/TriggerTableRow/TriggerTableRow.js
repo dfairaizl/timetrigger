@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import dateformat from "dateformat";
 
@@ -12,64 +13,64 @@ import Grid from "@material-ui/core/Grid";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 
-const styles = theme => ({
+const styles = (theme) => ({
   "@keyframes addFade": {
     "0%": {
-      backgroundColor: green[100]
+      backgroundColor: green[100],
     },
     "100%": {
-      backgroundColor: "white"
-    }
+      backgroundColor: "white",
+    },
   },
   "@keyframes updateFade": {
     "0%": {
-      backgroundColor: orange[100]
+      backgroundColor: orange[100],
     },
     "100%": {
-      backgroundColor: "white"
-    }
+      backgroundColor: "white",
+    },
   },
   "@keyframes deleteFade": {
     "0%": {
-      backgroundColor: red[100]
+      backgroundColor: red[100],
     },
     "100%": {
-      backgroundColor: "white"
-    }
+      backgroundColor: "white",
+    },
   },
   animationDelete: {
-    animation: "$deleteFade 2s"
+    animation: "$deleteFade 2s",
   },
   animationInsert: {
-    animation: "$addFade 2s"
+    animation: "$addFade 2s",
   },
   animationUpdate: {
-    animation: "$updateFade 2s"
+    animation: "$updateFade 2s",
   },
   cellContent: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   cellData: {
     paddingBottom: theme.spacing(1),
-    paddingTop: theme.spacing(1)
+    paddingTop: theme.spacing(1),
   },
   jobFailure: {
-    color: red[400]
+    color: red[400],
   },
   jobScheduled: {
-    color: blue[400]
+    color: blue[400],
   },
   jobSuccess: {
     color: green[400],
     marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2)
-  }
+    marginTop: theme.spacing(2),
+  },
 });
 
 const DataRow = ({ animationClass, classes, data }) => {
-  const formatTriggerDate = data => {
+  const formatTriggerDate = (data) => {
     const triggerDate = dateformat(
       data.trigger_at.toDate(),
       "mm/dd/yyyy hh:MM:ss TT"
@@ -77,7 +78,7 @@ const DataRow = ({ animationClass, classes, data }) => {
     return <p>{triggerDate}</p>;
   };
 
-  const formatType = data => {
+  const formatType = (data) => {
     switch (data.run.type) {
       case "api_callback":
         return <p>API Callback</p>;
@@ -86,7 +87,7 @@ const DataRow = ({ animationClass, classes, data }) => {
     return null;
   };
 
-  const formatStatus = data => {
+  const formatStatus = (data) => {
     if (data.status === "complete") {
       return <p className={classes.jobSuccess}>Complete</p>;
     } else if (data.status === "failed") {
@@ -111,8 +112,14 @@ const DataRow = ({ animationClass, classes, data }) => {
   );
 };
 
+DataRow.propTypes = {
+  animationClass: PropTypes.string,
+  classes: PropTypes.object,
+  data: PropTypes.object,
+};
+
 const DataCell = ({ animationClass, classes, data }) => {
-  const formatTriggerDate = data => {
+  const formatTriggerDate = (data) => {
     const triggerDate = dateformat(
       data.trigger_at.toDate(),
       "mm/dd/yyyy hh:MM:ss TT"
@@ -120,7 +127,7 @@ const DataCell = ({ animationClass, classes, data }) => {
     return <span style={{ fontSize: "12px" }}>{triggerDate}</span>;
   };
 
-  const formatType = data => {
+  const formatType = (data) => {
     switch (data.run.type) {
       case "api_callback":
         return (
@@ -131,10 +138,10 @@ const DataCell = ({ animationClass, classes, data }) => {
     return null;
   };
 
-  const formatStatus = data => {
+  const formatStatus = (data) => {
     const styles = {
       marginTop: 0,
-      marginBottom: 0
+      marginBottom: 0,
     };
 
     if (data.status === "complete") {
@@ -175,6 +182,12 @@ const DataCell = ({ animationClass, classes, data }) => {
       </TableCell>
     </TableRow>
   );
+};
+
+DataCell.propTypes = {
+  animationClass: PropTypes.string,
+  classes: PropTypes.object,
+  data: PropTypes.object,
 };
 
 class TriggerTableRow extends React.PureComponent {
@@ -224,5 +237,11 @@ class TriggerTableRow extends React.PureComponent {
     return <DataRow animationClass={animationClass} {...this.props} />;
   }
 }
+
+TriggerTableRow.propTypes = {
+  classes: PropTypes.object,
+  data: PropTypes.object,
+  isMobile: PropTypes.bool,
+};
 
 export default withStyles(styles)(TriggerTableRow);

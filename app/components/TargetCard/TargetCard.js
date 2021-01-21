@@ -16,46 +16,46 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import dateformat from "dateformat";
 
-const styles = theme => ({
+const styles = () => ({
   card: {
-    maxWidth: 400
+    maxWidth: 400,
   },
   actions: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   label: {
-    marginRight: "10px"
+    marginRight: "10px",
   },
   textGroup: {
     textOverflow: "ellipsis",
     overflow: "hidden",
-    whiteSpace: "nowrap"
+    whiteSpace: "nowrap",
   },
   switch: {
-    marginLeft: "auto"
-  }
+    marginLeft: "auto",
+  },
 });
 
-const TargetCard = props => {
+const TargetCard = (props) => {
   const {
     target,
     classes,
     editCard,
     deleteCard,
     verifyTarget,
-    toggleTarget
+    toggleTarget,
   } = props;
 
   const [anchorElement, setAnchorElement] = useState(null);
   const [menuOpen, updateMenu] = useState(false);
 
-  const handleOpen = event => {
+  const handleOpen = (event) => {
     setAnchorElement(event.currentTarget);
     updateMenu(true);
   };
 
-  const handleClose = event => {
+  const handleClose = () => {
     setAnchorElement(null);
     updateMenu(false);
   };
@@ -104,11 +104,11 @@ const TargetCard = props => {
         anchorEl={anchorElement}
         anchorOrigin={{
           vertical: "top",
-          horizontal: "right"
+          horizontal: "right",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "right"
+          horizontal: "right",
         }}
         open={menuOpen}
         onClose={handleClose}
@@ -190,8 +190,11 @@ const TargetCard = props => {
 
 TargetCard.propTypes = {
   classes: PropTypes.object.isRequired,
+  deleteCard: PropTypes.func.isRequired,
   editCard: PropTypes.func.isRequired,
-  deleteCard: PropTypes.func.isRequired
+  target: PropTypes.object.isRequired,
+  toggleTarget: PropTypes.func.isRequired,
+  verifyTarget: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(TargetCard);

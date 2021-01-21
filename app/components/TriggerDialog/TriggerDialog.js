@@ -1,4 +1,5 @@
 import React, { useReducer } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { compose } from "redux";
 
@@ -23,28 +24,28 @@ import { createTrigger } from "../../services/triggers";
 
 import Editor from "../Editor/Editor";
 
-const styles = theme => ({
+const styles = (theme) => ({
   editor: {
     width: "100%",
-    height: "200px"
+    height: "200px",
   },
   formControl: {
     marginBottom: theme.spacing(2),
-    marginTop: theme.spacing()
+    marginTop: theme.spacing(),
   },
   section: {
     marginBottom: theme.spacing(),
-    marginTop: theme.spacing()
-  }
+    marginTop: theme.spacing(),
+  },
 });
 
-const TriggerDialog = props => {
+const TriggerDialog = (props) => {
   const {
     classes,
     activeTargets,
     fullScreen,
     triggerDialogOpen,
-    onTriggerDialogClick
+    onTriggerDialogClick,
   } = props;
 
   const [currentState, updater] = useReducer(
@@ -63,7 +64,7 @@ const TriggerDialog = props => {
     {
       triggerTime: "",
       target: "",
-      payload: {}
+      payload: {},
     }
   );
 
@@ -73,11 +74,11 @@ const TriggerDialog = props => {
       run: {
         type: "api_callback",
         target: currentState.target,
-        payload: currentState.payload
-      }
+        payload: currentState.payload,
+      },
     };
 
-    createTrigger(triggerData).then(data => {
+    createTrigger(triggerData).then(() => {
       onTriggerDialogClick(!triggerDialogOpen);
     });
   };
@@ -104,25 +105,26 @@ const TriggerDialog = props => {
               id="time"
               label="Trigger Time"
               margin="dense"
-              onChange={e =>
+              onChange={(e) =>
                 updater({ type: "UPDATE_TRIGGER_TIME", value: e.target.value })
               }
               value={currentState.triggerTime}
             />
             <FormHelperText>
-              Human readable dates are best. For example: "24 hours from now".
+              Human readable dates are best. For example: &quot24 hours from
+              now&quopt.
             </FormHelperText>
           </FormControl>
           <FormControl className={classes.formControl} fullWidth>
             <InputLabel>Target</InputLabel>
             <Select
-              onChange={e =>
+              onChange={(e) =>
                 updater({ type: "UPDATE_TARGET", value: e.target.value })
               }
               value={currentState.target}
               inputProps={{
                 id: "selected-target",
-                name: "selected target"
+                name: "selected target",
               }}
             >
               {activeTargets.map((t, i) => {
@@ -142,7 +144,9 @@ const TriggerDialog = props => {
           </FormControl>
           <Editor
             className={classes.editor}
-            onChange={json => updater({ type: "UPDATE_PAYLOAD", value: json })}
+            onChange={(json) =>
+              updater({ type: "UPDATE_PAYLOAD", value: json })
+            }
           />
         </form>
       </DialogContent>
@@ -161,19 +165,27 @@ const TriggerDialog = props => {
   );
 };
 
+TriggerDialog.propTypes = {
+  classes: PropTypes.object,
+  activeTargets: PropTypes.arrayOf(PropTypes.object),
+  fullScreen: PropTypes.bool,
+  triggerDialogOpen: PropTypes.bool,
+  onTriggerDialogClick: PropTypes.func,
+};
+
 export default compose(
   connect(
-    state => {
+    (state) => {
       return {
         triggerDialogOpen: state.ui.triggerDialogOpen,
-        activeTargets: state.targets.filter(t => t.active)
+        activeTargets: state.targets.filter((t) => t.active),
       };
     },
-    dispatch => {
+    (dispatch) => {
       return {
         onTriggerDialogClick(toggle) {
           dispatch(toggleTriggerDialog(toggle));
-        }
+        },
       };
     }
   ),

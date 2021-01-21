@@ -7,13 +7,13 @@ import {
   deleteTimeTrigger,
   addTarget,
   updateTarget,
-  deleteTarget
+  deleteTarget,
 } from "./actions";
 import db from "../services/db";
 
 export function observeAuthStatus() {
-  return dispatch => {
-    authStatus(user => {
+  return (dispatch) => {
+    authStatus((user) => {
       dispatch(updateAuthStatus(user));
 
       if (user) {
@@ -25,22 +25,22 @@ export function observeAuthStatus() {
   };
 }
 
-export function observeTriggers(user) {
-  return dispatch => {
+export function observeTriggers() {
+  return (dispatch) => {
     const uid = auth().currentUser.uid;
     const ref = db()
       .collection(`users/${uid}/jobs`)
       .orderBy("trigger_at", "desc");
 
     ref.onSnapshot(
-      querySnapshot => {
-        querySnapshot.docChanges().forEach(change => {
+      (querySnapshot) => {
+        querySnapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
             dispatch(
               addTimeTrigger({
                 id: change.doc.id,
                 display: change.type,
-                ...change.doc.data()
+                ...change.doc.data(),
               })
             );
           }
@@ -50,7 +50,7 @@ export function observeTriggers(user) {
               updateTimeTrigger({
                 id: change.doc.id,
                 display: change.type,
-                ...change.doc.data()
+                ...change.doc.data(),
               })
             );
           }
@@ -60,44 +60,44 @@ export function observeTriggers(user) {
               deleteTimeTrigger({
                 id: change.doc.id,
                 display: change.type,
-                ...change.doc.data()
+                ...change.doc.data(),
               })
             );
           }
         });
       },
-      error => {
+      (error) => {
         console.error("subscriptions/observeTriggers error:", error);
       }
     );
   };
 }
 
-export function observeAccount(users) {
-  return dispatch => {
+export function observeAccount() {
+  return (dispatch) => {
     const uid = auth().currentUser.uid;
     const ref = db().doc(`users/${uid}`);
 
     ref.onSnapshot(
-      snapshot => {
+      (snapshot) => {
         const account = snapshot.data();
         dispatch(updateAccount(account));
       },
-      error => {
+      (error) => {
         console.error("subscriptions/observeAccount error:", error);
       }
     );
   };
 }
 
-export function observeTargets(users) {
-  return dispatch => {
+export function observeTargets() {
+  return (dispatch) => {
     const uid = auth().currentUser.uid;
     const ref = db().collection(`users/${uid}/targets`);
 
     ref.onSnapshot(
-      querySnapshot => {
-        querySnapshot.docChanges().forEach(change => {
+      (querySnapshot) => {
+        querySnapshot.docChanges().forEach((change) => {
           if (change.type === "added") {
             dispatch(addTarget({ id: change.doc.id, ...change.doc.data() }));
           }
@@ -111,7 +111,7 @@ export function observeTargets(users) {
           }
         });
       },
-      error => {
+      (error) => {
         console.error("subscriptions/observeTargets error:", error);
       }
     );

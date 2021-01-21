@@ -13,31 +13,31 @@ function fetchTarget(userID, targetID) {
 function runHTTPtask(userID, task) {
   return fetchTarget(userID, task.target)
     .then(verify)
-    .then(target => {
+    .then((target) => {
       return fetch(target.endpoint, {
         body: JSON.stringify(task.payload),
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        method: "POST"
-      }).then(res => {
+        method: "POST",
+      }).then((res) => {
         console.log("Response from remote host webhook");
 
         const contentType = res.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
-          return res.json().then(data => {
+          return res.json().then((data) => {
             return {
               body: data,
               response: `${res.status} ${res.statusText}`,
-              status: res.ok
+              status: res.ok,
             };
           });
         } else {
-          return res.text().then(text => {
+          return res.text().then((text) => {
             return {
               body: text,
               response: `${res.status} ${res.statusText}`,
-              status: res.ok
+              status: res.ok,
             };
           });
         }
@@ -45,7 +45,7 @@ function runHTTPtask(userID, task) {
     });
 }
 
-module.exports = function(userID, data) {
+module.exports = function (userID, data) {
   return new Promise((resolve, reject) => {
     const task = data.run;
 
@@ -53,9 +53,7 @@ module.exports = function(userID, data) {
 
     switch (task.type) {
       case "api_callback":
-        return runHTTPtask(userID, task)
-          .then(resolve)
-          .catch(reject);
+        return runHTTPtask(userID, task).then(resolve).catch(reject);
       default:
         return reject(new Error(`No runner matching task ${task.type}`));
     }

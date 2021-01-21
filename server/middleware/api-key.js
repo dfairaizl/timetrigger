@@ -13,7 +13,7 @@ function validateRequest(secret, hash) {
   return bcrypt.compare(secret, hash);
 }
 
-module.exports = function(req, res, next) {
+module.exports = function (req, res, next) {
   const apiKey = getRequestKey(req);
   const apiSecret = getRequestSecret(req);
 
@@ -24,24 +24,26 @@ module.exports = function(req, res, next) {
   db.collection("users")
     .where("credentials.api_key", "==", apiKey)
     .get()
-    .then(querySnapshot => {
+    .then((querySnapshot) => {
       if (querySnapshot.size === 1) {
         const snapshot = querySnapshot.docs[0];
         const doc = snapshot.data();
 
-        return validateRequest(apiSecret, doc.credentials.hash).then(result => {
-          if (result) {
-            res.locals.user = { uid: snapshot.id };
-            return next();
-          }
+        return validateRequest(apiSecret, doc.credentials.hash).then(
+          (result) => {
+            if (result) {
+              res.locals.user = { uid: snapshot.id };
+              return next();
+            }
 
-          return res.sendStatus(403);
-        });
+            return res.sendStatus(403);
+          }
+        );
       }
 
       return res.sendStatus(403);
     })
-    .catch(e => {
+    .catch((e) => {
       console.error(e);
       res.sendStatus(500);
     });

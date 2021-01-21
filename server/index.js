@@ -28,7 +28,7 @@ app.get("*", (req, res) => {
   res.sendFile(resolve(__dirname, "..", "dist", "index.html"));
 });
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.error(err);
   res.status(400).json(err);
 });

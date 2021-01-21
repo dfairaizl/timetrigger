@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -18,21 +18,21 @@ import { registerAccount } from "../services/auth";
 import Logo from "../assets/images/Logo.svg";
 import GoogleLogo from "../assets/images/btn_google_light_normal_ios.svg";
 
-const styles = theme => ({
+const styles = (theme) => ({
   button: {
-    marginBottom: theme.spacing()
+    marginBottom: theme.spacing(),
   },
   card: {
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
   },
   container: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "100vh"
+    height: "100vh",
   },
   content: {
     display: "flex",
@@ -42,19 +42,19 @@ const styles = theme => ({
     flexDirection: "column",
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
-    width: "100%"
+    width: "100%",
   },
   layout: {
     backgroundColor: theme.palette.primary.light,
     display: "flex",
     flexDirection: "column",
-    minHeight: "100vh"
+    minHeight: "100vh",
   },
   link: {
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
   },
   logo: {
-    margin: "20px"
+    margin: "20px",
   },
   main: {
     alignItems: "center",
@@ -62,10 +62,10 @@ const styles = theme => ({
     flexDirection: "column",
     flex: 1,
     justifyContent: "center",
-    padding: "80px"
+    padding: "80px",
   },
   provider: {
-    flex: 1
+    flex: 1,
   },
   sepBackground: {
     position: "relative",
@@ -84,24 +84,24 @@ const styles = theme => ({
       right: 0,
       bottom: 0,
       width: "95%",
-      zIndex: -1
-    }
+      zIndex: -1,
+    },
   },
   signUpButton: {
     marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   sepText: {
     display: "inline",
     backgroundColor: "white",
-    padding: "0 15px"
+    padding: "0 15px",
   },
   text: {
-    marginBottom: theme.spacing(2)
-  }
+    marginBottom: theme.spacing(2),
+  },
 });
 
-const SignIn = ({ classes }) => {
+const SignUp = ({ classes }) => {
   const [email, updateEmail] = useState("");
   const [password, updatePassword] = useState("");
 
@@ -127,7 +127,7 @@ const SignIn = ({ classes }) => {
       updateEmailError("");
       updatePasswordError("");
 
-      registerAccount(email, password).catch(err => {
+      registerAccount(email, password).catch((err) => {
         console.log(err);
         if (err.code === "auth/invalid-email") {
           updateEmailError("Please enter a correctly formatted email address");
@@ -167,7 +167,7 @@ const SignIn = ({ classes }) => {
                     id="email"
                     label="E-mail"
                     margin="dense"
-                    onChange={e => {
+                    onChange={(e) => {
                       updateEmail(e.target.value);
                     }}
                     value={email}
@@ -184,12 +184,12 @@ const SignIn = ({ classes }) => {
                     id="password"
                     label="Password"
                     margin="dense"
-                    onChange={e => {
+                    onChange={(e) => {
                       updatePassword(e.target.value);
                     }}
                     value={password}
                     inputProps={{
-                      type: "password"
+                      type: "password",
                     }}
                   />
                   <FormHelperText>{passwordError}</FormHelperText>
@@ -238,4 +238,8 @@ const SignIn = ({ classes }) => {
   );
 };
 
-export default withStyles(styles)(SignIn);
+SignUp.propTypes = {
+  classes: PropTypes.object,
+};
+
+export default withStyles(styles)(SignUp);

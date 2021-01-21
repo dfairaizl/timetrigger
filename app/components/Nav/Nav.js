@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { withRouter, Link } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -10,17 +11,17 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 import Menu from "./Menu";
 
-const styles = theme => ({
+const styles = (theme) => ({
   appBar: {
     borderBottom: "1px solid #E6E6E6",
-    position: "relative"
+    position: "relative",
   },
   logo: {
-    flexGrow: "1"
+    flexGrow: "1",
   },
   docsButton: {
-    marginRight: theme.spacing()
-  }
+    marginRight: theme.spacing(),
+  },
 });
 
 const Nav = ({ classes, history, auth }) => {
@@ -49,6 +50,15 @@ const Nav = ({ classes, history, auth }) => {
   );
 };
 
-export default connect(state => {
+Nav.propTypes = {
+  classes: PropTypes.object,
+  history: PropTypes.func,
+  auth: PropTypes.shape({
+    hasAuthStatus: PropTypes.bool,
+    user: PropTypes.object,
+  }),
+};
+
+export default connect((state) => {
   return { auth: state.auth };
 })(withStyles(styles)(withRouter(Nav)));

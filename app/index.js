@@ -14,7 +14,7 @@ firebase.initializeApp({
   databaseURL: "https://timetrigger-5a192.firebaseio.com",
   projectId: "timetrigger-5a192",
   storageBucket: "timetrigger-5a192.appspot.com",
-  messagingSenderId: "987939680502"
+  messagingSenderId: "987939680502",
 });
 
 const App = require("./App").default;

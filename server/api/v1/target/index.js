@@ -7,7 +7,7 @@ const verifyTarget = require("../../../lib/target-verification");
 
 const router = express.Router();
 
-function generateTargetIdentifier(uid) {
+function generateTargetIdentifier() {
   return Buffer.from(nanoid()).toString("base64");
 }
 
@@ -30,11 +30,11 @@ router.get("/verify", jwtValidate, (req, res) => {
     .doc(targetId);
   doc
     .get()
-    .then(snapshot => {
+    .then((snapshot) => {
       const targetData = snapshot.data();
       return verifyTarget(targetData);
     })
-    .then(verified => {
+    .then((verified) => {
       if (verified) {
         return doc
           .set({ verified, active: true }, { merge: true })
@@ -43,7 +43,7 @@ router.get("/verify", jwtValidate, (req, res) => {
 
       res.sendStatus(424); // failed dependency
     })
-    .catch(e => {
+    .catch((e) => {
       console.error(e);
       res.sendStatus(500);
     });

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -18,21 +18,21 @@ import { signIn } from "../services/auth";
 import Logo from "../assets/images/Logo.svg";
 import GoogleLogo from "../assets/images/btn_google_light_normal_ios.svg";
 
-const styles = theme => ({
+const styles = (theme) => ({
   button: {
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   },
   card: {
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
   },
   container: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: "100vh"
+    height: "100vh",
   },
   content: {
     display: "flex",
@@ -42,19 +42,19 @@ const styles = theme => ({
     flexDirection: "column",
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
-    width: "100%"
+    width: "100%",
   },
   layout: {
     backgroundColor: theme.palette.secondary.main,
     display: "flex",
     flexDirection: "column",
-    minHeight: "100vh"
+    minHeight: "100vh",
   },
   link: {
-    color: theme.palette.secondary.main
+    color: theme.palette.secondary.main,
   },
   logo: {
-    margin: "20px"
+    margin: "20px",
   },
   main: {
     alignItems: "center",
@@ -62,10 +62,10 @@ const styles = theme => ({
     flexDirection: "column",
     flex: 1,
     justifyContent: "center",
-    padding: "80px"
+    padding: "80px",
   },
   provider: {
-    flex: 1
+    flex: 1,
   },
   sepBackground: {
     position: "relative",
@@ -84,21 +84,21 @@ const styles = theme => ({
       right: 0,
       bottom: 0,
       width: "95%",
-      zIndex: -1
-    }
+      zIndex: -1,
+    },
   },
   signInButton: {
     marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   sepText: {
     display: "inline",
     backgroundColor: "white",
-    padding: "0 15px"
+    padding: "0 15px",
   },
   text: {
-    marginBottom: theme.spacing(2)
-  }
+    marginBottom: theme.spacing(2),
+  },
 });
 
 const SignIn = ({ classes }) => {
@@ -124,7 +124,7 @@ const SignIn = ({ classes }) => {
 
   const onSignIn = () => {
     if (validateForm()) {
-      signIn(email, password).catch(err => {
+      signIn(email, password).catch((err) => {
         console.log(err);
         if (err.code === "auth/invalid-email") {
           updateEmailError("Please enter a correctly formatted email address");
@@ -164,7 +164,7 @@ const SignIn = ({ classes }) => {
                     id="email"
                     label="E-mail"
                     margin="dense"
-                    onChange={e => {
+                    onChange={(e) => {
                       updateEmail(e.target.value);
                       updateEmailError("");
                     }}
@@ -182,13 +182,13 @@ const SignIn = ({ classes }) => {
                     id="password"
                     label="Password"
                     margin="dense"
-                    onChange={e => {
+                    onChange={(e) => {
                       updatePassword(e.target.value);
                       updatePasswordError("");
                     }}
                     value={password}
                     inputProps={{
-                      type: "password"
+                      type: "password",
                     }}
                   />
                   <FormHelperText>{passwordError}</FormHelperText>
@@ -229,7 +229,7 @@ const SignIn = ({ classes }) => {
                 <span className={classes.provider}>Sign In With Google</span>
               </Button>
               <Typography align="center" variant="body2">
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link className={classes.link} to="/sign-up">
                   Create One
                 </Link>
@@ -240,6 +240,10 @@ const SignIn = ({ classes }) => {
       </div>
     </React.Fragment>
   );
+};
+
+SignIn.propTypes = {
+  classes: PropTypes.object,
 };
 
 export default withStyles(styles)(SignIn);

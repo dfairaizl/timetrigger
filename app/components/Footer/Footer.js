@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -8,28 +9,28 @@ import Typography from "@material-ui/core/Typography";
 
 import Mark from "../../assets/images/Mark.svg";
 
-const styles = theme => ({
+const styles = (theme) => ({
   footer: {
     backgroundColor: "#2d2d2d",
-    padding: theme.spacing(4)
+    padding: theme.spacing(4),
   },
   footerContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   footerMenu: {
     display: "flex",
     justifyContent: "center",
-    marginBottom: theme.spacing(2)
+    marginBottom: theme.spacing(2),
   },
   footerItem: {
     color: theme.palette.primary.contrastText,
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   footerCopyright: {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   footerLink: {
     color: theme.palette.primary.contrastText,
@@ -37,8 +38,8 @@ const styles = theme => ({
   },
   copyright: {
     color: theme.palette.primary.contrastText,
-    marginTop: theme.spacing(2)
-  }
+    marginTop: theme.spacing(2),
+  },
 });
 
 const Footer = ({ classes }) => {
@@ -52,21 +53,30 @@ const Footer = ({ classes }) => {
               className={classes.footerItem}
               variant="subtitle2"
             >
-              <a href="mailto:support@timetrigger.dev" className={classes.footerLink}>Contact</a>
+              <a
+                href="mailto:support@timetrigger.dev"
+                className={classes.footerLink}
+              >
+                Contact
+              </a>
             </Typography>
             <Typography
               align="center"
               className={classes.footerItem}
               variant="subtitle2"
             >
-              <Link to="/legal/privacy" className={classes.footerLink}>Privacy</Link>
+              <Link to="/legal/privacy" className={classes.footerLink}>
+                Privacy
+              </Link>
             </Typography>
             <Typography
               align="center"
               className={classes.footerItem}
               variant="subtitle2"
             >
-              <Link to="/legal/terms" className={classes.footerLink}>Terms</Link>
+              <Link to="/legal/terms" className={classes.footerLink}>
+                Terms
+              </Link>
             </Typography>
           </Grid>
           <Grid className={classes.footerCopyright} alignItems="center" item>
@@ -76,13 +86,19 @@ const Footer = ({ classes }) => {
               className={classes.copyright}
               variant="caption1"
             >
-              © 2021 Time Trigger.<br />All rights reserved.
+              © 2021 Time Trigger.
+              <br />
+              All rights reserved.
             </Typography>
           </Grid>
         </Grid>
       </Container>
     </footer>
   );
+};
+
+Footer.propTypes = {
+  classes: PropTypes.object,
 };
 
 export default withStyles(styles)(Footer);

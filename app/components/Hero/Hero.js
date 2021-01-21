@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 
@@ -10,39 +11,39 @@ import Typography from "@material-ui/core/Typography";
 
 import Logo from "../../assets/images/LogoLight.svg";
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
-    display: "flex"
+    display: "flex",
   },
   section: {
     backgroundColor: theme.palette.secondary.main,
     paddingTop: "32px",
-    paddingBottom: "32px"
+    paddingBottom: "32px",
   },
   logo: {
-    flex: 1
+    flex: 1,
   },
   menuLink: {
     color: theme.palette.primary.contrastText,
     textDecoration: "none",
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
-    paddingTop: theme.spacing(0.5)
+    paddingTop: theme.spacing(0.5),
   },
   navButton: {
-    marginLeft: theme.spacing(2)
+    marginLeft: theme.spacing(2),
   },
   subtitle: {
     color: theme.palette.primary.contrastText,
-    fontSize: '22px',
-    fontWeight: 'normal',
-    paddingBottom: theme.spacing(6)
+    fontSize: "22px",
+    fontWeight: "normal",
+    paddingBottom: theme.spacing(6),
   },
   title: {
     color: theme.palette.primary.contrastText,
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(4),
-    fontSize: '42px'
+    fontSize: "42px",
   },
 });
 
@@ -59,12 +60,14 @@ function Hero({ title, subtitle, classes }) {
         {subtitle}
       </Typography>
     );
-  }
+  };
 
   return (
     <section className={classes.section}>
       <Container maxWidth="md" className={classes.container}>
-        <Link className={classes.logo} to="/"><Logo /></Link>
+        <Link className={classes.logo} to="/">
+          <Logo />
+        </Link>
         <Hidden smDown>
           <HashLink smooth className={classes.menuLink} to="/#about">
             <Typography display="inline" variant="subtitle2">
@@ -108,7 +111,13 @@ function Hero({ title, subtitle, classes }) {
         <Subtitle subtitle={subtitle} />
       </Container>
     </section>
-  )
+  );
 }
+
+Hero.propTypes = {
+  classes: PropTypes.object,
+  title: PropTypes.string.isRequired,
+  subtitle: PropTypes.string,
+};
 
 export default withStyles(styles)(Hero);

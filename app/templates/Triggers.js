@@ -14,19 +14,19 @@ import TriggerTable from "../components/TriggerTable/TriggerTable";
 
 import { toggleTriggerDialog, toggleKeysDialog } from "../state/actions";
 
-const styles = theme => ({
+const styles = (theme) => ({
   buttonGroup: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   button: {
     marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   heading: {
     marginBottom: theme.spacing(2),
-    marginTop: theme.spacing(2)
-  }
+    marginTop: theme.spacing(2),
+  },
 });
 
 function Triggers(props) {
@@ -35,7 +35,7 @@ function Triggers(props) {
     currentState,
     ui,
     onTriggerDialogClick,
-    onKeysDialogClick
+    onKeysDialogClick,
   } = props;
 
   return (
@@ -69,21 +69,24 @@ function Triggers(props) {
 
 Triggers.propTypes = {
   classes: PropTypes.object.isRequired,
-  currentState: PropTypes.array.isRequired
+  currentState: PropTypes.array.isRequired,
+  ui: PropTypes.object,
+  onTriggerDialogClick: PropTypes.func,
+  onKeysDialogClick: PropTypes.func,
 };
 
 export default connect(
-  state => {
+  (state) => {
     return { currentState: state.timeJobs, ui: state.ui };
   },
-  dispatch => {
+  (dispatch) => {
     return {
       onTriggerDialogClick(toggle) {
         dispatch(toggleTriggerDialog(toggle));
       },
       onKeysDialogClick(toggle) {
         dispatch(toggleKeysDialog(toggle));
-      }
+      },
     };
   }
 )(withStyles(styles)(Triggers));

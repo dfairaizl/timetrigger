@@ -3,38 +3,38 @@ import { getIDToken } from "./auth";
 
 const KEYS_API = `${process.env.API_HOST}/api/v1/user/api-key`;
 
-export function fetchAPIKey(user) {
-  return getIDToken().then(token => {
+export function fetchAPIKey() {
+  return getIDToken().then((token) => {
     return fetch(KEYS_API, {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
-      .then(res => {
+      .then((res) => {
         if (res.ok) {
           return res.json();
         }
       })
-      .catch(e => {
+      .catch((e) => {
         console.error(e);
       });
   });
 }
 
-export function generateCredentails(user) {
-  return getIDToken().then(token => {
+export function generateCredentails() {
+  return getIDToken().then((token) => {
     return fetch(KEYS_API, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
-      .then(res => {
+      .then((res) => {
         if (res.ok) {
           return res.json();
         }
       })
-      .catch(e => {
+      .catch((e) => {
         console.error(e);
       });
   });

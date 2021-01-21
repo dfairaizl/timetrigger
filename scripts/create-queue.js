@@ -15,10 +15,10 @@ async function createQueue() {
       name: client.queuePath(project, location, queue),
       appEngineHttpQueue: {
         appEngineRoutingOverride: {
-          service: "default"
-        }
-      }
-    }
+          service: "default",
+        },
+      },
+    },
   });
 
   console.log(`Created queue ${response.name}`);

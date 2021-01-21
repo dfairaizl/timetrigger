@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { hot } from "react-hot-loader";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect
+  Redirect,
 } from "react-router-dom";
 
 import { Provider, connect } from "react-redux";
@@ -13,7 +14,7 @@ import thunkMiddleware from "redux-thunk";
 
 import reducer from "./state";
 
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 
 import theme from "./theme";
 
@@ -34,16 +35,16 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunkMiddleware))
 );
 
-const TriggersRedirect = props => <Redirect exact to="/" />;
+const TriggersRedirect = () => <Redirect exact to="/" />;
 
-const AppRouter = props => {
+const AppRouter = () => {
   return (
     <Router>
       <Switch>
         <Route exact path="/" component={Triggers} />
         <Route exact path="/account" component={Account} />
         <Route exact path="/docs" component={Docs} />
-        <Route exact ="/legal" component={Legal} />
+        <Route exact="/legal" component={Legal} />
         <Route exact path="/targets" component={Targets} />
         <Route component={TriggersRedirect} />
       </Switch>
@@ -51,7 +52,7 @@ const AppRouter = props => {
   );
 };
 
-const StandardRouter = props => {
+const StandardRouter = () => {
   return (
     <Router>
       <Switch>
@@ -69,7 +70,13 @@ const MainRouter = ({ auth }) => {
   return auth.isAuthenticated ? <AppRouter /> : <StandardRouter />;
 };
 
-const Loading = props => {
+MainRouter.propTypes = {
+  auth: PropTypes.shape({
+    isAuthenticated: PropTypes.bool,
+  }),
+};
+
+const Loading = () => {
   return <div>Loading...</div>;
 };
 
@@ -77,7 +84,13 @@ const Container = ({ auth }) => {
   return auth.hasAuthStatus ? <MainRouter auth={auth} /> : <Loading />;
 };
 
-const ConnectedContainer = connect(state => {
+Container.propTypes = {
+  auth: PropTypes.shape({
+    hasAuthStatus: PropTypes.bool,
+  }),
+};
+
+const ConnectedContainer = connect((state) => {
   return { auth: state.auth };
 })(Container);
 
