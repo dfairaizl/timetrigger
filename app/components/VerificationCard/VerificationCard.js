@@ -57,13 +57,13 @@ const VerificationCard = ({ classes, method, verificationCode }) => {
           <Typography variant="h6" className={classes.label}>
             Verification
           </Typography>
-          <Typography variant="subtitle1" paragraph>
+          <Typography variant="subtitle2" paragraph>
             Target verification is used to prevent abuse.{" "}
             {getHelperText(method, classes)}
           </Typography>
           <Typography
             className={classes.verifyText}
-            variant="subtitle1"
+            variant="subtitle2"
             align="center"
             paragraph
           >

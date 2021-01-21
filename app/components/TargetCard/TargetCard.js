@@ -119,53 +119,53 @@ const TargetCard = (props) => {
       <CardContent>
         <div className={classes.textGroup}>
           <Typography
-            variant="subtitle1"
+            variant="subtitle2"
             className={classes.label}
             paragraph
             display="inline"
           >
             <strong>Endpoint:</strong>
           </Typography>
-          <Typography variant="subtitle1" paragraph display="inline">
+          <Typography variant="subtitle2" paragraph display="inline">
             {target.endpoint}
           </Typography>
         </div>
         <div className={classes.textGroup}>
           <Typography
-            variant="subtitle1"
+            variant="subtitle2"
             className={classes.label}
             paragraph
             display="inline"
           >
             <strong>Verification Method:</strong>
           </Typography>
-          <Typography variant="subtitle1" paragraph display="inline">
+          <Typography variant="subtitle2" paragraph display="inline">
             {target.verificationMethod}
           </Typography>
         </div>
         <div className={classes.textGroup}>
           <Typography
-            variant="subtitle1"
+            variant="subtitle2"
             className={classes.label}
             paragraph
             display="inline"
           >
             <strong>Verified:</strong>
           </Typography>
-          <Typography variant="subtitle1" paragraph display="inline">
+          <Typography variant="subtitle2" paragraph display="inline">
             {String(target.verified)}
           </Typography>
         </div>
         <div className={classes.textGroup}>
           <Typography
-            variant="subtitle1"
+            variant="subtitle2"
             className={classes.label}
             paragraph
             display="inline"
           >
             <strong>Created On:</strong>
           </Typography>
-          <Typography variant="subtitle1" paragraph display="inline">
+          <Typography variant="subtitle2" paragraph display="inline">
             {targetDate}
           </Typography>
         </div>
