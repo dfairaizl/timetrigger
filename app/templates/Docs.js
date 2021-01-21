@@ -6,6 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
+import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -24,8 +25,10 @@ const styles = (theme) => ({
     color: theme.palette.primary.contrastText,
     overflow: "auto",
   },
+  sidebar: {
+    borderRight: "1px solid rgba(0, 0, 0, 0.12)",
+  },
   content: {
-    borderLeft: "1px solid rgba(0, 0, 0, 0.12)",
     paddingLeft: theme.spacing(2),
   },
   formatted: {
@@ -59,29 +62,31 @@ function Docs({ classes }) {
     <Layout>
       <Container className={classes.root}>
         <Grid container spacing={4}>
-          <Grid item xs={2}>
-            <List className={classes.docuMenu}>
-              <ListItem button>
-                <ListItemText>Introduction</ListItemText>
-              </ListItem>
-              <ListItem button>
-                <ListItemText>Concepts</ListItemText>
-              </ListItem>
-              <ListItem button>
-                <ListItemText>Triggers</ListItemText>
-              </ListItem>
-              <ListItem button>
-                <ListItemText>Targets</ListItemText>
-              </ListItem>
-              <ListItem button>
-                <ListItemText>Usage</ListItemText>
-              </ListItem>
-              <ListItem button>
-                <ListItemText>API Reference</ListItemText>
-              </ListItem>
-            </List>
-          </Grid>
-          <Grid item xs={8} className={classes.content}>
+          <Hidden smDown>
+            <Grid item sm={3} md={2} className={classes.sidebar}>
+              <List className={classes.docuMenu}>
+                <ListItem button>
+                  <ListItemText>Introduction</ListItemText>
+                </ListItem>
+                <ListItem button>
+                  <ListItemText>Concepts</ListItemText>
+                </ListItem>
+                <ListItem button>
+                  <ListItemText>Triggers</ListItemText>
+                </ListItem>
+                <ListItem button>
+                  <ListItemText>Targets</ListItemText>
+                </ListItem>
+                <ListItem button>
+                  <ListItemText>Usage</ListItemText>
+                </ListItem>
+                <ListItem button>
+                  <ListItemText>API Reference</ListItemText>
+                </ListItem>
+              </List>
+            </Grid>
+          </Hidden>
+          <Grid item xs={12} sm={12} md={9} lg={8} className={classes.content}>
             <section className={classes.section}>
               <Typography variant="h3" className={classes.heading}>
                 Introduction
@@ -293,8 +298,8 @@ function Docs({ classes }) {
               </Typography>
               <Typography variant="body1" className={classes.paragraph}>
                 To call the API you need to get an API token and secret which
-                are available on the Triggers screen by clicking the &qout;API
-                Keys&qout; button. You can regenerate a new secret at any time
+                are available on the Triggers screen by clicking the &quot;API
+                Keys&quot; button. You can regenerate a new secret at any time
                 but you can only get the current key once so keep it somewhere
                 safe.
               </Typography>
