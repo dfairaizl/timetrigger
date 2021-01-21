@@ -66,22 +66,22 @@ function Hero({ title, subtitle, classes }) {
       <Container maxWidth="md" className={classes.container}>
         <Link className={classes.logo} to="/"><Logo /></Link>
         <Hidden smDown>
-          <HashLink smooth className={classes.menuLink} to="#about">
+          <HashLink smooth className={classes.menuLink} to="/#about">
             <Typography display="inline" variant="subtitle2">
               About
             </Typography>
           </HashLink>
-          <HashLink smooth className={classes.menuLink} to="#features">
+          <HashLink smooth className={classes.menuLink} to="/#features">
             <Typography display="inline" variant="subtitle2">
               Features
             </Typography>
           </HashLink>
-          <HashLink smooth className={classes.menuLink} to="#use-cases">
+          <HashLink smooth className={classes.menuLink} to="/#use-cases">
             <Typography display="inline" variant="subtitle2">
               Use Cases
             </Typography>
           </HashLink>
-          <HashLink smooth className={classes.menuLink} to="#pricing">
+          <HashLink smooth className={classes.menuLink} to="/#pricing">
             <Typography display="inline" variant="subtitle2">
               Pricing
             </Typography>
