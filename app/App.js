@@ -44,7 +44,6 @@ const AppRouter = () => {
         <Route exact path="/" component={Triggers} />
         <Route exact path="/account" component={Account} />
         <Route exact path="/docs" component={Docs} />
-        <Route exact="/legal" component={Legal} />
         <Route exact path="/targets" component={Targets} />
         <Route component={TriggersRedirect} />
       </Switch>

@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const express = require("express");
-const nanoid = require("nanoid");
+const { nanoid } = require("nanoid");
 const { v5: uuidv5 } = require("uuid");
 
 const db = require("../../../lib/datastore");
