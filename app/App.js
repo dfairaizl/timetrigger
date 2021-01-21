@@ -17,14 +17,14 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import theme from "./theme";
 
-import Account from "./screens/Account";
-import Docs from "./screens/Docs";
-import Legal from "./screens/Legal";
-import Homepage from "./screens/Homepage";
-import Triggers from "./screens/Triggers";
-import Targets from "./screens/Targets";
-import SignIn from "./screens/SignIn";
-import SignUp from "./screens/SignUp";
+import Account from "./templates/Account";
+import Docs from "./templates/Docs";
+import Legal from "./templates/Legal";
+import Homepage from "./templates/Homepage";
+import Triggers from "./templates/Triggers";
+import Targets from "./templates/Targets";
+import SignIn from "./templates/SignIn";
+import SignUp from "./templates/SignUp";
 
 import { observeAuthStatus } from "./state/subscriptions";
 

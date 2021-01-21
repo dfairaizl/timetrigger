@@ -1,7 +1,5 @@
 import firebase from "firebase/app";
 
-console.log(firebase);
-
 export function registerAccount(email, password) {
   const auth = firebase.auth();
   return auth.createUserWithEmailAndPassword(email, password);
