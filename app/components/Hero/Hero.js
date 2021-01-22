@@ -50,8 +50,8 @@ const styles = (theme) => ({
 function Hero({ title, subtitle, classes }) {
   let history = useHistory();
 
-  const Subtitle = (subtitle) => {
-    if (!subtitle.length) {
+  const Subtitle = ({ subtitle }) => {
+    if (!subtitle) {
       return null;
     }
 
