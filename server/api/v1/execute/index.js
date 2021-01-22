@@ -1,8 +1,22 @@
+const admin = require("firebase-admin");
 const express = require("express");
+
 const db = require("../../../lib/datastore");
 const taskRunner = require("../../../lib/tasks");
 
+const dateFormat = require("dateformat");
+
 const router = express.Router();
+
+function taskReporter(userID, jobResult) {
+  const period = dateFormat(new Date(), "UTC:mmm-yyyy");
+
+  const usageRef = db.doc(`users/${userID}/usage/${period}`);
+  usageRef.update({
+    tiggerCount: admin.firestore.FieldValue.increment(1),
+    [jobResult.status]: admin.firestore.FieldValue.increment(1),
+  });
+}
 
 router.post("/", (req, res) => {
   const jobID = req.body.jobID;
@@ -23,17 +37,17 @@ router.post("/", (req, res) => {
     .then((result) => {
       console.log(`Job ${jobID} - Complete`);
 
-      return docRef
-        .set(
-          {
-            status: result.status ? "complete" : "failed",
-            result,
-          },
-          { merge: true }
-        )
-        .then(() => {
-          res.sendStatus(200);
-        });
+      const jobResult = {
+        status: result.status ? "complete" : "failed",
+        result,
+      };
+
+      return docRef.set(jobResult, { merge: true }).then(() => {
+        return taskReporter(userID, result);
+      });
+    })
+    .then(() => {
+      res.sendStatus(200);
     })
     .catch((error) => {
       console.error(`Job ${jobID} - Failed`);
