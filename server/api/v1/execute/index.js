@@ -8,14 +8,19 @@ const dateFormat = require("dateformat");
 
 const router = express.Router();
 
-function taskReporter(userID, jobResult) {
+function taskReporter(userID, { status }) {
   const period = dateFormat(new Date(), "UTC:mmm-yyyy");
 
+  console.log("Reporting trigger usage");
+
   const usageRef = db.doc(`users/${userID}/usage/${period}`);
-  usageRef.update({
-    tiggerCount: admin.firestore.FieldValue.increment(1),
-    [jobResult.status]: admin.firestore.FieldValue.increment(1),
-  });
+  usageRef.set(
+    {
+      total: admin.firestore.FieldValue.increment(1),
+      [status]: admin.firestore.FieldValue.increment(1),
+    },
+    { merge: true }
+  );
 }
 
 router.post("/", (req, res) => {
@@ -43,7 +48,7 @@ router.post("/", (req, res) => {
       };
 
       return docRef.set(jobResult, { merge: true }).then(() => {
-        return taskReporter(userID, result);
+        return taskReporter(userID, jobResult);
       });
     })
     .then(() => {

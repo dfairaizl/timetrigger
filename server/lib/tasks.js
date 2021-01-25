@@ -15,7 +15,7 @@ function runHTTPtask(userID, task) {
     .then(verify)
     .then((target) => {
       return fetch(target.endpoint, {
-        body: JSON.stringify(task.payload),
+        body: task.payload, // stored as a string in the db already,
         headers: {
           "Content-Type": "application/json",
         },
