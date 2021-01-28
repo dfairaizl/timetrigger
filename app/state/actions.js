@@ -16,6 +16,32 @@ export const ADD_TARGET = "ADD_TARGET";
 export const UPDATE_TARGET = "UPDATE_TARGET";
 export const DELETE_TARGET = "DELETE_TARGET";
 
+export const SET_SUBSCRIPTION_PLAN = "SET_SUBSCRIPTION_PLAN";
+export const SET_PORTAL_URL = "SET_PORTAL_URL";
+export const SET_CURRENT_SUBSCRIPTION = "SET_CURRENT_SUBSCRIPTION";
+
+export function setSubscriptionPlan(docId, plan) {
+  return {
+    type: SET_SUBSCRIPTION_PLAN,
+    plan,
+    planId: docId,
+  };
+}
+
+export function setPortalURL(url) {
+  return {
+    type: SET_PORTAL_URL,
+    portalUrl: url,
+  };
+}
+
+export function setCurrentSubscription(planData) {
+  return {
+    type: SET_CURRENT_SUBSCRIPTION,
+    plan: planData,
+  };
+}
+
 export function updateAuthStatus(status) {
   return {
     type: UPDATE_AUTH_STATUS,

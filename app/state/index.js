@@ -6,6 +6,7 @@ const initialState = {
   account: {},
   timeJobs: [],
   targets: [],
+  plans: {},
   ui: {
     triggerDialogOpen: false,
     keysDialogOpen: false,
@@ -28,7 +29,31 @@ export default function authReducer(state = initialState, action) {
     case "UPDATE_ACCOUNT":
       return {
         ...newState,
-        account: action.account,
+        account: {
+          ...newState.account,
+          ...action.account,
+        },
+      };
+    case "SET_SUBSCRIPTION_PLAN":
+      return {
+        ...newState,
+        plans: { ...state.plans, [action.planId]: action.plan },
+      };
+    case "SET_PORTAL_URL":
+      return {
+        ...newState,
+        account: {
+          ...newState.account,
+          portalUrl: action.portalUrl,
+        },
+      };
+    case "SET_CURRENT_SUBSCRIPTION":
+      return {
+        ...newState,
+        account: {
+          ...newState.account,
+          currentPlan: action.plan,
+        },
       };
     case "UPDATE_API_CREDENTIALS":
       return {

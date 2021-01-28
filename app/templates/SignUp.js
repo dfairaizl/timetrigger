@@ -14,6 +14,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
 import { registerAccount } from "../services/auth";
+import { createUser } from "../services/user";
 
 import Logo from "../assets/images/Logo.svg";
 import GoogleLogo from "../assets/images/btn_google_light_normal_ios.svg";
@@ -127,20 +128,28 @@ const SignUp = ({ classes }) => {
       updateEmailError("");
       updatePasswordError("");
 
-      registerAccount(email, password).catch((err) => {
-        console.log(err);
-        if (err.code === "auth/invalid-email") {
-          updateEmailError("Please enter a correctly formatted email address");
-        } else if (err.code === "auth/user-not-found") {
-          updateEmailError(
-            "There is no account registered for this email address"
-          );
-        } else if (err.code === "auth/email-already-in-use") {
-          updateEmailError("An account with this email is already registered");
-        } else if (err.code === "auth/weak-password") {
-          updatePasswordError("Password must be at least 6 characters");
-        }
-      });
+      registerAccount(email, password)
+        .then(() => {
+          return createUser(); // create stripe data and subscribe to free plan
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err.code === "auth/invalid-email") {
+            updateEmailError(
+              "Please enter a correctly formatted email address"
+            );
+          } else if (err.code === "auth/user-not-found") {
+            updateEmailError(
+              "There is no account registered for this email address"
+            );
+          } else if (err.code === "auth/email-already-in-use") {
+            updateEmailError(
+              "An account with this email is already registered"
+            );
+          } else if (err.code === "auth/weak-password") {
+            updatePasswordError("Password must be at least 6 characters");
+          }
+        });
     }
   };
 
