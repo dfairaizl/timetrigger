@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import TagManager from "react-gtm-module";
 
 // Firebase App (the core Firebase SDK) is always required and must be listed first
 import firebase from "firebase/app";
@@ -8,6 +9,12 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import "firebase/functions";
+
+const tagManagerArgs = {
+  gtmId: "GTM-M6XL548",
+};
+
+TagManager.initialize(tagManagerArgs);
 
 firebase.initializeApp({
   apiKey: "AIzaSyBvdk2NRKDO5ieQbBKuFzdDczDKZU92tm8",
