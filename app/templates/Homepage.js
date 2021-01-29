@@ -276,17 +276,20 @@ function Homepage({ classes }) {
             <Typography className={classes.aboutTitle} variant="h3">
               Reminders
             </Typography>
-            <Typography gutterBottom paragraph variant="subtitle1">
-              <ol>
-                <li className={classes.list}>
-                  Send notifications to your API 24 hours after a users signs up
-                  to remind them to verify their email.
-                </li>
-                <li className={classes.list}>
-                  Send triggers to your API with data for sending push
-                  notifications to your users.
-                </li>
-              </ol>
+            <Typography
+              gutterBottom
+              paragraph
+              variant="subtitle1"
+              component="ol"
+            >
+              <li className={classes.list}>
+                Send notifications to your API 24 hours after a users signs up
+                to remind them to verify their email.
+              </li>
+              <li className={classes.list}>
+                Send triggers to your API with data for sending push
+                notifications to your users.
+              </li>
             </Typography>
           </Grid>
         </Grid>
@@ -295,13 +298,16 @@ function Homepage({ classes }) {
             <Typography className={classes.aboutTitle} variant="h3">
               Payments
             </Typography>
-            <Typography gutterBottom paragraph variant="subtitle1">
-              <ol>
-                <li className={classes.list}>
-                  Use Triggers to notify your API to process monthly recurring
-                  charges.
-                </li>
-              </ol>
+            <Typography
+              gutterBottom
+              paragraph
+              variant="subtitle1"
+              component="ol"
+            >
+              <li className={classes.list}>
+                Use Triggers to notify your API to process monthly recurring
+                charges.
+              </li>
             </Typography>
           </Grid>
         </Grid>

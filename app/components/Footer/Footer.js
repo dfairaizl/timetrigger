@@ -30,6 +30,7 @@ const styles = (theme) => ({
   },
   footerCopyright: {
     display: "flex",
+    alignItems: "center",
     flexDirection: "column",
   },
   footerLink: {
@@ -46,7 +47,7 @@ const Footer = ({ classes }) => {
   return (
     <footer className={classes.footer}>
       <Container maxWidth="lg" className={classes.footerContainer}>
-        <Grid justify="center" direction="column" container>
+        <Grid justify="center" direction="column" alignItems="center" container>
           <Grid item className={classes.footerMenu}>
             <Typography
               align="center"
@@ -79,12 +80,12 @@ const Footer = ({ classes }) => {
               </Link>
             </Typography>
           </Grid>
-          <Grid className={classes.footerCopyright} alignItems="center" item>
+          <Grid className={classes.footerCopyright} item>
             <Mark className={classes.mark} />
             <Typography
               align="center"
               className={classes.copyright}
-              variant="caption1"
+              variant="caption"
             >
               © 2021 Time Trigger.
               <br />

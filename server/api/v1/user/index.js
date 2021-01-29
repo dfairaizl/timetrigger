@@ -45,9 +45,9 @@ router.post("/", jwtValidate, (req, res) => {
             console.log(subscription);
             return res.sendStatus(200);
           });
+      } else {
+        throw new Error("User has no Stripe Customer in account");
       }
-
-      throw new Error("User has no Stripe Customer in account");
     })
     .catch((e) => {
       console.error(e);
@@ -63,7 +63,7 @@ router.get("/api-key", jwtValidate, (req, res) => {
     .get()
     .then((snapshot) => {
       const data = snapshot.data();
-      if (data.credentials) {
+      if (data && data.credentials) {
         return res.json({
           apiKey: snapshot.data().credentials.api_key,
         });
