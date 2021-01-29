@@ -286,7 +286,7 @@ Account.propTypes = {
   auth: PropTypes.shape({
     user: PropTypes.object,
   }),
-  plans: PropTypes.Object,
+  plans: PropTypes.object,
   portalUrl: PropTypes.string,
   currentPlan: PropTypes.string,
 };

@@ -21,11 +21,11 @@ export function observeAuthStatus() {
     authStatus((user) => {
       dispatch(updateAuthStatus(user));
 
-      dispatch(fetchSubscriptionPlans());
-      dispatch(fetchPortalLink());
-      dispatch(fetchCurrentSubscription());
-
       if (user) {
+        dispatch(fetchSubscriptionPlans());
+        dispatch(fetchPortalLink());
+        dispatch(fetchCurrentSubscription());
+
         dispatch(observeAccount(user));
         dispatch(observeTriggers(user));
         dispatch(observeTargets(user));
