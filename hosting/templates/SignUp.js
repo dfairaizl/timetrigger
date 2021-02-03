@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -155,6 +156,9 @@ const SignUp = ({ classes }) => {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <title>Time Trigger | Sign Up</title>
+      </Helmet>
       <CssBaseline />
       <div className={classes.layout}>
         <Container className={classes.container} maxWidth="sm">

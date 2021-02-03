@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Helmet } from "react-helmet";
 
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -45,6 +46,9 @@ function Layout(props) {
 
   return (
     <React.Fragment>
+      <Helmet>
+        <title>Time Trigger</title>
+      </Helmet>
       <CssBaseline />
       <div className={classes.layout}>
         <Nav />

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Link, useHistory } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -127,6 +128,9 @@ function Homepage({ classes }) {
 
   return (
     <>
+      <Helmet>
+        <title>Time Trigger | Point-in-time Notification API</title>
+      </Helmet>
       <CssBaseline />
       <Hero
         title="Data Exactly When You Need It"
