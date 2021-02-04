@@ -88,3 +88,4 @@ typings/
 .gcloud*
 dist
 .credentials
+functions/.runtimeconfig.json

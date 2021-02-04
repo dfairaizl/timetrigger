@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
+import firebase from "firebase/app";
+
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
@@ -154,6 +156,11 @@ const SignUp = ({ classes }) => {
     }
   };
 
+  const onSignUpGoogle = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithRedirect(provider);
+  };
+
   return (
     <React.Fragment>
       <Helmet>
@@ -239,6 +246,7 @@ const SignUp = ({ classes }) => {
                 variant="outlined"
                 className={classes.button}
                 color="secondary"
+                onClick={onSignUpGoogle}
               >
                 <GoogleLogo />
                 <span className={classes.provider}>Sign In With Google</span>

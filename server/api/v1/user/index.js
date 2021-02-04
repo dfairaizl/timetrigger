@@ -1,13 +1,10 @@
-const bcrypt = require("bcrypt");
-const express = require("express");
-const Stripe = require("stripe");
 const { nanoid } = require("nanoid");
 const { v5: uuidv5 } = require("uuid");
+const bcrypt = require("bcrypt");
+const express = require("express");
 
 const db = require("../../../lib/datastore");
 const jwtValidate = require("../../../middleware/jwt");
-
-const stripe = Stripe(process.env.STRIPE_SECRET);
 
 const router = express.Router();
 
@@ -24,36 +21,6 @@ function generateSecret() {
     return { secret, hash };
   });
 }
-
-router.post("/", jwtValidate, (req, res) => {
-  // subscribe each new user to the free plan
-  const user = res.locals.user;
-  const doc = db.collection("users").doc(user.uid);
-
-  doc
-    .get()
-    .then((snapshot) => {
-      const data = snapshot.data();
-
-      if (data.stripeId) {
-        stripe.subscriptions
-          .create({
-            customer: data.stripeId,
-            items: [{ price: process.env.STRIPE_FREE_PLAN_ID }],
-          })
-          .then((subscription) => {
-            console.log(subscription);
-            return res.sendStatus(200);
-          });
-      } else {
-        throw new Error("User has no Stripe Customer in account");
-      }
-    })
-    .catch((e) => {
-      console.error(e);
-      res.sendStatus(500);
-    });
-});
 
 router.get("/api-key", jwtValidate, (req, res) => {
   const user = res.locals.user;
